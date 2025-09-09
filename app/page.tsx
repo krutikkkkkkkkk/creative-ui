@@ -13,7 +13,7 @@ export default function Home() {
   />
         <main className="min-h-screen flex flex-col items-center justify-center z-1">
           <h4 className="text-xl  sm:text-3xl text-gray-500 mb-4 text-center py-2">
-          Introducing <span className={`font-instrument-serif text-white `} style={{ fontStyle: "italic" }} >UI Critic</span>
+          Introducing <span className={`font-instrument-serif text-white `} style={{ fontStyle: "italic" }} >Creative UI</span>
           </h4>
 
           <h1 className="text-3xl sm:text-6xl font-normal text-white mb-4 text-center">

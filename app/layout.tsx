@@ -18,7 +18,7 @@ const instrumentSerif = Instrument_Serif({
 
 
 export const metadata: Metadata = {
-  title: "UI Critic",
+  title: "Creative UI",
   description: "Elevate your UI with better components.",
 };
 
