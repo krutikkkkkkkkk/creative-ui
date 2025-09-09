@@ -3,11 +3,19 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+.font-instrument-serif {
+  font-family: "Instrument Serif", serif;
+}
+.font-urbanist {
+  font-family: "Urbanist", sans-serif;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-urbanist);
+  --font-serif: var(--font-instrument-serif);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
