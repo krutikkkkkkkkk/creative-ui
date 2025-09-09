@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "UI Critic",
+  "homepage": "https://ui.krutikraut.com",
+  "items": [
+    {
+      "name": "hello-world",
+      "type": "registry:component",
+      "title": "Hello World",
+      "description": "A simple hello world component",
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/hello-world/hello-world.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "uicritic",
+      "type": "registry:component",
+      "title": "UI Critic",
+      "description": "The main component of the UI Critic project.",
+      "files": [
+        {
+          "path": "registry/uicritic/components/uicritic/uicritic.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}

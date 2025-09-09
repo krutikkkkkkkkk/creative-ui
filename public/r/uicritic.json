@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "uicritic",
+  "type": "registry:component",
+  "title": "UI Critic",
+  "description": "The main component of the UI Critic project.",
+  "files": [
+    {
+      "path": "registry/uicritic/components/uicritic/uicritic.tsx",
+      "content": "import React from 'react'\r\n\r\nexport const UICritic = () => {\r\n  return (\r\n    <div>UICritic</div>\r\n  )\r\n}\r\n",
+      "type": "registry:component"
+    }
+  ]
+}

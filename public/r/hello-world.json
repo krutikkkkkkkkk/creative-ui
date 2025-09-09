@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hello-world",
+  "type": "registry:component",
+  "title": "Hello World",
+  "description": "A simple hello world component",
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/blocks/hello-world/hello-world.tsx",
+      "content": "import React from 'react'\r\n\r\nconst HelloWorld = () => {\r\n  return (\r\n    <div>Hello World</div>\r\n  )\r\n}\r\n\r\nexport default HelloWorld",
+      "type": "registry:component"
+    }
+  ]
+}
