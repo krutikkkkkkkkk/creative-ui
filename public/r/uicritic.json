@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/uicritic/components/uicritic/uicritic.tsx",
-      "content": "import React from 'react'\r\n\r\nexport const UICritic = () => {\r\n  return (\r\n    <div>UICritic</div>\r\n  )\r\n}\r\n",
+      "content": "import React from 'react'\r\n\r\nexport const UICritic = () => {\r\n    return (\r\n        <div>\r\n            <h1 className=\"text-8xl font-bold\">UI Critic</h1>\r\n        </div>\r\n    )\r\n}\r\n\r\nexport default UICritic\r\n",
       "type": "registry:component"
     }
   ]
