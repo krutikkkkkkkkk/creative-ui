@@ -4,7 +4,14 @@ import "./globals.css";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 
@@ -22,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-urbanist antialiased`}
+        className={` ${urbanist.variable}  ${instrumentSerif.variable} antialiased`}
       >
         {children}
       </body>

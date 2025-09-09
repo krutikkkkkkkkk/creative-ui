@@ -3,12 +3,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.font-urbanist {
+  font-family: "Urbanist", sans-serif;
+}
+
 
 .font-instrument-serif {
   font-family: "Instrument Serif", serif;
-}
-.font-urbanist {
-  font-family: "Urbanist", sans-serif;
 }
 
 @theme inline {
