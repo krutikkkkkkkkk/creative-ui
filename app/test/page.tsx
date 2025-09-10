@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
 import {ConfettiButton} from '@/registry/uicritic/components/confetti-button/confetti-button'
-import { use } from 'framer-motion/m'
 
 const page = () => {
   return (
