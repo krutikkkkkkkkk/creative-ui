@@ -1,6 +1,8 @@
 
 
+import { Button } from "@/components/ui/button"
 import * as React from "react"
+import { Github } from "lucide-react"
 
 export default function Home() {
   return (
@@ -30,6 +32,14 @@ export default function Home() {
         Coming Soon...
         </h2>
 
+      {/* Star on github button */}
+      <div className="mt-8">
+        <a href="https://github.com/krutikkkkkkkkk/creative-ui" target="_blank" rel="noopener noreferrer">
+          <Button className="bg-white text-black hover:bg-gray-200" size="lg" >
+            <Github /> Star on GitHub 
+          </Button>
+        </a>
+      </div>
 
         </main>
     </div>
