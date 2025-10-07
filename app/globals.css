@@ -129,3 +129,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+@keyframes wave {
+  0% {
+    --pos-y: 10%;
+    --stop: 40%;
+  }
+  25% {
+    --pos-y: 50%;
+    --stop: 45%;
+  }
+  50% {
+    --pos-y: 90%;
+    --stop: 50%;
+  }
+  75% {
+    --pos-y: 50%;
+    --stop: 45%;
+  }
+  100% {
+    --pos-y: 10%;
+    --stop: 40%;
+  }
+}
