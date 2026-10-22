@@ -1,0 +1,96 @@
+/* Classical Collage × Modern Tech — design tokens
+   Set data-variant="cool" (Contra) or "warm" (Aureon) on <html>. */
+
+:root,
+[data-variant="cool"] {
+  --bg: #FBFAF6;
+  --surface: #FFFFFF;
+  --ink: #2B2B29;
+  --ink-70: rgba(43, 43, 41, .70);
+  --ink-25: rgba(43, 43, 41, .25);
+  --ink-06: rgba(43, 43, 41, .06);
+  --accent: #387478;
+  --accent-2: #317B87;
+  --tint-1: #A5BEBA;   /* sage */
+  --tint-2: #C8E1DD;   /* mint */
+  --tint-3: #E7F2F0;   /* mint-50 */
+  --section-dark: #494444; /* umber */
+  --footer: #12232A;
+  --ui-dark: #2B2B29;
+  --chip-1: #2B2B29; --chip-2: #918989; --chip-3: #C8BCAE; --chip-4: #918F66; --chip-5: #C8E1DD;
+}
+
+[data-variant="warm"] {
+  --bg: #F2F1EE;
+  --surface: #FFFFFF;
+  --ink: #141414;
+  --ink-70: rgba(20, 20, 20, .62);
+  --ink-25: rgba(20, 20, 20, .22);
+  --ink-06: rgba(20, 20, 20, .06);
+  --accent: #B8893A;
+  --accent-2: #9C7230;
+  --tint-1: #E6D9C2;
+  --tint-2: #EFE7D8;
+  --tint-3: #F7F3EA;
+  --section-dark: #1A1714;
+  --footer: #111214;
+  --ui-dark: #111214;
+  --chip-1: #141414; --chip-2: #8A6A4A; --chip-3: #C9B48F; --chip-4: #7D7350; --chip-5: #E6D9C2;
+}
+
+:root {
+  --positive: #3FB950;
+  --negative: #F85149;
+
+  --font-serif: "Source Serif 4", "Source Serif 4 Variable", Georgia, serif;
+  --font-sans: "Inter", "GT Standard", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
+
+  --fs-mega: clamp(160px, 38vw, 600px);
+  --fs-display-xl: clamp(44px, 3.4vw + 16px, 96px);
+  --fs-display-l: clamp(36px, 3vw + 14px, 66px);
+  --fs-display-m: clamp(28px, 1.6vw + 18px, 44px);
+  --fs-stat: clamp(56px, 5vw + 20px, 120px);
+  --fs-quote: clamp(30px, 2.2vw + 16px, 56px);
+  --fs-lead: clamp(16px, .5vw + 14px, 22px);
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-label: 12px;
+
+  --tracking-display: -0.04em;
+  --tracking-card: -0.05em;
+  --tracking-label: 0.06em;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --shadow-float: 0 30px 60px -20px rgba(0, 0, 0, .45);
+  --shadow-contact: 0 12px 24px -12px rgba(43, 43, 41, .35);
+  --shadow-panel: 0 1px 0 rgba(0, 0, 0, .04), 0 20px 40px -24px rgba(0, 0, 0, .18);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 300ms;
+  --dur-base: 700ms;
+  --dur-slow: 1100ms;
+
+  --section-y: clamp(96px, 10vw, 160px);
+  --gutter: clamp(16px, 4vw, 64px);
+  --max-w: 1360px;
+}
+
+/* Type helpers */
+.t-display-xl { font-family: var(--font-serif); font-weight: 400; font-size: var(--fs-display-xl); line-height: 1; letter-spacing: var(--tracking-display); text-wrap: balance; }
+.t-display-l  { font-family: var(--font-serif); font-weight: 400; font-size: var(--fs-display-l);  line-height: 1; letter-spacing: var(--tracking-display); text-wrap: balance; }
+.t-display-m  { font-family: var(--font-serif); font-weight: 400; font-size: var(--fs-display-m);  line-height: 1; letter-spacing: var(--tracking-card); }
+.t-stat       { font-family: var(--font-serif); font-weight: 400; font-size: var(--fs-stat); line-height: 1; letter-spacing: var(--tracking-display); }
+.t-quote      { font-family: var(--font-serif); font-weight: 400; font-size: var(--fs-quote); line-height: 1.2; letter-spacing: -0.01em; }
+.t-lead       { font-family: var(--font-sans); font-size: var(--fs-lead); line-height: 1.3; }
+.t-label      { font-family: var(--font-sans); font-weight: 500; font-size: var(--fs-label); line-height: 1.2; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.t-mono-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 1ms; --dur-base: 200ms; --dur-slow: 200ms; }
+}

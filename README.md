@@ -23,6 +23,25 @@ Item types: `registry:block`, `registry:component`, `registry:ui`, `registry:hoo
 `registry:page` (needs `target`), `registry:style`, `registry:theme`.
 Schema: https://ui.shadcn.com/docs/registry/registry-json
 
+## Share a Claude skill
+
+Skills ship as `registry:item` entries whose files install into the project's
+`.claude/skills/<name>/` folder (in shadcn targets, `~` means the project root).
+
+To add a skill from a GitHub repo, or to pull in updates after you change it there:
+
+```bash
+npm run sync:skill -- https://github.com/krutikkkkkkkkk/classical-collage-web-design
+npm run registry:build
+```
+
+The script copies the repo (minus README and .git) into `registry/skills/<name>/` and
+writes the item into `registry.json`. People install it with:
+
+```bash
+npx shadcn@latest add https://ui.krutikraut.com/r/classical-collage-web-design.json
+```
+
 ## Deploy (Vercel)
 
 1. `git init && git add . && git commit -m "init"` and push to a new GitHub repo.

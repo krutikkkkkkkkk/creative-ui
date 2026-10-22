@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" data-variant="cool">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classical Collage — Demo</title>
+<!-- Demo of the layout system. Painting areas are gradient placeholders:
+     replace each .art element's background with your graded, licence-clean artwork. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root,[data-variant="cool"]{--bg:#FBFAF6;--ink:#2B2B29;--ink-70:rgba(43,43,41,.7);--ink-25:rgba(43,43,41,.25);--ink-06:rgba(43,43,41,.06);--accent:#387478;--tint-1:#A5BEBA;--tint-2:#C8E1DD;--dark:#494444;--footer:#12232A;--ui:#2B2B29;
+    --c1:#2B2B29;--c2:#918989;--c3:#C8BCAE;--c4:#918F66;--c5:#C8E1DD;
+    --art-a:radial-gradient(120% 90% at 70% 40%,#e9e1cf 0%,#cfc3a6 35%,#8a7a5a 70%,#3d3427 100%);
+    --art-b:radial-gradient(80% 80% at 30% 40%,#d9b45a 0%,#7a6a2a 30%,#387478 60%,#24494b 100%);
+    --art-c:linear-gradient(160deg,#387478 0 40%,#c9a24a 40% 46%,#387478 46%);
+    --art-d:radial-gradient(60% 50% at 50% 80%,#b8352b 0%,#e8d9c0 30%,#387478 65%);
+    --art-e:radial-gradient(70% 70% at 40% 60%,#f1e5cf 0%,#a98b62 35%,#387478 70%)}
+  [data-variant="warm"]{--bg:#F2F1EE;--ink:#141414;--ink-70:rgba(20,20,20,.62);--ink-25:rgba(20,20,20,.22);--ink-06:rgba(20,20,20,.06);--accent:#B8893A;--tint-1:#E6D9C2;--tint-2:#EFE7D8;--dark:#1A1714;--footer:#111214;--ui:#111214;
+    --c1:#141414;--c2:#8A6A4A;--c3:#C9B48F;--c4:#7D7350;--c5:#E6D9C2;
+    --art-a:radial-gradient(120% 90% at 70% 40%,#f3e6cc 0%,#d8b98a 35%,#9c6f3e 70%,#3b2a1c 100%);
+    --art-b:radial-gradient(80% 80% at 30% 40%,#f0d9a8 0%,#c79a5b 40%,#7a5530 100%);
+    --art-c:linear-gradient(170deg,#f6e7c8 0%,#d9b27a 50%,#8a6238 100%);
+    --art-d:radial-gradient(70% 60% at 50% 70%,#f3e2c2 0%,#c8925a 45%,#5a3c22 100%);
+    --art-e:radial-gradient(70% 70% at 40% 60%,#f6ead2 0%,#c9a36b 45%,#6e4a2a 100%)}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(var(--ink-06) 1px,transparent 1px);background-size:24px 24px}
+  .wrap{max-width:1360px;margin:0 auto;padding:0 clamp(16px,4vw,64px)}
+  .serif{font-family:"Source Serif 4",Georgia,serif;font-weight:400}
+  .xl{font-size:clamp(44px,3.4vw + 16px,96px);line-height:1;letter-spacing:-.04em;text-wrap:balance}
+  .l{font-size:clamp(36px,3vw + 14px,66px);line-height:1;letter-spacing:-.04em;text-wrap:balance}
+  .m{font-size:clamp(28px,1.6vw + 18px,44px);line-height:1;letter-spacing:-.05em}
+  .lead{font-size:clamp(16px,.5vw + 14px,22px);line-height:1.3;color:var(--ink-70)}
+  .label{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 24px;border-radius:24px;text-decoration:none;font-size:16px;transition:filter .3s}
+  .btn:hover{filter:brightness(1.15)}
+  .btn-p{background:var(--ink);color:var(--bg)} .btn-s{border:1px solid var(--ink-25);color:var(--ink)} .btn-d{background:var(--bg);color:var(--ink)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  nav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;height:68px;padding:0 clamp(16px,4vw,64px);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px)}
+  .ribbon{width:36px;height:56px;margin-top:-12px;background:var(--tint-1);clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);display:grid;place-items:center;color:#fff;font-size:14px}
+  .toggle{font:inherit;font-size:13px;background:none;border:1px solid var(--ink-25);border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink)}
+  .hero{position:relative;min-height:92svh;overflow:hidden}
+  .hero .art{position:absolute;right:0;top:0;bottom:0;width:58%;background:var(--art-a);border-bottom-left-radius:200px 60%}
+  .laptop{position:absolute;left:8%;bottom:14%;width:46%;aspect-ratio:1.5;transform:rotate(-12deg) skewX(-8deg);background:#111;
+    -webkit-mask:radial-gradient(circle,#000 38%,transparent 42%) 0 0/6px 6px;mask:radial-gradient(circle,#000 38%,transparent 42%) 0 0/6px 6px}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(var(--tint-1) 2.5px,transparent 3px);background-size:10px 10px;-webkit-mask:radial-gradient(ellipse at 30% 75%,#000,transparent 55%);mask:radial-gradient(ellipse at 30% 75%,#000,transparent 55%);opacity:.8}
+  .hero .copy{position:relative;z-index:2;padding-top:18vh;max-width:560px}
+  .hero h1{margin:16px 0 20px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+  section{padding:clamp(96px,10vw,160px) 0}
+  .eco{background:var(--tint-1)}
+  .stack{display:flex;flex-direction:column;gap:24px;margin-top:56px}
+  .card{position:sticky;border-radius:16px;overflow:hidden;aspect-ratio:16/8;color:#fff}
+  .card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45),transparent 45%)}
+  .card .label{position:absolute;top:32px;left:32px;z-index:1}
+  .card h3{position:absolute;bottom:32px;left:32px;z-index:1;max-width:12ch}
+  .widget{position:absolute;z-index:1;right:10%;top:50%;transform:translateY(-50%);width:280px;background:color-mix(in srgb,var(--ui) 94%,transparent);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);font-size:13px}
+  .widget .r{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)} .widget .r:last-child{border:0}
+  .story{text-align:center;padding:24vh 0}
+  .story p{margin:18vh auto;max-width:18ch;opacity:.15;transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);transform:translateY(30px)}
+  .story p.on{opacity:1;transform:none}
+  .chips{display:flex;min-height:70vh}
+  .chips i{width:6vw;flex-shrink:0}
+  .chips figure{flex:1;background:var(--c5);padding:clamp(40px,7vw,96px)}
+  blockquote{font-size:clamp(30px,2.2vw + 16px,56px);line-height:1.2;max-width:22ch}
+  .teal{background:var(--accent);color:var(--bg)}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 48px}
+  .tags span{border:1px solid rgba(251,250,246,.5);border-radius:999px;padding:6px 14px;font-size:14px}
+  .stats{display:grid;gap:16px}
+  .stat{background:var(--tint-1);color:var(--ink);border-radius:12px;padding:32px}
+  .statement{background:var(--dark);color:var(--bg);text-align:center}
+  footer{background:var(--footer);color:var(--bg);padding:96px 0 48px}
+  footer .big{font-size:clamp(64px,12vw,180px);line-height:.9;letter-spacing:-.04em}
+  footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:32px;margin-top:64px;font-size:14px}
+  footer a{color:inherit;opacity:.7;text-decoration:none;display:block;margin-top:8px}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .reveal.on{opacity:1;transform:none}
+  @media (max-width:809px){.hero .art{width:100%;opacity:.35;border-radius:0}.card{aspect-ratio:4/5}.widget{right:50%;transform:translate(50%,-50%);width:78%}.chips i{width:4vw}}
+  @media (min-width:810px){.stats{grid-template-columns:repeat(3,1fr)}}
+  @media (prefers-reduced-motion:reduce){.reveal,.story p{opacity:1!important;transform:none!important;transition:none}.card{position:relative!important}}
+</style>
+</head>
+<body>
+<nav>
+  <div style="display:flex;gap:16px;align-items:center"><div class="ribbon">✦</div><strong style="font-weight:500">Atelier</strong></div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="toggle" onclick="const h=document.documentElement;h.dataset.variant=h.dataset.variant==='cool'?'warm':'cool';this.textContent=h.dataset.variant==='cool'?'Switch to warm':'Switch to cool'">Switch to warm</button>
+    <a class="btn btn-p" href="#cta" style="height:40px">Get in touch</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="art" role="img" aria-label="Placeholder: figure in an ivory gown with a halftone laptop"><div class="dots"></div><div class="laptop"></div></div>
+  <div class="wrap"><div class="copy">
+    <p class="label reveal">Creative infrastructure</p>
+    <h1 class="serif xl reveal">Creative intelligence.</h1>
+    <p class="lead reveal">A studio and research lab making digital products feel timeless, crafted, and unmistakably yours.</p>
+    <div class="row reveal"><a class="btn btn-p" href="#cta">Request partnership</a><a class="btn btn-s" href="#eco">Explore work</a></div>
+  </div></div>
+</header>
+
+<section class="eco" id="eco">
+  <div class="wrap">
+    <h2 class="serif l reveal">Meet the Atelier ecosystem</h2>
+    <p class="lead reveal" style="max-width:46ch;margin-top:20px;color:var(--ink)">Four disciplines, one standard of craft. Each card stacks as you scroll.</p>
+    <div class="stack">
+      <article class="card" style="top:96px;background:var(--art-b)"><p class="label">Comparative model evals</p><h3 class="serif m">Creative Arena</h3></article>
+      <article class="card" style="top:112px;background:var(--art-c)"><p class="label">Industry standard</p><h3 class="serif m">Benchmarking</h3>
+        <div class="widget"><div class="mono" style="opacity:.6;margin-bottom:8px">Currency</div>
+          <div class="r"><span>$ USD</span><span style="opacity:.5">US Dollar ✓</span></div><div class="r"><span>€ EUR</span><span style="opacity:.5">Euro</span></div><div class="r"><span>£ GBP</span><span style="opacity:.5">British Pound</span></div></div></article>
+      <article class="card" style="top:128px;background:var(--art-d)"><p class="label">Private lab benchmarks</p><h3 class="serif m">Creative preference</h3></article>
+      <article class="card" style="top:144px;background:var(--art-e)"><p class="label">Long-horizon workflow capture</p><h3 class="serif m">Trajectories &amp; environments</h3></article>
+    </div>
+  </div>
+</section>
+
+<div class="story wrap" aria-label="Our story">
+  <p class="serif m">Built on real-world creative expertise</p>
+  <p class="serif m">Atelier taps a vetted network of practicing professionals</p>
+  <p class="serif m">With real market experience</p>
+</div>
+
+<div class="chips" aria-label="Testimonial">
+  <i style="background:var(--c1)"></i><i style="background:var(--c2)"></i><i style="background:var(--c3)"></i><i style="background:var(--c4)"></i>
+  <figure><blockquote class="serif">“Replace this with a real, approved client quote about a specific result.”</blockquote>
+  <figcaption style="margin-top:32px;font-size:18px">— Full Name, Role at Company</figcaption></figure>
+</div>
+
+<section class="teal">
+  <div class="wrap">
+    <h2 class="serif l reveal" style="max-width:16ch">Connecting with the missing signal: taste</h2>
+    <div class="tags"><span>Graphic designers</span><span>Product designers</span><span>Engineers</span><span>Content creators</span><span>Video editors</span></div>
+    <div class="stats">
+      <div class="stat"><p class="serif m" data-count="1.7" data-suffix="M+">0</p><p style="font-size:14px;margin-top:8px">creative experts</p></div>
+      <div class="stat"><p class="serif m" data-count="400" data-suffix="+">0</p><p style="font-size:14px;margin-top:8px">skills and tools</p></div>
+      <div class="stat"><p class="serif m" data-count="250" data-prefix="$" data-suffix="M+">0</p><p style="font-size:14px;margin-top:8px">verified earnings</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="statement" id="cta">
+  <div class="wrap">
+    <h2 class="serif l reveal">Execution is free.<br>Now, judgment is everything.</h2>
+    <p class="reveal" style="margin:20px auto 32px;max-width:52ch;opacity:.8">Move beyond templates and uncover the qualitative signals that shape preference.</p>
+    <a class="btn btn-d reveal" href="#">Get in touch</a>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <div class="serif big">atelier</div>
+  <div class="cols">
+    <div><p class="mono" style="opacity:.6">Platform</p><a href="#">Arena</a><a href="#">Benchmarks</a></div>
+    <div><p class="mono" style="opacity:.6">Company</p><a href="#">About</a><a href="#">Careers</a></div>
+    <div><p class="mono" style="opacity:.6">Resources</p><a href="#">Research</a><a href="#">Blog</a></div>
+    <div><p class="mono" style="opacity:.6">Legal</p><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+  <p style="margin-top:64px;font-size:13px;opacity:.5">© 2026 Atelier. Demo for the classical-collage-web-design skill.</p>
+</div></footer>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');
+    const c=e.target.querySelector?.('[data-count]');}}),{threshold:.25});
+  document.querySelectorAll('.reveal,.story p').forEach(el=>io.observe(el));
+  const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);
+    const el=e.target,v=+el.dataset.count,d=v%1?1:0,t0=performance.now();
+    const step=t=>{const p=Math.min((t-t0)/1200,1),k=1-Math.pow(1-p,5);el.textContent=(el.dataset.prefix||'')+(v*k).toFixed(d)+(el.dataset.suffix||'');if(p<1)requestAnimationFrame(step)};
+    requestAnimationFrame(step)}),{threshold:.5});
+  document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+</script>
+</body>
+</html>

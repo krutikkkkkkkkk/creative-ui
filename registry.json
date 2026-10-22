@@ -8,11 +8,171 @@
       "type": "registry:component",
       "title": "Hello World",
       "description": "Placeholder item to check the registry works. Delete once you add real components.",
-      "registryDependencies": ["button"],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "registry/new-york/blocks/hello-world/hello-world.tsx",
           "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "classical-collage-web-design",
+      "type": "registry:item",
+      "title": "Classical Collage Web Design (Claude skill)",
+      "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting × modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
+      "files": [
+        {
+          "path": "registry/skills/classical-collage-web-design/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/SKILL.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/ChipTestimonial.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/ChipTestimonial.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/DataTexture.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/DataTexture.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/Eyebrow.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/Eyebrow.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/FeatureCardStack.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/FeatureCardStack.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/FloatingCoins.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/FloatingCoins.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/Hero.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/Hero.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/PillButton.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/PillButton.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/Reveal.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/Reveal.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/ScrollStory.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/ScrollStory.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/components/StatBlock.tsx",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/components/StatBlock.tsx"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/CREDITS.template.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/CREDITS.template.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/halftone.css",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/halftone.css"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/tailwind.preset.js",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/tailwind.preset.js"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/assets/tokens.css",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/assets/tokens.css"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/examples/landing.html",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/examples/landing.html"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/LICENSE",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/LICENSE"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/01-art-direction.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/01-art-direction.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/02-metaphor-bank.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/02-metaphor-bank.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/03-imagery-and-prompts.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/03-imagery-and-prompts.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/04-techniques.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/04-techniques.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/05-design-tokens.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/05-design-tokens.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/06-components.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/06-components.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/07-page-blueprints.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/07-page-blueprints.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/08-motion.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/08-motion.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/09-copywriting.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/09-copywriting.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/10-build-figma.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/10-build-figma.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/11-build-framer.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/11-build-framer.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/12-build-nextjs.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/12-build-nextjs.md"
+        },
+        {
+          "path": "registry/skills/classical-collage-web-design/references/13-qa-checklist.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/classical-collage-web-design/references/13-qa-checklist.md"
         }
       ]
     }
