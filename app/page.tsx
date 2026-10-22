@@ -1,48 +1,34 @@
-
-
-import { Button } from "@/components/ui/button"
 import * as React from "react"
-import { Github } from "lucide-react"
+import registry from "@/registry.json"
+import { OpenInV0Button } from "@/components/open-in-v0-button"
+import { CopyCommand } from "@/components/copy-command"
 
+// Index of everything in registry.json. New items show up here automatically.
 export default function Home() {
   return (
-    <div className="w-full font-sans relative mx-auto flex flex-col min-h-screen px-4 gap-8 bg-black">
-        <div
-    className="absolute inset-0 z-0"
-    style={{
-      background: "radial-gradient(125% 125% at 50% 10%, #000 40%, #6366f1 100%)",
-    }}
-  />
-        <main className="min-h-screen flex flex-col items-center justify-center z-1">
-          <h4 className="text-xl  sm:text-3xl text-gray-500 mb-4 text-center py-2">
-          Introducing <span className={`font-instrument-serif text-white `} style={{ fontStyle: "italic" }} >Creative UI</span>
-          </h4>
-
-          <h1 className="text-3xl sm:text-6xl font-normal text-white mb-4 text-center">
-          The Ultimate Toolkit for Modern Interfaces
-          </h1>
-
-          <p className="text-base sm:text-lg text-gray-400 max-w-2xl text-center mb-8">
-          A curated collection of beautiful, accessible, and customizable components to elevate your web projects.
-          </p>
-
-        <h2
-        className="text-2xl sm:text-4xl font-semibold text-white text-center animate-in fade-in-50 duration-1000"
-        >
-        Coming Soon...
-        </h2>
-
-      {/* Star on github button */}
-      <div className="mt-8">
-        <a href="https://github.com/krutikkkkkkkkk/creative-ui" target="_blank" rel="noopener noreferrer">
-          <Button className="bg-white text-black hover:bg-gray-200" size="lg" >
-            <Github /> Star on GitHub 
-          </Button>
-        </a>
-      </div>
-
-        </main>
+    <div className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-12 gap-10">
+      <header className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">creative-ui</h1>
+        <p className="text-muted-foreground">
+          Components and blocks by Krutik Raut, installable with the shadcn CLI.
+        </p>
+        <CopyCommand command="npx shadcn@latest add https://ui.krutikraut.com/r/<name>.json" />
+      </header>
+      <main className="flex flex-col gap-4">
+        {registry.items.map((item) => (
+          <div
+            key={item.name}
+            className="flex flex-col gap-3 border rounded-lg p-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex flex-col gap-1 min-w-0">
+              <h2 className="font-medium">{item.title}</h2>
+              <p className="text-sm text-muted-foreground">{item.description}</p>
+              <CopyCommand command={`npx shadcn@latest add https://ui.krutikraut.com/r/${item.name}.json`} />
+            </div>
+            <OpenInV0Button name={item.name} className="w-fit shrink-0" />
+          </div>
+        ))}
+      </main>
     </div>
   )
 }
-

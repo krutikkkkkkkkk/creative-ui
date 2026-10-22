@@ -1,25 +1,20 @@
 import type { Metadata } from "next";
-import { Urbanist , Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const urbanist = Urbanist({
-  variable: "--font-urbanist",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  weight: "400",
-  style: ["normal", "italic"],
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-
 
 export const metadata: Metadata = {
-  title: "Creative UI",
-  description: "Elevate your UI with better components.",
+  title: "creative-ui",
+  description: "creative-ui — shadcn registry by Krutik Raut",
 };
 
 export default function RootLayout({
@@ -30,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${urbanist.variable}  ${instrumentSerif.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>

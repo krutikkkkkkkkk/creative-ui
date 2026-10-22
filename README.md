@@ -1,21 +1,53 @@
-# Creative UI 
+# creative-ui
 
-**Starting Development: October 7, 2025**
+My shadcn registry "creative-ui", served at https://ui.krutikraut.com. Built from the official
+[shadcn registry template](https://github.com/shadcn-ui/registry-template) (Next.js 15 + Tailwind v4).
 
-A collection of innovative and creative UI components that push the boundaries of web design. This registry features unique, interactive, and visually stunning components that bring life to your projects.
+## Run locally
 
-## ✨ What Makes It Creative?
+```bash
+npm install
+npm run dev          # http://localhost:3000
+npm run registry:build   # regenerates public/r/*.json
+```
 
-- **Micro-interactions** - Subtle animations that delight users
-- **Unique Visual Effects** - Components with stunning visual appeal
-- **Interactive Elements** - Engaging user experiences beyond standard UI
-- **Modern Design Patterns** - Cutting-edge design trends and techniques
-- **Accessibility First** - Beautiful components that work for everyone
+## Add a component
 
-## 🚀 Getting Started
+1. Put the file(s) in `registry/new-york/blocks/<name>/`.
+2. Add an entry to `registry.json` (name, type, title, description, `dependencies` for npm packages,
+   `registryDependencies` for shadcn components like `button`, and `files`).
+3. Run `npm run registry:build`. The index page lists every item automatically.
+4. Delete the `hello-world` placeholder once you have real items.
 
-Each component is crafted with attention to detail and can be easily integrated into your Next.js projects. Built with modern tools like Tailwind CSS and Framer Motion for smooth animations.
+Item types: `registry:block`, `registry:component`, `registry:ui`, `registry:hook`, `registry:lib`,
+`registry:page` (needs `target`), `registry:style`, `registry:theme`.
+Schema: https://ui.shadcn.com/docs/registry/registry-json
 
-## 🎯 Vision
+## Deploy (Vercel)
 
-Creating a curated collection of UI components that inspire creativity and elevate the standard of web interfaces. Every component tells a story and creates an emotional connection with users.
+1. `git init && git add . && git commit -m "init"` and push to a new GitHub repo.
+2. Import it on Vercel. Build command is `npm run build` (it runs `shadcn build` first).
+3. Env var: `NEXT_PUBLIC_BASE_URL=https://ui.krutikraut.com` (used by the Open in v0 button).
+4. Project → Domains → add `ui.krutikraut.com`, then at your DNS provider add
+   `CNAME ui → cname.vercel-dns.com`.
+
+## Install from it
+
+Direct URL:
+
+```bash
+npx shadcn@latest add https://ui.krutikraut.com/r/hello-world.json
+```
+
+Or with a namespace. Add this to the project's `components.json`:
+
+```json
+"registries": {
+  "@creative-ui": "https://ui.krutikraut.com/r/{name}.json"
+}
+```
+
+then `npx shadcn@latest add @creative-ui/hello-world`.
+
+To work without that config line, submit the registry to the public directory:
+https://ui.shadcn.com/docs/registry/registry-index
