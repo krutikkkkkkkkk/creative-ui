@@ -3,6 +3,10 @@
 My shadcn registry "creative-ui", served at https://ui.krutikraut.com. Built from the official
 [shadcn registry template](https://github.com/shadcn-ui/registry-template) (Next.js 15 + Tailwind v4).
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add components and skills and what to check before a PR.
+
 ## Run locally
 
 ```bash
