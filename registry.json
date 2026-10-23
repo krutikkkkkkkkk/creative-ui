@@ -4,25 +4,10 @@
   "homepage": "https://ui.krutikraut.com",
   "items": [
     {
-      "name": "hello-world",
-      "type": "registry:component",
-      "title": "Hello World",
-      "description": "Placeholder item to check the registry works. Delete once you add real components.",
-      "registryDependencies": [
-        "button"
-      ],
-      "files": [
-        {
-          "path": "registry/new-york/blocks/hello-world/hello-world.tsx",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
       "name": "classical-collage-web-design",
       "type": "registry:item",
       "title": "Classical Collage Web Design (Claude skill)",
-      "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting × modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
+      "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting \u00d7 modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
       "files": [
         {
           "path": "registry/skills/classical-collage-web-design/SKILL.md",

@@ -21,7 +21,6 @@ npm run registry:build   # regenerates public/r/*.json
 2. Add an entry to `registry.json` (name, type, title, description, `dependencies` for npm packages,
    `registryDependencies` for shadcn components like `button`, and `files`).
 3. Run `npm run registry:build`. The index page lists every item automatically.
-4. Delete the `hello-world` placeholder once you have real items.
 
 Item types: `registry:block`, `registry:component`, `registry:ui`, `registry:hook`, `registry:lib`,
 `registry:page` (needs `target`), `registry:style`, `registry:theme`.
@@ -59,7 +58,7 @@ npx shadcn@latest add https://ui.krutikraut.com/r/classical-collage-web-design.j
 Direct URL:
 
 ```bash
-npx shadcn@latest add https://ui.krutikraut.com/r/hello-world.json
+npx shadcn@latest add https://ui.krutikraut.com/r/classical-collage-web-design.json
 ```
 
 Or with a namespace. Add this to the project's `components.json`:
@@ -70,7 +69,7 @@ Or with a namespace. Add this to the project's `components.json`:
 }
 ```
 
-then `npx shadcn@latest add @creative-ui/hello-world`.
+then `npx shadcn@latest add @creative-ui/classical-collage-web-design`.
 
 ## Registry directory
 
