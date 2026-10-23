@@ -153,3 +153,43 @@
     background: transparent;
   }
 }
+
+/* Classical Collage motion: slow, weighty rise and float (home page) */
+@keyframes cc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@layer utilities {
+  .cc-rise {
+    animation: cc-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--cc-delay, 0ms);
+  }
+
+  .cc-float {
+    animation: cc-float 7s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cc-rise,
+    .cc-float {
+      animation: none;
+    }
+  }
+}

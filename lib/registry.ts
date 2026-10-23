@@ -27,6 +27,7 @@ export type ItemSummary = {
   description: string
   kind: ItemKind
   fileCount: number
+  banner: string | null
 }
 
 async function readRegistry(): Promise<{ items: RegistryItem[] }> {
@@ -49,13 +50,16 @@ export async function getItems(): Promise<RegistryItem[]> {
 
 export async function getSummaries(): Promise<ItemSummary[]> {
   const items = await getItems()
-  return items.map((item) => ({
-    name: item.name,
-    title: displayTitle(item),
-    description: item.description ?? "",
-    kind: kindOf(item),
-    fileCount: item.files?.length ?? 0,
-  }))
+  return Promise.all(
+    items.map(async (item) => ({
+      name: item.name,
+      title: displayTitle(item),
+      description: item.description ?? "",
+      kind: kindOf(item),
+      fileCount: item.files?.length ?? 0,
+      banner: await bannerOf(item.name),
+    }))
+  )
 }
 
 export async function getItem(name: string) {
