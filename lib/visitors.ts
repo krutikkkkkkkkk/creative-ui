@@ -11,7 +11,8 @@ export const VISITORS_KEY = "visitors:unique"
 export async function getVisitorCount() {
   try {
     return await redis.pfcount(VISITORS_KEY)
-  } catch {
+  } catch (error) {
+    console.error("[visitors] Redis read failed", error)
     return null
   }
 }

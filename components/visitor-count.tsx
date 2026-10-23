@@ -8,9 +8,12 @@ import { cn } from "@/lib/utils"
 
 const VISITOR_ID_KEY = "creative-ui:visitor-id"
 
-/* Registers this browser once (random id in localStorage) and returns the unique total. */
+/*
+ * Registers this browser once (random id in localStorage) and returns the unique total:
+ * null while loading, false when the count is unavailable.
+ */
 function useVisitorCount() {
-  const [count, setCount] = React.useState<number | null>(null)
+  const [count, setCount] = React.useState<number | null | false>(null)
 
   React.useEffect(() => {
     let id: string | null = null
@@ -32,8 +35,10 @@ function useVisitorCount() {
       signal: controller.signal,
     })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => typeof data?.count === "number" && setCount(data.count))
-      .catch(() => {})
+      .then((data) => setCount(typeof data?.count === "number" ? data.count : false))
+      .catch((error) => {
+        if (error?.name !== "AbortError") setCount(false)
+      })
     return () => controller.abort()
   }, [])
 
@@ -42,6 +47,7 @@ function useVisitorCount() {
 
 export function VisitorCount({ className }: { className?: string }) {
   const count = useVisitorCount()
+  if (count === false) return null
   const label = count === 1 ? "visitor" : "visitors"
   const formatted =
     count === null
