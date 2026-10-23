@@ -1,21 +1,21 @@
 import Link from "next/link"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { GithubIcon } from "@hugeicons/core-free-icons"
-
-import { GITHUB_URL } from "@/lib/registry"
+import { getStarCount } from "@/lib/github"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/app-sidebar"
 import { Button } from "@/components/ui/button"
+import { GithubLink } from "@/components/github-link"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { VisitorCount } from "@/components/visitor-count"
 
-export function HomeHeader() {
+export async function HomeHeader() {
+  const stars = await getStarCount()
+
   return (
     <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 sm:px-8">
-        <Link href="/" className="mr-4 flex items-center gap-2.5">
+        <Link href="/" className="mr-1 flex shrink-0 items-center gap-2.5 sm:mr-4">
           <Logo className="size-7" />
-          <span className="font-semibold tracking-tight">creative-ui</span>
+          <span className="font-semibold tracking-tight whitespace-nowrap max-[379px]:sr-only">creative-ui</span>
         </Link>
         <nav className="flex items-center gap-1">
           <NavLink href="/docs">Docs</NavLink>
@@ -29,11 +29,7 @@ export function HomeHeader() {
         </nav>
         <div className="ml-auto flex items-center gap-1">
           <VisitorCount className="mr-1 hidden sm:flex" />
-          <Button variant="ghost" size="icon" className="size-8" asChild>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" aria-label="GitHub">
-              <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
-            </a>
-          </Button>
+          <GithubLink stars={stars} />
           <ThemeToggle />
         </div>
       </div>

@@ -2,8 +2,6 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { GithubIcon } from "@hugeicons/core-free-icons"
 
 import type { ItemSummary } from "@/lib/registry"
 import {
@@ -14,13 +12,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { GithubLink } from "@/components/github-link"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { VisitorCount } from "@/components/visitor-count"
 
-export function SiteHeader({ items }: { items: ItemSummary[] }) {
+export function SiteHeader({ items, stars }: { items: ItemSummary[]; stars: number | null }) {
   const pathname = usePathname()
   const name = pathname.startsWith("/docs/") ? pathname.split("/")[2] : null
   const item = name ? items.find((i) => i.name === name) : null
@@ -62,11 +60,7 @@ export function SiteHeader({ items }: { items: ItemSummary[] }) {
       </Breadcrumb>
       <div className="flex items-center gap-1">
         <VisitorCount className="mr-1" />
-        <Button variant="ghost" size="icon" className="size-8" asChild>
-          <a href="https://github.com/krutikkkkkkkkk/creative-ui" target="_blank" rel="noreferrer" aria-label="GitHub">
-            <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
-          </a>
-        </Button>
+        <GithubLink stars={stars} />
         <ThemeToggle />
       </div>
     </header>

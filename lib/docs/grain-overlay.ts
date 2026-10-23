@@ -13,7 +13,7 @@ export function Section() {
 }
 
 // Or once, over the whole page:
-<GrainOverlay fixed animate />`,
+<GrainOverlay fixed animate opacity={0.12} />`,
   api: [
     {
       name: "GrainOverlay",
@@ -24,44 +24,53 @@ export function Section() {
           type: `"grain" | "paper" | "fiber"`,
           default: `"grain"`,
           description:
-            "`grain` is fine film noise, `paper` is soft mottled stock with a warm tint, `fiber` is directional paper fibre. Sets the defaults for the props below.",
+            "`grain` is fine film grain. `paper` is warm stock with fine tooth and faint mottling. `fiber` is handmade paper with loose strands. Sets the defaults for the props below.",
         },
         {
           name: "opacity",
           type: "number",
           default: "per variant",
-          description: "Layer opacity, 0 to 1. Grain `0.22`, paper `0.45`, fiber `0.35`.",
+          description: "Layer opacity, 0 to 1. Grain `0.25`, paper `0.45`, fiber `0.5`.",
         },
         {
           name: "frequency",
           type: "number | [number, number]",
           default: "per variant",
           description:
-            "Noise frequency. Higher is finer. A pair sets x and y separately. Grain `0.85`, paper `0.045`, fiber `[0.012, 0.65]`.",
+            "Frequency of the variant's main noise. Higher is finer. A pair sets x and y separately. Grain `0.85`, paper tooth `0.9`, fiber strands `0.03`.",
         },
         {
           name: "octaves",
           type: "number",
           default: "per variant",
-          description: "Turbulence octaves. More add finer detail. Grain `2`, paper `5`, fiber `3`.",
+          description: "Octaves of the main noise. More add finer detail. Grain `4`, paper `3`, fiber `1`.",
+        },
+        {
+          name: "contrast",
+          type: "number",
+          default: "per variant",
+          description:
+            "How hard the specks are cut from the noise. Higher is crisper and stronger. Grain `2.2`, paper `1.8`, fiber `28`.",
         },
         { name: "seed", type: "number", default: "2", description: "Noise seed, so two overlays can differ or match." },
         {
           name: "size",
           type: "number",
           default: "per variant",
-          description: "Tile size in px. Grain `256`, paper and fiber `512`.",
+          description: "Tile size in px. Grain `240`, paper and fiber `480`.",
         },
         {
           name: "color",
           type: "string",
-          description: "Tint the noise with a colour. When omitted, neutral luminance noise is used.",
+          description:
+            "Paint every speck in one colour. Any CSS colour works, including `var(--primary)` and `currentColor`. When omitted, the texture uses dark and light specks.",
         },
         {
           name: "blend",
           type: "CSSProperties[\"mixBlendMode\"]",
-          default: "per variant",
-          description: "CSS `mix-blend-mode`. Grain `overlay`, paper and fiber `multiply`.",
+          default: `"normal"`,
+          description:
+            "CSS `mix-blend-mode`. The texture is already dark and light specks on transparency, so it needs no blend mode. Set one for a specific look, such as `soft-light` over photos.",
         },
         {
           name: "fixed",
@@ -73,21 +82,28 @@ export function Section() {
           name: "animate",
           type: "boolean",
           default: "false",
-          description: "Subtle film flicker. Turned off for users who prefer reduced motion.",
+          description:
+            "Film flicker: the grain jumps between eight held frames at about 10fps. It runs on the compositor and stays still for users who prefer reduced motion.",
         },
       ],
     },
   ],
   exports: [
     {
-      signature: "noiseTexture({ frequency, octaves, seed, size, asMask? })",
+      signature: "noiseTexture({ variant?, frequency?, octaves?, contrast?, seed?, size? })",
       description:
-        "Builds the tiling SVG noise as a CSS `url()`, for use as a `background-image` or `mask-image` anywhere else.",
+        "Builds a variant's tiling SVG noise as a CSS `url()`. The alpha channel carries the texture, so it works as a `background-image` or a `mask-image`.",
+    },
+    {
+      signature: "grainPresets",
+      description: "The default size, opacity, colours and noise layers for each variant.",
     },
   ],
   notes: [
     "Place it inside an element with `position: relative`. It fills that element and never blocks clicks.",
+    "It reads on light, dark and photographic surfaces without a blend mode, because each pixel is either transparent or a dark or light speck.",
     "`fixed` uses `z-50`. Override it with `className` if it covers dialogs or toasts.",
-    "No client JavaScript, so it is safe in React Server Components.",
+    "It is hidden when printing and in forced-colours mode.",
+    "No client JavaScript, so it is safe in React Server Components. With `animate`, the keyframes are added to the page once, however many overlays use them.",
   ],
 }

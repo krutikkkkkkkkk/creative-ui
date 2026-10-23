@@ -58,7 +58,8 @@ export function LegalPage({
             GitHub
           </a>
           . See also <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy</Link>,{" "}
-          <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">Terms</Link> and{" "}
+          <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">Terms</Link>,{" "}
+          <Link href="/refund-policy" className="underline underline-offset-4 hover:text-foreground">Refunds</Link> and{" "}
           <Link href="/license" className="underline underline-offset-4 hover:text-foreground">License</Link>.
         </p>
       </div>

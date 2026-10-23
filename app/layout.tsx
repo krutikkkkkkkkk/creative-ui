@@ -19,7 +19,7 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "creative-ui", template: "%s · creative-ui" },
-  description: "Components and Claude skills by Krutik Raut, installable with the shadcn CLI.",
+  description: "Components and Claude skills by Krutik Raut at Infinity Linkage, installable with the shadcn CLI.",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -6,6 +6,9 @@ import path from "path"
 export const SITE_URL = "https://ui.krutikraut.com"
 export const GITHUB_URL = "https://github.com/krutikkkkkkkkk/creative-ui"
 export const NAMESPACE = "@creative-ui"
+/* creative-ui is run under Infinity Linkage. */
+export const COMPANY_NAME = "Infinity Linkage"
+export const COMPANY_URL = "https://www.infinitylinkage.com"
 
 export type RegistryFile = { path: string; type: string; target?: string }
 

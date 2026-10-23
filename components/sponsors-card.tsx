@@ -3,11 +3,12 @@ import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
-import { SPONSORS, SPONSOR_URL, TIERS, type Sponsor, type Tier } from "@/lib/sponsors"
+import { LAUNCH_OFFER, SPONSORS, SPONSOR_URL, TIERS, type Sponsor, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
 
-/* Tile sizes per tier, largest first. */
+/* Tile sizes per tier, largest first. Every row fills the card width as a box: one Diamond,
+   two Gold, three Silver. The pyramid layout lives on the home and sponsor pages. */
 const TILE: Record<Tier, { height: string; logo: { width: number; height: number; className: string }; text: string }> = {
   diamond: { height: "min-h-16 py-2.5", logo: { width: 160, height: 28, className: "h-7" }, text: "text-sm" },
   gold: { height: "h-14", logo: { width: 128, height: 24, className: "h-6" }, text: "text-sm" },
@@ -29,8 +30,8 @@ export function SponsorsCard({ className }: { className?: string }) {
         const empty = Math.max(0, slots - sponsors.length)
         return (
           <div key={tier} className="mt-3">
-            <p className="mb-1.5 text-xs text-muted-foreground">{label}</p>
-            <div className={cn("grid gap-1.5", slots > 1 && "grid-cols-2")}>
+            <p className="mb-1.5 text-center text-xs text-muted-foreground">{label}</p>
+            <div className="flex gap-1.5">
               {sponsors.map((s) => (
                 <SponsorTile key={s.name} sponsor={s} />
               ))}
@@ -46,7 +47,10 @@ export function SponsorsCard({ className }: { className?: string }) {
         href="/sponsor"
         className="group mt-3 flex items-center justify-between rounded-md px-1 py-1 text-xs font-medium text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300"
       >
-        Become a sponsor
+        <span>
+          Become a sponsor
+          {LAUNCH_OFFER && <span className="text-muted-foreground"> · {LAUNCH_OFFER.percent}% off</span>}
+        </span>
         <HugeiconsIcon
           icon={ArrowRight01Icon}
           className="size-3.5 transition-transform group-hover:translate-x-0.5"
@@ -66,7 +70,7 @@ function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
       rel="noreferrer sponsored"
       title={sponsor.offer ? `${sponsor.name}: ${sponsor.offer}` : sponsor.name}
       className={cn(
-        "flex min-w-0 flex-col items-center justify-center gap-1 rounded-lg bg-muted/60 px-2 text-center transition-colors hover:bg-muted",
+        "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-lg bg-muted/60 px-2 text-center transition-colors hover:bg-muted",
         tile.height
       )}
     >
@@ -81,7 +85,7 @@ function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
       ) : (
         <span className={cn("truncate font-semibold tracking-tight", tile.text)}>{sponsor.name}</span>
       )}
-      {/* The offer wraps to two lines; the full text is in the title tooltip. */}
+      {/* The tagline wraps to two lines; the full text is in the title tooltip. */}
       {sponsor.tier === "diamond" && sponsor.offer && (
         <span className="line-clamp-2 w-full text-[11px] leading-snug text-balance text-muted-foreground">
           {sponsor.offer}
@@ -95,15 +99,15 @@ function EmptyTile({ tier }: { tier: Tier }) {
   return (
     <a
       href={SPONSOR_URL}
-      target="_blank"
-      rel="noreferrer"
+      title="Your logo here"
       className={cn(
-        "flex items-center justify-center gap-1.5 rounded-lg border border-dashed text-[11px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground",
+        "flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg border border-dashed text-[11px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground",
         TILE[tier].height
       )}
     >
       <HugeiconsIcon icon={PlusSignIcon} className="size-3" strokeWidth={2} />
-      {tier === "diamond" ? "Your logo here" : "Your logo"}
+      {/* Three Silver tiles across the base leave room for the icon only. */}
+      {tier === "silver" ? <span className="sr-only">Your logo here</span> : tier === "diamond" ? "Your logo here" : "Your logo"}
     </a>
   )
 }

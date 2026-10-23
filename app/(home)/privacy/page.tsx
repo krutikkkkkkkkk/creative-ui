@@ -1,13 +1,14 @@
 import type { Metadata } from "next"
 
 import { LegalPage, LegalSection } from "@/components/legal-page"
+import { SPONSOR_EMAIL } from "@/lib/sponsors"
 
 export const metadata: Metadata = {
   title: "Privacy policy",
   description: "What creative-ui collects when you visit, which is very little, and why.",
 }
 
-const UPDATED = "23 Oct 2026"
+const UPDATED = "24 Oct 2026"
 
 export default function PrivacyPage() {
   return (
@@ -23,7 +24,11 @@ export default function PrivacyPage() {
     >
       <LegalSection n="01" title="Who runs this site">
         <p>
-          This site, ui.krutikraut.com, is run by Krutik Raut as a personal open-source project. The source code,
+          This site, ui.krutikraut.com, is run by Krutik Raut as an open-source project of{" "}
+          <a href="https://www.infinitylinkage.com" target="_blank" rel="noreferrer">
+            Infinity Linkage
+          </a>
+          . The source code,
           including everything described on this page, is public on{" "}
           <a href="https://github.com/krutikkkkkkkkk/creative-ui" target="_blank" rel="noreferrer">
             GitHub
@@ -71,18 +76,33 @@ export default function PrivacyPage() {
         </p>
       </LegalSection>
 
-      <LegalSection n="05" title="Third-party content">
+      <LegalSection n="05" title="Sponsorship payments">
+        <p>
+          Sponsor checkout runs on{" "}
+          <a href="https://dodopayments.com" target="_blank" rel="noreferrer">
+            Dodo Payments
+          </a>
+          , which collects your card and billing details under its own privacy policy. This site never sees your
+          card. Before checkout, the details form saves what you send in it (your logo, link, offer, contact name
+          and email) in Redis. If you don&apos;t complete the payment, those details are deleted after 7 days.
+          After payment, Dodo Payments sends back the subscription&apos;s status, tier, name and email, which are
+          kept with your details to manage your placement. Email{" "}
+          <a href={`mailto:${SPONSOR_EMAIL}`}>{SPONSOR_EMAIL}</a> to have them removed once a sponsorship ends.
+        </p>
+      </LegalSection>
+
+      <LegalSection n="06" title="Third-party content">
         <p>
           Some component previews in the docs load sample artwork from Unsplash. When those images load, your
           browser requests them directly from Unsplash, which then sees your IP address under{" "}
           <a href="https://unsplash.com/privacy" target="_blank" rel="noreferrer">
             Unsplash&apos;s privacy policy
           </a>
-          . Links to GitHub, GitHub Sponsors and other sites are subject to those sites&apos; own policies.
+          . Links to GitHub and other sites are subject to those sites&apos; own policies.
         </p>
       </LegalSection>
 
-      <LegalSection n="06" title="Installing items with the CLI">
+      <LegalSection n="07" title="Installing items with the CLI">
         <p>
           When you run <strong>npx shadcn add</strong> with a URL from this registry, your machine fetches a static
           JSON file from this site. Nothing about your project is sent back. The shadcn CLI itself is maintained by
@@ -94,11 +114,11 @@ export default function PrivacyPage() {
         </p>
       </LegalSection>
 
-      <LegalSection n="07" title="Children">
+      <LegalSection n="08" title="Children">
         <p>The site is not directed at children under 13 and does not knowingly collect information from them.</p>
       </LegalSection>
 
-      <LegalSection n="08" title="Changes and contact">
+      <LegalSection n="09" title="Changes and contact">
         <p>
           If this policy changes, the date at the top is updated and the change is visible in the repository
           history. Questions go to the project&apos;s{" "}

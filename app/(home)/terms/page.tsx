@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "The terms for using the creative-ui website and registry.",
 }
 
-const UPDATED = "23 Oct 2026"
+const UPDATED = "24 Oct 2026"
 
 export default function TermsPage() {
   return (
@@ -58,12 +58,13 @@ export default function TermsPage() {
 
       <LegalSection n="05" title="Sponsorship">
         <p>
-          Sponsorships are handled through GitHub Sponsors and governed by{" "}
-          <a href="https://docs.github.com/en/site-policy/github-terms/github-sponsors-additional-terms" target="_blank" rel="noreferrer">
-            GitHub&apos;s terms
+          Sponsorships are paid through{" "}
+          <a href="https://dodopayments.com" target="_blank" rel="noreferrer">
+            Dodo Payments
           </a>
-          . Sponsor logo placement is described on the <Link href="/sponsor">sponsor page</Link> and is offered in
-          good faith. The author may decline or remove a sponsor whose brand conflicts with the project.
+          , which acts as merchant of record, and its terms apply to the payment. Sponsor logo placement is described on the <Link href="/sponsor">sponsor page</Link> and is offered in
+          good faith. The author may decline or remove a sponsor whose brand conflicts with the project. Billing,
+          cancellation and refunds are covered by the <Link href="/refund-policy">refund policy</Link>.
         </p>
       </LegalSection>
 

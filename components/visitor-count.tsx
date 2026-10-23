@@ -10,14 +10,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 const VISITOR_ID_KEY = "creative-ui:visitor-id"
 
-/*
- * Registers this browser once (random id in localStorage) and returns the unique total:
- * null while loading, false when the count is unavailable.
- */
-function useVisitorCount() {
-  const [count, setCount] = React.useState<number | null | false>(null)
+/* One request per page load, shared by every reader so the nav and the sponsor page agree. */
+let visitorCount: Promise<number | false> | undefined
 
-  React.useEffect(() => {
+/* Registers this browser once (random id in localStorage) and resolves to the unique total. */
+function loadVisitorCount() {
+  visitorCount ??= (async () => {
     let id: string | null = null
     try {
       id = localStorage.getItem(VISITOR_ID_KEY)
@@ -29,32 +27,55 @@ function useVisitorCount() {
       // Storage blocked: still show the total, just don't register.
     }
 
-    const controller = new AbortController()
-    fetch("/api/visitors", {
-      method: id ? "POST" : "GET",
-      headers: id ? { "Content-Type": "application/json" } : undefined,
-      body: id ? JSON.stringify({ id }) : undefined,
-      signal: controller.signal,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => setCount(typeof data?.count === "number" ? data.count : false))
-      .catch((error) => {
-        if (error?.name !== "AbortError") setCount(false)
+    try {
+      const res = await fetch("/api/visitors", {
+        method: id ? "POST" : "GET",
+        headers: id ? { "Content-Type": "application/json" } : undefined,
+        body: id ? JSON.stringify({ id }) : undefined,
       })
-    return () => controller.abort()
+      const data = res.ok ? await res.json() : null
+      if (typeof data?.count === "number") return data.count
+    } catch {}
+    // Let the next reader retry.
+    visitorCount = undefined
+    return false
+  })()
+  return visitorCount
+}
+
+/* The unique total: null while loading, false when the count is unavailable. */
+function useVisitorCount() {
+  const [count, setCount] = React.useState<number | null | false>(null)
+
+  React.useEffect(() => {
+    let active = true
+    loadVisitorCount().then((total) => {
+      if (active) setCount(total)
+    })
+    return () => {
+      active = false
+    }
   }, [])
 
   return count
+}
+
+function compact(n: number) {
+  return new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)
+}
+
+/** Bare visitor total that starts from a server-read value and settles on the nav's count. */
+export function VisitorTotal({ initial }: { initial: number | null }) {
+  const count = useVisitorCount()
+  const value = typeof count === "number" ? count : initial
+  return value === null ? "—" : compact(value)
 }
 
 export function VisitorCount({ className }: { className?: string }) {
   const count = useVisitorCount()
   if (count === false) return null
   const label = count === 1 ? "visitor" : "visitors"
-  const formatted =
-    count === null
-      ? null
-      : new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(count)
+  const formatted = count === null ? null : compact(count)
 
   return (
     <Badge

@@ -5,11 +5,13 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, CheckmarkCircle02Icon, FavouriteIcon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
 import { getSummaries } from "@/lib/registry"
-import { SPONSORS, SPONSOR_URL, TIERS, type Sponsor, type Tier } from "@/lib/sponsors"
+import { LAUNCH_OFFER, SPONSORS, SPONSOR_EMAIL, TIERS, offerPrice, type Sponsor, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { getVisitorCount } from "@/lib/visitors"
 import { Card } from "@/components/ui/card"
 import { Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
+import { StackSteps } from "@/components/home/stack-steps"
+import { VisitorTotal } from "@/components/visitor-count"
 import { CollageFrame, CollageFrameOverlay } from "@/registry/new-york/blocks/collage-frame/collage-frame"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
@@ -21,14 +23,38 @@ export const metadata: Metadata = {
   description: "Sponsor creative-ui and put your logo in front of the developers who install it.",
 }
 
-/* The visitor total is read live from Redis on each request. */
+/* The visitor total is read live from Redis on each request, then synced with the nav on the client. */
 export const dynamic = "force-dynamic"
 
-/* Logo tile sizes per tier on the "On the wall" section, largest first. */
-const LOGO: Record<Tier, { height: string; cols: string; image: { width: number; height: number; className: string }; text: string }> = {
-  diamond: { height: "h-40", cols: "sm:grid-cols-1", image: { width: 240, height: 48, className: "h-12" }, text: "text-4xl" },
-  gold: { height: "h-32", cols: "sm:grid-cols-2", image: { width: 200, height: 40, className: "h-10" }, text: "text-3xl" },
-  silver: { height: "h-28", cols: "sm:grid-cols-2", image: { width: 160, height: 32, className: "h-8" }, text: "text-2xl" },
+/* Logo tile sizes per tier on the "On the wall" section, largest first. Widths hang the
+   tiers as a pyramid: one Diamond on top, two Gold, three Silver across the base. */
+const STEPS = [
+  {
+    n: "01",
+    title: "Pick a tier, add your logo.",
+    body: "Choose Diamond ($250), Gold ($150) or Silver ($50) a month, tax included. Add your logo (SVG works best), a link and, for Diamond, an optional tagline or offer.",
+    art: { src: "/art/hands-card.webp", alt: "Oil painting of hands in red velvet presenting a blank marble card" },
+  },
+  {
+    n: "02",
+    title: "Pay with Dodo.",
+    body: `The form takes you straight to checkout.${
+      LAUNCH_OFFER ? ` Code ${LAUNCH_OFFER.code} is applied for you, taking ${LAUNCH_OFFER.percent}% off your first ${LAUNCH_OFFER.months} months.` : ""
+    } Card details go to Dodo Payments, never this site.`,
+    art: { src: "/art/cherub-swatches.webp", alt: "Oil painting of a cherub holding a paintbrush and a fan of colour swatches" },
+  },
+  {
+    n: "03",
+    title: "Go live.",
+    body: "Your logo appears in the docs sidebar and on this page on the next deploy, normally within 7 days. Cancel from the Dodo customer portal whenever you like.",
+    art: { src: "/art/arch-laurel.webp", alt: "Oil painting of a hand setting a carved marble keystone into an arch" },
+  },
+]
+
+const LOGO: Record<Tier, { height: string; width: string; image: { width: number; height: number; className: string }; text: string }> = {
+  diamond: { height: "h-40", width: "sm:w-2/3", image: { width: 240, height: 48, className: "h-12" }, text: "text-4xl" },
+  gold: { height: "h-32", width: "sm:w-5/12", image: { width: 200, height: 40, className: "h-10" }, text: "text-3xl" },
+  silver: { height: "h-28", width: "sm:w-[calc((100%-2rem)/3)]", image: { width: 160, height: 32, className: "h-8" }, text: "text-2xl" },
 }
 
 export default async function SponsorPage() {
@@ -48,7 +74,10 @@ export default async function SponsorPage() {
 
         <div className="mx-auto grid w-full max-w-5xl items-center gap-14 px-4 pt-14 pb-20 sm:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:pt-20 lg:pb-24">
           <div>
-            <Eyebrow className="cc-rise">Sponsor · {open > 0 ? `${open} of ${slots} slots open` : "All slots taken"}</Eyebrow>
+            <Eyebrow className="cc-rise">
+              Sponsor · {open > 0 ? `${open} of ${slots} slots open` : "All slots taken"}
+              {LAUNCH_OFFER && ` · ${LAUNCH_OFFER.percent}% off at launch`}
+            </Eyebrow>
             <h1 className="mt-6 font-serif text-[2.75rem] leading-[0.95] tracking-[-0.02em] sm:text-6xl lg:text-[4.25rem]">
               <span className="cc-rise block" style={delay(100)}>
                 Hang your name
@@ -65,11 +94,11 @@ export default async function SponsorPage() {
               front of the developers who install them.
             </p>
             <div className="cc-rise mt-9 flex flex-wrap gap-3" style={delay(400)}>
-              <PillLink href={SPONSOR_URL} external variant="solid">
+              <PillLink href="#tiers" variant="solid">
                 <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: GOLD }} strokeWidth={2} />
                 Become a sponsor
               </PillLink>
-              <PillLink href="#tiers">See the tiers</PillLink>
+              <PillLink href="#how-it-works">How it works</PillLink>
             </div>
           </div>
 
@@ -93,15 +122,39 @@ export default async function SponsorPage() {
       <div className="mx-auto w-full max-w-5xl px-4 pb-24 sm:px-8">
         {/* Reach */}
         <dl className="grid grid-cols-2 gap-y-10 border-b py-14 sm:grid-cols-4">
-          <Stat value={visitors === null ? "—" : compact(visitors)} label="Unique visitors" />
+          <Stat value={<VisitorTotal initial={visitors} />} label="Unique visitors" />
           <Stat value={items.length} label="Items in the registry" />
           <Stat value={slots} label="Sponsor slots" />
           <Stat value="MIT" label="License" />
         </dl>
 
+        {/* How it works: three moves, stacked like prints laid on a table, as on home. */}
+        <section id="how-it-works" className="scroll-mt-20 py-20">
+          <SectionHeading eyebrow="How it works" title="Three steps to the wall." />
+          <StackSteps steps={STEPS} />
+          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <PillLink href="#tiers" variant="solid">
+              <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: GOLD }} strokeWidth={2} />
+              Pick a tier
+            </PillLink>
+            <Link
+              href="/docs"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
+            >
+              See where sponsors appear in the docs
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                className="size-4 transition-transform group-hover:translate-x-0.5"
+                strokeWidth={2}
+              />
+            </Link>
+          </div>
+        </section>
+
         {/* Tiers */}
-        <section id="tiers" className="scroll-mt-20 py-20">
+        <section id="tiers" className="scroll-mt-20 border-t py-20">
           <SectionHeading eyebrow="Tiers" title="Three ways to show up." />
+          {LAUNCH_OFFER && <LaunchOffer offer={LAUNCH_OFFER} />}
           <div className="grid gap-6 lg:grid-cols-3">
             {TIERS.map(({ tier, label, price, slots, summary, perks }) => {
               const taken = SPONSORS.filter((s) => s.tier === tier).length
@@ -134,7 +187,12 @@ export default async function SponsorPage() {
                     </span>
                   </div>
                   <p className="mt-6 flex items-baseline gap-1.5">
-                    <span className="font-serif text-6xl leading-none tracking-[-0.02em]">${price}</span>
+                    <span className="font-serif text-6xl leading-none tracking-[-0.02em]">${offerPrice(price)}</span>
+                    {LAUNCH_OFFER && (
+                      <s className={cn("font-serif text-2xl", diamond ? "text-white/45" : "text-muted-foreground")}>
+                        <span className="sr-only">Full price </span>${price}
+                      </s>
+                    )}
                     <span
                       className={cn(
                         "font-mono text-[11px] tracking-[.08em] uppercase",
@@ -144,6 +202,11 @@ export default async function SponsorPage() {
                       / month
                     </span>
                   </p>
+                  {LAUNCH_OFFER && (
+                    <p className="mt-2 font-mono text-[11px] tracking-[.08em] uppercase" style={{ color: GOLD }}>
+                      First {LAUNCH_OFFER.months} months, then ${price}
+                    </p>
+                  )}
                   <p className={cn("mt-4", diamond ? "text-white/65" : "text-muted-foreground")}>{summary}</p>
                   <ul className="mt-7 flex flex-1 flex-col gap-3 text-sm">
                     {perks.map((perk) => (
@@ -159,22 +222,40 @@ export default async function SponsorPage() {
                     ))}
                   </ul>
                   <div className="mt-9">
-                    <PillLink href={SPONSOR_URL} external variant={diamond ? "light" : "solid"}>
-                      {left > 0 ? `Sponsor at ${label}` : "Join the waitlist"}
-                      <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
-                    </PillLink>
+                    {left > 0 ? (
+                      <PillLink href={`/sponsor/apply?tier=${tier}`} variant={diamond ? "light" : "solid"}>
+                        Sponsor at {label}
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
+                      </PillLink>
+                    ) : (
+                      <PillLink
+                        href={`mailto:${SPONSOR_EMAIL}?subject=${encodeURIComponent(`${label} sponsor waitlist`)}`}
+                        external
+                        variant={diamond ? "light" : "solid"}
+                      >
+                        Join the waitlist
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
+                      </PillLink>
+                    )}
                   </div>
                 </Card>
               )
             })}
           </div>
-          <p className="mt-6 font-mono text-[11px] text-muted-foreground">
-            Prices in USD, billed monthly through GitHub Sponsors. Already sponsoring?{" "}
-            <Link href="/sponsor/apply" className="underline underline-offset-4 hover:text-foreground">
-              Send your details
-            </Link>
-            .
-          </p>
+          <div className="mt-6 max-w-[90ch] space-y-2 font-mono text-[11px] leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-foreground">
+            <p>
+              Prices in USD per month, with any sales tax or VAT already included.{" "}
+              {LAUNCH_OFFER &&
+                `The launch discount covers your first ${LAUNCH_OFFER.months} monthly payments, then the subscription renews at the full price shown. `}
+              Each tier renews monthly until you cancel, which you can do any time from the Dodo Payments customer
+              portal or by emailing <a href={`mailto:${SPONSOR_EMAIL}`}>{SPONSOR_EMAIL}</a>.
+            </p>
+            <p>
+              Dodo Payments is the merchant of record, so the charge and invoice come from them. By checking out you
+              agree to the <Link href="/terms">terms</Link>, <Link href="/privacy">privacy policy</Link> and{" "}
+              <Link href="/refund-policy">refund and cancellation policy</Link>.
+            </p>
+          </div>
         </section>
 
         {/* Current sponsors */}
@@ -182,9 +263,7 @@ export default async function SponsorPage() {
           <SectionHeading eyebrow="On the wall" title="Current sponsors." />
           {SPONSORS.length === 0 ? (
             <a
-              href={SPONSOR_URL}
-              target="_blank"
-              rel="noreferrer"
+              href="#tiers"
               className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-6 py-16 text-center transition-colors hover:border-foreground/30"
             >
               <span className="grid size-10 place-items-center rounded-full border text-muted-foreground transition-colors group-hover:text-foreground">
@@ -202,10 +281,10 @@ export default async function SponsorPage() {
                 if (sponsors.length === 0) return null
                 return (
                   <div key={tier}>
-                    <p className="mb-4 font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase">
+                    <p className="mb-4 text-center font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase">
                       {label}
                     </p>
-                    <div className={cn("grid gap-4", LOGO[tier].cols)}>
+                    <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                       {sponsors.map((s) => (
                         <SponsorLogo key={s.name} sponsor={s} />
                       ))}
@@ -217,39 +296,30 @@ export default async function SponsorPage() {
           )}
         </section>
 
-        {/* How it works */}
-        <section className="border-t py-20">
-          <SectionHeading eyebrow="How it works" title="Three steps to the wall." />
-          <div className="grid gap-10 sm:grid-cols-3">
-            <Step n="01" title="Pick a tier" body="Sponsor monthly on GitHub at Diamond ($250), Gold ($150) or Silver ($50)." />
-            <Step n="02" title="Send your logo" body="Fill in the form with your logo (SVG works best), a link and, for Diamond, an offer for our users." />
-            <Step n="03" title="Go live" body="Your logo appears in the docs sidebar and on this page on the next deploy." />
-          </div>
-          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
-            <PillLink href="/sponsor/apply" variant="solid">
-              Send your details
-              <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
-            </PillLink>
-            <Link
-              href="/docs"
-              className="group inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
-            >
-              See where sponsors appear in the docs
-              <HugeiconsIcon
-                icon={ArrowRight01Icon}
-                className="size-4 transition-transform group-hover:translate-x-0.5"
-                strokeWidth={2}
-              />
-            </Link>
-          </div>
-        </section>
       </div>
     </div>
   )
 }
 
-function compact(n: number) {
-  return new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)
+/** The launch code. It is applied at checkout, so it is shown here rather than asked for. */
+function LaunchOffer({ offer }: { offer: NonNullable<typeof LAUNCH_OFFER> }) {
+  return (
+    <div className="-mt-4 mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-[#B8893A]/50 bg-[#B8893A]/[0.06] px-5 py-4">
+      <span className="font-mono text-[11px] tracking-[.08em] uppercase" style={{ color: GOLD }}>
+        Launch offer
+      </span>
+      <p className="text-sm">
+        <span className="font-medium">
+          {offer.percent}% off your first {offer.months} months
+        </span>
+        <span className="text-muted-foreground"> on every tier with code </span>
+        <code className="rounded-md border bg-background px-1.5 py-0.5 font-mono text-xs font-medium tracking-[.06em]">
+          {offer.code}
+        </code>
+        <span className="text-muted-foreground">. It&apos;s applied for you at checkout.</span>
+      </p>
+    </div>
+  )
 }
 
 /** The brass plaque under the frame, waiting for a name. */
@@ -272,8 +342,9 @@ function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
       target="_blank"
       rel="noreferrer sponsored"
       className={cn(
-        "flex flex-col items-center justify-center gap-2 rounded-2xl border bg-card px-6 text-center transition-colors hover:bg-accent",
-        size.height
+        "flex min-w-0 flex-col items-center justify-center gap-2 rounded-2xl border bg-card px-6 text-center transition-colors hover:bg-accent",
+        size.height,
+        size.width
       )}
     >
       {sponsor.logo ? (
@@ -301,21 +372,11 @@ function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) 
   )
 }
 
-function Stat({ value, label }: { value: string | number; label: string }) {
+function Stat({ value, label }: { value: React.ReactNode; label: string }) {
   return (
     <div className="flex flex-col-reverse px-1">
       <dt className="mt-3 font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">{label}</dt>
       <dd className="font-serif text-6xl leading-none tracking-[-0.02em] sm:text-7xl">{value}</dd>
-    </div>
-  )
-}
-
-function Step({ n, title, body }: { n: string; title: string; body: string }) {
-  return (
-    <div>
-      <p className="font-mono text-[11px] tracking-[.08em] text-muted-foreground">{n} —</p>
-      <h3 className="mt-2 font-serif text-3xl tracking-[-0.01em]">{title}</h3>
-      <p className="mt-1.5 text-sm text-muted-foreground">{body}</p>
     </div>
   )
 }

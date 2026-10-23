@@ -15,7 +15,6 @@ import {
 } from "@/lib/registry"
 import { cn } from "@/lib/utils"
 import { InstallCommand } from "@/components/copy-command"
-import { ItemCard } from "@/components/item-card"
 import { Hero } from "@/components/hero/hero"
 import { LiveTerminal } from "@/components/hero/live-terminal"
 import { CollectionCarousel } from "@/components/home/collection-carousel"
@@ -23,6 +22,7 @@ import { CountUp } from "@/components/home/count-up"
 import { Manifesto } from "@/components/home/manifesto"
 import { SponsorsBand } from "@/components/home/sponsors-band"
 import { StackSteps } from "@/components/home/stack-steps"
+import { Testimonials } from "@/components/home/testimonials"
 import { Eyebrow, PillLink } from "@/components/home-primitives"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
@@ -43,7 +43,7 @@ export default async function Home() {
 
       <div className="mx-auto w-full max-w-5xl px-4 pb-24 sm:px-8">
         {/* Stats */}
-        <dl className="grid grid-cols-2 gap-y-10 border-b py-14 sm:grid-cols-4">
+        <dl id="overview" className="scroll-mt-20 grid grid-cols-2 gap-y-10 border-b py-14 sm:grid-cols-4">
           <Stat value={skills.length} label={skills.length === 1 ? "Claude skill" : "Claude skills"} />
           <Stat value={components.length} label={components.length === 1 ? "Component" : "Components"} />
           <Stat value={totalFiles} label="Files you own" />
@@ -137,6 +137,8 @@ export default async function Home() {
           <SectionHeading eyebrow="In motion" title="The collection, in motion." />
           <CollectionCarousel />
         </section>
+
+        <SponsorsBand />
       </div>
 
       <Manifesto />
@@ -163,27 +165,6 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Collection */}
-        <section id="collection" className="scroll-mt-20 border-t py-20">
-          <SectionHeading eyebrow="The collection" title="Everything in the registry." />
-          {skills.length > 0 && (
-            <Group label="Claude skills" note="Install into .claude/skills/ and Claude Code picks them up">
-              {skills.map((item) => (
-                <ItemCard key={item.name} item={item} />
-              ))}
-            </Group>
-          )}
-          {components.length > 0 && (
-            <Group label="Components" note="Copy-in React and Tailwind code you own">
-              {components.map((item) => (
-                <ItemCard key={item.name} item={item} />
-              ))}
-            </Group>
-          )}
-        </section>
-
-        <SponsorsBand />
-
         {/* Closing call to action */}
         <section className="relative isolate mt-4 overflow-hidden rounded-3xl bg-[#111214] px-6 py-16 text-white ring-1 ring-white/10 sm:px-12 sm:py-20">
           <DataTexture />
@@ -206,6 +187,8 @@ export default async function Home() {
             </PillLink>
           </div>
         </section>
+
+        <Testimonials />
       </div>
     </div>
   )
@@ -249,18 +232,6 @@ function Step({ n, title, body, children }: { n: string; title: string; body: Re
         <p className="mt-1.5 text-sm text-muted-foreground">{body}</p>
       </div>
       {children}
-    </div>
-  )
-}
-
-function Group({ label, note, children }: { label: string; note: string; children: React.ReactNode }) {
-  return (
-    <div className="mt-12 first:mt-0">
-      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2 border-b pb-3">
-        <h3 className="font-serif text-2xl">{label}</h3>
-        <p className="font-mono text-[11px] text-muted-foreground">{note}</p>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
     </div>
   )
 }

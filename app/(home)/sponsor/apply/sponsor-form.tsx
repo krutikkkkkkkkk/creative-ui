@@ -2,42 +2,36 @@
 
 import { cloneElement, useActionState, useId, useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons"
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 
-import { TIERS, type Tier } from "@/lib/sponsors"
+import { TIERS, offerPrice, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
-import { GOLD, PillLink } from "@/components/home-primitives"
 
 import { submitSponsor, type ApplyState, type Field } from "./actions"
 
 const OFFER_MAX = 80
 
-export function SponsorForm({ defaultTier }: { defaultTier: Tier }) {
-  const [state, action, pending] = useActionState<ApplyState, FormData>(submitSponsor, { status: "idle" })
+/** Step one of sponsoring. A valid submit saves the details and redirects to Dodo checkout. */
+export function SponsorForm({
+  defaultTier,
+  initialValues,
+}: {
+  defaultTier: Tier
+  /** Details from an earlier attempt, when a payment didn't go through. */
+  initialValues?: Partial<Record<Field, string>>
+}) {
+  const [state, action, pending] = useActionState<ApplyState, FormData>(submitSponsor, {
+    status: "idle",
+    values: initialValues,
+  })
   /* Controlled so they survive the form reset after a failed submit. */
   const [tier, setTier] = useState<Tier>(defaultTier)
-  const [offer, setOffer] = useState("")
-
-  if (state.status === "success") {
-    return (
-      <div className="flex flex-col items-start gap-4 rounded-2xl border px-7 py-12 sm:px-10">
-        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-7" style={{ color: GOLD }} strokeWidth={2} />
-        <p className="font-serif text-4xl tracking-[-0.01em]">Details received.</p>
-        <p className="max-w-[46ch] text-muted-foreground">
-          Your logo goes up on the next deploy, once the GitHub sponsorship comes through. We&apos;ll email you if
-          anything needs changing.
-        </p>
-        <PillLink href="/sponsor" className="mt-2">
-          Back to the sponsor page
-        </PillLink>
-      </div>
-    )
-  }
+  const [offer, setOffer] = useState(initialValues?.offer ?? "")
 
   const v = state.values ?? {}
   const err = state.errors ?? {}
@@ -68,7 +62,7 @@ export function SponsorForm({ defaultTier }: { defaultTier: Tier }) {
                 <span className="font-serif text-2xl font-normal tracking-[-0.01em]">{label}</span>
               </span>
               <span className="font-mono text-[11px] font-normal tracking-[.08em] text-muted-foreground uppercase">
-                ${price}/mo
+                ${offerPrice(price)}/mo
               </span>
             </Label>
           ))}
@@ -95,8 +89,8 @@ export function SponsorForm({ defaultTier }: { defaultTier: Tier }) {
         </Field>
         {tier === "diamond" && (
           <Field
-            label="Offer"
-            hint="Shown under your logo in the docs sidebar and on the sponsor page."
+            label="Tagline or offer"
+            hint="Optional. Anything you like, shown under your logo in the docs sidebar and on the sponsor page. Leave it empty if you don't need one."
             field="offer"
             errors={err}
             aside={
@@ -122,14 +116,11 @@ export function SponsorForm({ defaultTier }: { defaultTier: Tier }) {
       </Group>
 
       <Group n="03" title="Who we talk to">
-        <Field label="GitHub username" hint="The account that sponsors, so we can match the payment." field="github" errors={err}>
-          <Input id="github" name="github" defaultValue={v.github} placeholder="acme-inc" autoComplete="username" />
-        </Field>
         <Row>
           <Field label="Contact name" field="contact" errors={err}>
             <Input id="contact" name="contact" defaultValue={v.contact} autoComplete="name" />
           </Field>
-          <Field label="Email" field="email" errors={err}>
+          <Field label="Email" hint="Checkout and receipts use this email." field="email" errors={err}>
             <Input id="email" name="email" type="email" defaultValue={v.email} autoComplete="email" />
           </Field>
         </Row>
@@ -144,13 +135,15 @@ export function SponsorForm({ defaultTier }: { defaultTier: Tier }) {
           disabled={pending}
           className="h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5"
         >
-          {pending ? "Sending…" : "Send details"}
+          {pending ? "Opening checkout…" : "Continue to payment"}
           <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
         </Button>
-        {state.status === "error" && state.message && (
+        {state.status === "error" && state.message ? (
           <p role="alert" className="text-sm text-destructive">
             {state.message}
           </p>
+        ) : (
+          <p className="text-xs text-muted-foreground">Next, pay securely with Dodo Payments.</p>
         )}
       </div>
     </form>

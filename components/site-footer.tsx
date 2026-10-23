@@ -2,7 +2,7 @@ import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowUpRight01Icon, FavouriteIcon, GithubIcon } from "@hugeicons/core-free-icons"
 
-import { GITHUB_URL, SITE_URL } from "@/lib/registry"
+import { COMPANY_NAME, COMPANY_URL, GITHUB_URL, SITE_URL } from "@/lib/registry"
 import { SPONSOR_URL } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -19,8 +19,8 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: "Docs", href: "/docs" },
       { label: "Installation", href: "/#installation" },
-      { label: "Components", href: "/#collection" },
-      { label: "Claude skills", href: "/#collection" },
+      { label: "Components", href: "/docs" },
+      { label: "Claude skills", href: "/docs" },
       { label: "registry.json", href: "/r/registry.json", external: true },
     ],
   },
@@ -38,6 +38,8 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
+      { label: "Sponsors", href: "/sponsor" },
+      { label: "Refunds & cancellation", href: "/refund-policy" },
       { label: "License", href: "/license" },
     ],
   },
@@ -64,13 +66,22 @@ export function SiteFooter({ className }: { className?: string }) {
               Timeless craft, <span className="text-muted-foreground italic">one command away.</span>
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Components and Claude skills by Krutik Raut, installable with the shadcn CLI.
+              Components and Claude skills by Krutik Raut at{" "}
+              <a
+                href={COMPANY_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-4 transition-colors hover:text-foreground"
+              >
+                {COMPANY_NAME}
+              </a>
+              , installable with the shadcn CLI.
             </p>
             <div className="mt-6 flex gap-2">
               <FooterIcon href={GITHUB_URL} label="GitHub">
                 <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
               </FooterIcon>
-              <FooterIcon href={SPONSOR_URL} label="Sponsor on GitHub">
+              <FooterIcon href={SPONSOR_URL} label="Sponsor creative-ui">
                 <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: GOLD }} strokeWidth={2} />
               </FooterIcon>
             </div>
@@ -95,7 +106,11 @@ export function SiteFooter({ className }: { className?: string }) {
 
         <div className="mt-14 flex flex-col gap-3 border-t py-6 font-mono text-[11px] tracking-[.04em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} Krutik Raut · MIT licensed ·{" "}
+            © {year} Krutik Raut · An{" "}
+            <a href={COMPANY_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">
+              {COMPANY_NAME}
+            </a>{" "}
+            project · MIT licensed ·{" "}
             <a href={SITE_URL} className="transition-colors hover:text-foreground">
               {SITE_URL.replace("https://", "")}
             </a>
@@ -139,7 +154,7 @@ function FooterLink({ link }: { link: FooterLink }) {
 function FooterIcon({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   return (
     <Button variant="outline" size="icon" className="rounded-full bg-background/60 shadow-none" asChild>
-      <a href={href} target="_blank" rel="noreferrer" aria-label={label}>
+      <a href={href} aria-label={label} {...(href.startsWith("/") ? {} : { target: "_blank", rel: "noreferrer" })}>
         {children}
       </a>
     </Button>

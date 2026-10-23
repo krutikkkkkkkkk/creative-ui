@@ -51,6 +51,19 @@ export default function ShapeTest() {
           </div>
         ))}
       </div>
+      <div className="mt-4 flex flex-wrap gap-4">
+        {(["none", "grain", "paper", "fiber", "tint"] as const).map((v) => (
+          <div key={v} className="relative h-40 w-52 overflow-hidden rounded-xl border border-white/10 bg-[#1a1714] p-4 text-[#f1ebe0]">
+            <p className="font-serif text-xl">Printed, not pixels.</p>
+            <p className="mt-1 text-xs opacity-70">{v} (dark)</p>
+            {v === "tint" ? (
+              <GrainOverlay variant="grain" color="#b08d4a" opacity={0.6} />
+            ) : v !== "none" ? (
+              <GrainOverlay variant={v} />
+            ) : null}
+          </div>
+        ))}
+      </div>
 
       <h2 className="mt-10 mb-3 font-mono text-xs">duotone-image: newsprint / cyanotype offset 6 / fluoro mix .6 / sepia / custom</h2>
       <div className="flex flex-wrap gap-4">

@@ -57,7 +57,7 @@ export function Hero({ items }: { items: ItemSummary[] }) {
           </p>
 
           <div className="cc-rise mt-8 flex flex-wrap justify-center gap-3" style={delay(540)}>
-            <PillLink href="#collection" variant="solid">
+            <PillLink href="/docs" variant="solid">
               <span className="size-1.5 rounded-full" style={{ backgroundColor: GOLD }} />
               Browse the registry
             </PillLink>
@@ -80,8 +80,8 @@ export function Hero({ items }: { items: ItemSummary[] }) {
           </div>
 
           <a
-            href="#collection"
-            aria-label="Scroll to the collection"
+            href="#overview"
+            aria-label="Scroll to the overview"
             className="cc-rise absolute right-4 bottom-8 hidden items-center gap-3 font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase transition-colors hover:text-foreground sm:right-8 sm:flex"
             style={delay(900)}
           >
