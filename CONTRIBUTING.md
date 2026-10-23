@@ -74,6 +74,9 @@ Re-run the same command to pull in updates from the skill repo.
 
 Commit both the files under `registry/skills/<name>/` and the `registry.json` change.
 
+To give an item a hero image, add `public/banners/<name>.png` (16:9, around 3200×1800). It is
+picked up automatically on the item page and used as the page's social preview image.
+
 ## Changing the site
 
 The site itself lives in `app/`, `components/` and `lib/`. A few conventions:

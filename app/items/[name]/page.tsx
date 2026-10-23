@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
@@ -13,6 +14,7 @@ import {
 } from "@hugeicons/core-free-icons"
 
 import {
+  bannerOf,
   displayTitle,
   getItem,
   getItems,
@@ -40,7 +42,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = await getItem((await params).name)
   if (!item) return {}
-  return { title: displayTitle(item), description: item.description }
+  const banner = await bannerOf(item.name)
+  return {
+    title: displayTitle(item),
+    description: item.description,
+    openGraph: banner ? { images: [{ url: banner, width: 3200, height: 1800 }] } : undefined,
+    twitter: banner ? { card: "summary_large_image", images: [banner] } : undefined,
+  }
 }
 
 export default async function ItemPage({ params }: Props) {
@@ -52,6 +60,7 @@ export default async function ItemPage({ params }: Props) {
   const isSkill = kind === "skill"
   const files = item.files ?? []
   const Preview = previews[item.name]
+  const banner = await bannerOf(item.name)
 
   const contents = await Promise.all(files.map(async (f) => ({ file: f, code: await readItemFile(f.path) })))
   const skillMd = isSkill ? contents.find((c) => c.file.path.endsWith("/SKILL.md"))?.code : null
@@ -59,6 +68,21 @@ export default async function ItemPage({ params }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pt-10 pb-24 sm:px-8">
+      {/* Banner */}
+      {banner && (
+        <div className="mb-10 overflow-hidden rounded-2xl border bg-muted/30 shadow-sm">
+          <Image
+            src={banner}
+            alt={`${displayTitle(item)} banner`}
+            width={3200}
+            height={1800}
+            priority
+            sizes="(min-width: 1024px) 896px, 100vw"
+            className="h-auto w-full"
+          />
+        </div>
+      )}
+
       {/* Title */}
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">

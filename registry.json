@@ -4,10 +4,70 @@
   "homepage": "https://ui.krutikraut.com",
   "items": [
     {
+      "name": "halftone-image",
+      "type": "registry:component",
+      "title": "Halftone Image",
+      "description": "Renders any image as a print-style dot, line or square halftone on a canvas, with controls for dot size, screen angle, ink colour, contrast and inversion. Exports drawHalftone for PNG export.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/halftone-image/halftone-image.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "grain-overlay",
+      "type": "registry:component",
+      "title": "Grain & Paper Overlay",
+      "description": "A lightweight, pointer-transparent film grain, paper or fibre texture you can drop on any section or fix over the whole page. SVG noise, optional tint and flicker, server-component safe.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/grain-overlay/grain-overlay.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "collage-frame",
+      "type": "registry:component",
+      "title": "Masked Collage Frame",
+      "description": "Image cut-outs as an arch, oval, torn paper or museum frame, with a tilt and an overlay slot for layering a modern UI card on top of a classical picture.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/collage-frame/collage-frame.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "duotone-image",
+      "type": "registry:component",
+      "title": "Duotone & Print Filter",
+      "description": "Two-ink colour treatment for photos in the spirit of risograph and screen prints: seven ink presets or any two colours, a mix slider and optional misregistration. Pure SVG filters.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/duotone-image/duotone-image.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "classical-collage-web-design",
       "type": "registry:item",
       "title": "Classical Collage Web Design (Claude skill)",
-      "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting \u00d7 modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
+      "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting × modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
       "files": [
         {
           "path": "registry/skills/classical-collage-web-design/SKILL.md",

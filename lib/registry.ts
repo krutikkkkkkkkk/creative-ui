@@ -84,3 +84,17 @@ export function skillIntro(skillMd: string) {
     .filter((p) => p && !p.startsWith("#") && !p.startsWith("|") && !p.startsWith("---"))
   return paragraphs[0]?.replace(/\*\*/g, "") ?? ""
 }
+
+/**
+ * Optional hero banner for an item: drop a `public/banners/<name>.png` and it
+ * appears on the item page and as its social preview image.
+ */
+export async function bannerOf(name: string) {
+  const rel = `/banners/${name}.png`
+  try {
+    await fs.access(path.join(process.cwd(), "public", rel))
+    return rel
+  } catch {
+    return null
+  }
+}
