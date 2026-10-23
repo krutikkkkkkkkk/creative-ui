@@ -46,10 +46,15 @@ Node 20+ is required. The site is Next.js 15 (App Router) with Tailwind v4 and s
      `registry:component`, `registry:ui`, `registry:hook`, `registry:lib`, `registry:block`,
      or `registry:page` (which also needs a `target`).
 
-3. Run `npm run registry:build` and check that `public/r/<name>.json` was generated.
-4. Open http://localhost:3000/items/<name> and confirm the page renders, the install command is right,
+3. Document it in `lib/docs/<name>.ts` and register it in `lib/docs/index.ts`. The page shows a usage
+   example, a props table (name, type, default, description), any helpers exported next to the
+   component, and notes on caveats such as browser support or sizing. Copy an existing file for the
+   shape; keep defaults and descriptions in sync with the component's props.
+4. Add a live demo in `components/demos/<name>-demo.tsx` and register it in `components/previews.tsx`.
+5. Run `npm run registry:build` and check that `public/r/<name>.json` was generated.
+6. Open http://localhost:3000/items/<name> and confirm the page renders, the install command is right,
    and the file list is complete.
-5. Test the install in a scratch project:
+7. Test the install in a scratch project:
 
    ```bash
    npx shadcn@latest add http://localhost:3000/r/<name>.json

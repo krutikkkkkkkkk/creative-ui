@@ -25,6 +25,7 @@ import {
   skillIntro,
   type RegistryFile,
 } from "@/lib/registry"
+import { docs as allDocs } from "@/lib/docs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -32,6 +33,7 @@ import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { previews } from "@/components/previews"
+import { InlineCode, PropsTable } from "@/components/props-table"
 
 type Props = { params: Promise<{ name: string }> }
 
@@ -60,6 +62,7 @@ export default async function ItemPage({ params }: Props) {
   const isSkill = kind === "skill"
   const files = item.files ?? []
   const Preview = previews[item.name]
+  const docs = isSkill ? undefined : allDocs[item.name]
   const banner = await bannerOf(item.name)
 
   const contents = await Promise.all(files.map(async (f) => ({ file: f, code: await readItemFile(f.path) })))
@@ -158,6 +161,50 @@ export default async function ItemPage({ params }: Props) {
             </TabsContent>
           </Tabs>
         </Section>
+      )}
+
+      {/* Reference docs for components */}
+      {docs && (
+        <>
+          <Section title="Usage">
+            <CodeBlock code={docs.usage} title="Example.tsx" />
+          </Section>
+
+          <Section title="Props" aside={docs.api.length > 1 ? `${docs.api.length} components` : undefined}>
+            <div className="flex flex-col gap-10">
+              {docs.api.map((api) => (
+                <PropsTable key={api.name} api={api} showName={docs.api.length > 1} />
+              ))}
+            </div>
+          </Section>
+
+          {Boolean(docs.exports?.length) && (
+            <Section title="Also exported">
+              <dl className="flex flex-col gap-4">
+                {docs.exports!.map((e) => (
+                  <div key={e.signature} className="flex flex-col gap-1">
+                    <dt className="font-mono text-[13px]">{e.signature}</dt>
+                    <dd className="text-sm leading-relaxed text-muted-foreground">
+                      <InlineCode text={e.description} />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Section>
+          )}
+
+          {Boolean(docs.notes?.length) && (
+            <Section title="Notes">
+              <ul className="flex list-disc flex-col gap-2 pl-5 text-sm leading-relaxed text-muted-foreground marker:text-border">
+                {docs.notes!.map((n) => (
+                  <li key={n}>
+                    <InlineCode text={n} />
+                  </li>
+                ))}
+              </ul>
+            </Section>
+          )}
+        </>
       )}
 
       {/* Skill contents */}

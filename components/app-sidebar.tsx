@@ -17,6 +17,7 @@ import {
 
 import type { ItemSummary } from "@/lib/registry"
 import { Kbd } from "@/components/ui/kbd"
+import { SponsorsCard } from "@/components/sponsors-card"
 import {
   Sidebar,
   SidebarContent,
@@ -107,7 +108,7 @@ export function AppSidebar({
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="no-scrollbar">
         {!q && (
           <SidebarGroup>
             <SidebarGroupLabel>Getting started</SidebarGroupLabel>
@@ -141,6 +142,12 @@ export function AppSidebar({
           <p className="px-4 py-6 text-center text-sm text-muted-foreground">
             Nothing matches “{query}”.
           </p>
+        )}
+
+        {!q && (
+          <SidebarGroup className="mt-auto group-data-[collapsible=icon]:hidden">
+            <SponsorsCard />
+          </SidebarGroup>
         )}
       </SidebarContent>
 

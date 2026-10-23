@@ -154,6 +154,15 @@
   }
 }
 
+/* Hide the scrollbar but keep the element scrollable */
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Classical Collage motion: slow, weighty rise and float (home page) */
 @keyframes cc-rise {
   from {
