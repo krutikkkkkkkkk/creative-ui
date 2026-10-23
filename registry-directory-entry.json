@@ -1,0 +1,8 @@
+{
+  "name": "@creative-ui",
+  "homepage": "https://ui.krutikraut.com",
+  "url": "https://ui.krutikraut.com/r/{name}.json",
+  "description": "Creative components and Claude Code skills by Krutik Raut. Install UI blocks or drop a full design skill into .claude/skills with one shadcn command.",
+  "author": "Krutik Raut",
+  "logo": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='var(--foreground)'/><text x='15' y='22' text-anchor='middle' font-family='Georgia, ui-serif, serif' font-style='italic' font-size='20' fill='var(--background)'>c</text><circle cx='25' cy='25' r='2.5' fill='#fbbf24'/></svg>"
+}

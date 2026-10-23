@@ -72,5 +72,19 @@ Or with a namespace. Add this to the project's `components.json`:
 
 then `npx shadcn@latest add @creative-ui/hello-world`.
 
-To work without that config line, submit the registry to the public directory:
-https://ui.shadcn.com/docs/registry/registry-index
+## Registry directory
+
+Being listed at https://ui.shadcn.com/r/registries.json lets anyone run
+`npx shadcn@latest add @creative-ui/<item>` with no `components.json` config. The entry to submit
+is kept in [`registry-directory-entry.json`](registry-directory-entry.json).
+
+To submit or update it:
+
+1. Fork https://github.com/shadcn-ui/ui and add the entry to `apps/v4/registry/directory.json`
+   (alphabetical by name).
+2. In `apps/v4`, run `pnpm validate:registries`.
+3. Open a pull request. Once merged, the registry is live immediately.
+
+Requirements (https://ui.shadcn.com/docs/registry/registry-index): open source, public,
+flat `/r/registry.json` + `/r/<name>.json`, and no `content` in the index's `files` array.
+`shadcn build` already produces output that satisfies this.
