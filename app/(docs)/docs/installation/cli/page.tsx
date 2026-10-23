@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 
-import { getSummaries, installUrl, NAMESPACE, SITE_URL } from "@/lib/registry"
-import { CodeBlock } from "@/components/code-block"
+import { getSummaries, installName, installUrl, NAMESPACE } from "@/lib/registry"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 
@@ -14,12 +13,6 @@ export default async function CliPage() {
   const items = await getSummaries()
   const first = items.find((i) => i.kind === "skill") ?? items[0]
   const name = first?.name ?? "<name>"
-
-  const registriesSnippet = `{
-  "registries": {
-    "${NAMESPACE}": "${SITE_URL}/r/{name}.json"
-  }
-}`
 
   return (
     <DocPage
@@ -40,20 +33,24 @@ export default async function CliPage() {
           >
             <InstallCommand command="shadcn@latest init" />
           </Step>
-          <Step n="2" title="Install by URL" body="Works in any project that has shadcn set up. No extra config.">
-            <InstallCommand target={installUrl(name)} />
-          </Step>
           <Step
-            n="3"
-            title="Or add the namespace"
+            n="2"
+            title="Install by name"
             body={
               <>
-                Add this to <Code>components.json</Code> once, then install with <Code>{NAMESPACE}/name</Code>.
+                <Code>{NAMESPACE}</Code> is listed in the shadcn registry directory, so the CLI finds it with no extra
+                config.
               </>
             }
           >
-            <CodeBlock code={registriesSnippet} title="components.json" />
-            <InstallCommand target={`${NAMESPACE}/${name}`} />
+            <InstallCommand target={installName(name)} />
+          </Step>
+          <Step
+            n="3"
+            title="Or install by URL"
+            body={`For older versions of the shadcn CLI that don't recognise the ${NAMESPACE} name.`}
+          >
+            <InstallCommand target={installUrl(name)} />
           </Step>
         </div>
       </Section>

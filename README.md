@@ -42,7 +42,7 @@ The script copies the repo (minus README and .git) into `registry/skills/<name>/
 writes the item into `registry.json`. People install it with:
 
 ```bash
-npx shadcn@latest add https://ui.krutikraut.com/r/classical-collage-web-design.json
+npx shadcn@latest add @creative-ui/classical-collage-web-design
 ```
 
 ## Deploy (Vercel)
@@ -55,29 +55,26 @@ npx shadcn@latest add https://ui.krutikraut.com/r/classical-collage-web-design.j
 
 ## Install from it
 
-Direct URL:
+`@creative-ui` is in the shadcn registry directory, so it works with no config:
+
+```bash
+npx shadcn@latest add @creative-ui/classical-collage-web-design
+```
+
+On an older shadcn CLI, use the direct URL:
 
 ```bash
 npx shadcn@latest add https://ui.krutikraut.com/r/classical-collage-web-design.json
 ```
 
-Or with a namespace. Add this to the project's `components.json`:
-
-```json
-"registries": {
-  "@creative-ui": "https://ui.krutikraut.com/r/{name}.json"
-}
-```
-
-then `npx shadcn@latest add @creative-ui/classical-collage-web-design`.
-
 ## Registry directory
 
-Being listed at https://ui.shadcn.com/r/registries.json lets anyone run
-`npx shadcn@latest add @creative-ui/<item>` with no `components.json` config. The entry to submit
+`@creative-ui` is listed at https://ui.shadcn.com/r/registries.json (added in
+[shadcn-ui/ui#12456](https://github.com/shadcn-ui/ui/pull/12456)), which is what lets anyone run
+`npx shadcn@latest add @creative-ui/<item>` with no `components.json` config. The submitted entry
 is kept in [`registry-directory-entry.json`](registry-directory-entry.json).
 
-To submit or update it:
+To update it:
 
 1. Fork https://github.com/shadcn-ui/ui and add the entry to `apps/v4/registry/directory.json`
    (alphabetical by name).

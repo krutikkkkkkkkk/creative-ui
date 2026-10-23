@@ -18,9 +18,9 @@ import {
   displayTitle,
   getItem,
   getItems,
+  installName,
   installUrl,
   kindOf,
-  NAMESPACE,
   readItemFile,
   skillIntro,
   type RegistryFile,
@@ -120,11 +120,11 @@ export default async function ItemPage({ params }: Props) {
 
       {/* Install */}
       <Section title="Installation">
-        <InstallCommand target={installUrl(item.name)} />
+        <InstallCommand target={installName(item.name)} />
         <p className="mt-3 text-sm text-muted-foreground">
-          With the namespace set up:{" "}
+          On an older shadcn CLI, use the URL:{" "}
           <Code>
-            npx shadcn@latest add {NAMESPACE}/{item.name}
+            npx shadcn@latest add {installUrl(item.name)}
           </Code>
           {isSkill && (
             <>

@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 import Link from "next/link"
 
-import { getSummaries, installUrl } from "@/lib/registry"
+import { getSummaries, installName } from "@/lib/registry"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, Section } from "@/components/docs-prose"
 import { ItemCard } from "@/components/item-card"
@@ -30,9 +30,9 @@ export default async function DocsPage() {
 
       <Section id="installation" title="Installation">
         <p className="mb-4 text-sm text-muted-foreground">
-          Already have a Next.js project with Tailwind and shadcn? Add any item straight from its URL.
+          Already have a Next.js project with Tailwind and shadcn? Add any item by name. No extra config.
         </p>
-        <InstallCommand target={installUrl(first?.name ?? "<name>")} />
+        <InstallCommand target={installName(first?.name ?? "<name>")} />
         <p className="mt-6 text-sm text-muted-foreground">
           Starting from scratch? Follow the Get started pages in order:{" "}
           <Link href="/docs/installation/next" className="font-medium text-foreground underline underline-offset-4">

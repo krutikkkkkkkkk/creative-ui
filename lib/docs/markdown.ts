@@ -1,4 +1,4 @@
-import { displayTitle, installUrl, kindOf, NAMESPACE, readItemFile, SITE_URL, type RegistryItem } from "@/lib/registry"
+import { displayTitle, installName, installUrl, kindOf, readItemFile, SITE_URL, type RegistryItem } from "@/lib/registry"
 import { docs as allDocs } from "@/lib/docs"
 
 /**
@@ -16,8 +16,8 @@ export async function itemMarkdown(item: RegistryItem) {
   out.push(`${isSkill ? "Claude skill" : "React component"} from Creative UI. Docs: ${SITE_URL}/docs/${item.name}`)
 
   out.push("## Installation")
-  out.push(fence(`npx shadcn@latest add ${installUrl(item.name)}`, "bash"))
-  out.push(`With the namespace set up: \`npx shadcn@latest add ${NAMESPACE}/${item.name}\``)
+  out.push(fence(`npx shadcn@latest add ${installName(item.name)}`, "bash"))
+  out.push(`On an older shadcn CLI, use the URL: \`npx shadcn@latest add ${installUrl(item.name)}\``)
   if (isSkill) out.push(`Files go into \`.claude/skills/${item.name}/\`.`)
 
   if (item.dependencies?.length || item.registryDependencies?.length) {

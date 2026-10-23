@@ -75,6 +75,12 @@ export async function readItemFile(filePath: string) {
   }
 }
 
+/** `@creative-ui/<name>`. Resolves with no config because the namespace is in the shadcn registry directory. */
+export function installName(name: string) {
+  return `${NAMESPACE}/${name}`
+}
+
+/** Full JSON URL, for shadcn CLI versions that don't know the namespace. */
 export function installUrl(name: string) {
   return `${SITE_URL}/r/${name}.json`
 }

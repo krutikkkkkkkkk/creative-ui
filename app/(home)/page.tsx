@@ -3,9 +3,17 @@ import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, GithubIcon } from "@hugeicons/core-free-icons"
 
-import { GITHUB_URL, NAMESPACE, SITE_URL, getItem, getSummaries, readItemFile, skillIntro } from "@/lib/registry"
+import {
+  GITHUB_URL,
+  NAMESPACE,
+  getItem,
+  getSummaries,
+  installName,
+  installUrl,
+  readItemFile,
+  skillIntro,
+} from "@/lib/registry"
 import { cn } from "@/lib/utils"
-import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { ItemCard } from "@/components/item-card"
 import { Hero } from "@/components/hero/hero"
@@ -28,12 +36,6 @@ export default async function Home() {
   const first = skills[0] ?? components[0]
   const featured = skills[0] ? await getFeaturedSkill(skills[0].name) : null
   const totalFiles = items.reduce((n, i) => n + i.fileCount, 0)
-
-  const registriesSnippet = `{
-  "registries": {
-    "${NAMESPACE}": "${SITE_URL}/r/{name}.json"
-  }
-}`
 
   return (
     <div className="relative w-full overflow-x-clip">
@@ -80,7 +82,7 @@ export default async function Home() {
               <p className="mt-6 max-w-[52ch] leading-relaxed text-pretty text-muted-foreground">
                 <span className="text-foreground">{featured.title}.</span> {featured.intro}
               </p>
-              <InstallCommand target={`${SITE_URL}/r/${featured.name}.json`} className="mt-8" />
+              <InstallCommand target={installName(featured.name)} className="mt-8" />
               <Link
                 href={`/docs/${featured.name}`}
                 className="group mt-6 inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
@@ -144,19 +146,19 @@ export default async function Home() {
         <section id="installation" className="scroll-mt-20 py-20">
           <SectionHeading eyebrow="Installation" title="Two ways in." />
           <div className="grid gap-10 lg:grid-cols-2">
-            <Step n="01" title="Install by URL" body="Works in any project. No setup needed.">
-              <InstallCommand target={`${SITE_URL}/r/${first?.name ?? "<name>"}.json`} />
-            </Step>
             <Step
-              n="02"
-              title="Or add the namespace"
+              n="01"
+              title="Install by name"
               body={
                 <>
-                  Add this to <Code>components.json</Code>, then install with <Code>{NAMESPACE}/name</Code>.
+                  <Code>{NAMESPACE}</Code> is in the shadcn registry directory. Works in any project, no setup needed.
                 </>
               }
             >
-              <CodeBlock code={registriesSnippet} title="components.json" />
+              <InstallCommand target={installName(first?.name ?? "<name>")} />
+            </Step>
+            <Step n="02" title="Or install by URL" body="For older versions of the shadcn CLI.">
+              <InstallCommand target={installUrl(first?.name ?? "<name>")} />
             </Step>
           </div>
         </section>

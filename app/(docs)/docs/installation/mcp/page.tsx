@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 
-import { getSummaries, NAMESPACE, SITE_URL } from "@/lib/registry"
-import { CodeBlock } from "@/components/code-block"
+import { getSummaries, NAMESPACE } from "@/lib/registry"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -24,12 +24,6 @@ export default async function McpPage() {
   const component = items.find((i) => i.kind === "component")
   const skill = items.find((i) => i.kind === "skill")
 
-  const registriesSnippet = `{
-  "registries": {
-    "${NAMESPACE}": "${SITE_URL}/r/{name}.json"
-  }
-}`
-
   const prompts = [
     `Show me everything in the ${NAMESPACE} registry`,
     component && `Add the ${component.title} component from ${NAMESPACE}`,
@@ -46,21 +40,22 @@ export default async function McpPage() {
         <div className="flex flex-col gap-8">
           <Step
             n="1"
-            title="Add the registry"
+            title="Add the MCP server"
             body={
               <>
-                Add the creative-ui namespace to your project&apos;s <Code>components.json</Code>. This is the same entry
-                the CLI page uses, so skip it if you already have it.
+                Run this in a project that has a <Code>components.json</Code> (see{" "}
+                <Link href="/docs/installation/cli" className="font-medium text-foreground underline underline-offset-4">
+                  CLI
+                </Link>
+                ) and pick your assistant when asked. <Code>{NAMESPACE}</Code> is in the shadcn registry directory, so
+                there&apos;s nothing to add to the config.
               </>
             }
           >
-            <CodeBlock code={registriesSnippet} title="components.json" />
-          </Step>
-          <Step n="2" title="Add the MCP server" body="Run this in your project root and pick your assistant when asked.">
             <InstallCommand command="shadcn@latest mcp init" />
           </Step>
           <Step
-            n="3"
+            n="2"
             title="Or set up a specific client"
             body="Skip the prompt by naming the client. Restart the assistant afterwards so it loads the server."
           >
@@ -84,7 +79,9 @@ export default async function McpPage() {
 
       <Section title="Try it">
         <Note className="mb-4 text-sm text-muted-foreground">
-          Once the server is connected, ask your assistant things like:
+          Once the server is connected, ask your assistant things like the prompts below. Name{" "}
+          <Code>{NAMESPACE}</Code> in the request: on its own, the assistant only searches the registries listed in{" "}
+          <Code>components.json</Code>.
         </Note>
         <ul className="flex flex-col gap-2">
           {prompts.map((p) => (
