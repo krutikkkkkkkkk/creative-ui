@@ -145,7 +145,7 @@ export function AppSidebar({
         )}
 
         {!q && (
-          <SidebarGroup className="mt-auto group-data-[collapsible=icon]:hidden">
+          <SidebarGroup className="mt-auto group-data-[collapsible=icon]:hidden xl:hidden">
             <SponsorsCard />
           </SidebarGroup>
         )}
