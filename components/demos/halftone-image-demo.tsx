@@ -3,14 +3,15 @@
 import * as React from "react"
 import { useTheme } from "next-themes"
 
+import { demoImages } from "@/lib/demo-images"
 import { HalftoneImage, type HalftoneShape } from "@/registry/new-york/blocks/halftone-image/halftone-image"
 import { Choice, DemoControls, DemoPanel, DemoStage, Range, Swatches, Toggle } from "./controls"
 
 const images = [
-  { value: "/demo/bust.jpg", label: "Bust" },
-  { value: "/demo/portrait.jpg", label: "Portrait" },
-  { value: "/demo/painting.jpg", label: "Painting" },
-] as const
+  { value: demoImages.statue.src, label: "Statue" },
+  { value: demoImages.portrait.src, label: "Portrait" },
+  { value: demoImages.pastoral.src, label: "Painting" },
+]
 
 const inks = [
   { value: "currentColor", label: "Foreground" },

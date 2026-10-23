@@ -7,8 +7,8 @@ import { DuotoneImage } from "@/components/duotone-image"
 export function Cover() {
   return (
     <DuotoneImage
-      src="/portrait.jpg"
-      alt="Portrait"
+      src="https://images.unsplash.com/photo-1577720643272-265f09367456?w=900&q=80&auto=format&fit=crop"
+      alt="Woman carrying a water jar"
       preset="riso"
       offset={3}
       className="aspect-square w-72 rounded-xl"

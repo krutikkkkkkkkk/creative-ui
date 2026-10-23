@@ -6,8 +6,8 @@ export const collageFrame: ItemDocs = {
 export function Feature() {
   return (
     <CollageFrame
-      src="/venus.jpg"
-      alt="The Birth of Venus"
+      src="https://images.unsplash.com/photo-1576773689115-5cd2b0223523?w=900&q=80&auto=format&fit=crop"
+      alt="Pre-Raphaelite painting"
       shape="arch"
       tilt={-3}
       className="aspect-[3/4] w-72"

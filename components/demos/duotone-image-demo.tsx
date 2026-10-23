@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { demoImages } from "@/lib/demo-images"
 import {
   DuotoneImage,
   duotonePresets,
@@ -24,8 +25,8 @@ export function DuotoneImageDemo() {
     <DemoPanel>
       <DemoStage>
         <DuotoneImage
-          src="/demo/venus.jpg"
-          alt="The Birth of Venus, Sandro Botticelli"
+          src={demoImages.lakeside.src}
+          alt={demoImages.lakeside.alt}
           preset={preset}
           mix={mix}
           offset={offset}

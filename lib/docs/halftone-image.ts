@@ -6,8 +6,8 @@ export const halftoneImage: ItemDocs = {
 export function Hero() {
   return (
     <HalftoneImage
-      src="/bust.jpg"
-      alt="Marble bust"
+      src="https://images.unsplash.com/photo-1566054757965-8c4085344c96?w=900&q=80&auto=format&fit=crop"
+      alt="Marble statue"
       dotSize={6}
       angle={45}
       color="#1d3fb0"

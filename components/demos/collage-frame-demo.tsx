@@ -7,6 +7,7 @@ import {
   CollageFrameOverlay,
   type CollageShape,
 } from "@/registry/new-york/blocks/collage-frame/collage-frame"
+import { demoImages } from "@/lib/demo-images"
 import { Choice, DemoControls, DemoPanel, DemoStage, Range, Toggle } from "./controls"
 
 export function CollageFrameDemo() {
@@ -19,8 +20,8 @@ export function CollageFrameDemo() {
     <DemoPanel>
       <DemoStage className="py-6">
         <CollageFrame
-          src="/demo/portrait.jpg"
-          alt="Girl with a Pearl Earring, Johannes Vermeer"
+          src={demoImages.portrait.src}
+          alt={demoImages.portrait.alt}
           shape={shape}
           tilt={tilt}
           roughness={roughness}
@@ -33,8 +34,8 @@ export function CollageFrameDemo() {
                 <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Lot 17</span>
                 <span className="size-1.5 rounded-full bg-emerald-500" />
               </div>
-              <p className="mt-1.5 font-serif text-lg leading-none">Vermeer, c. 1665</p>
-              <p className="mt-2 text-xs text-muted-foreground">Oil on canvas · Mauritshuis</p>
+              <p className="mt-1.5 font-serif text-lg leading-none">Pre-Raphaelite school</p>
+              <p className="mt-2 text-xs text-muted-foreground">Oil painting · 19th century</p>
               <div className="mt-3 flex items-baseline justify-between">
                 <span className="text-xs text-muted-foreground">Est.</span>
                 <span className="font-mono text-sm tabular-nums">€ 42.0M</span>

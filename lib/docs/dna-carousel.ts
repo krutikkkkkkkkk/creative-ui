@@ -4,9 +4,9 @@ export const dnaCarousel: ItemDocs = {
   usage: `import { DnaCarousel } from "@/components/dna-carousel"
 
 const images = [
-  { src: "/venus.jpg", alt: "The Birth of Venus" },
-  { src: "/bust.jpg", alt: "Marble bust" },
-  { src: "/painting.jpg", alt: "Classical painting" },
+  { src: "https://images.unsplash.com/photo-1566054757965-8c4085344c96?w=600&q=80&auto=format&fit=crop", alt: "Marble statue" },
+  { src: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80&auto=format&fit=crop", alt: "Floral still life" },
+  { src: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&q=80&auto=format&fit=crop", alt: "Pastoral landscape" },
 ]
 
 export function Gallery() {
@@ -45,10 +45,10 @@ export function Gallery() {
         {
           name: "rgbSplit",
           type: "number",
-          default: "1.5",
-          description: "Chromatic-aberration offset in px. Grows with distance and scroll speed.",
+          default: "0",
+          description: "Chromatic-aberration offset in px, off by default. Grows with distance and scroll speed.",
         },
-        { name: "inactiveOpacity", type: "number", default: "0.5", description: "Opacity of cards away from the centre, 0 to 1." },
+        { name: "inactiveOpacity", type: "number", default: "0.8", description: "Opacity of cards away from the centre, 0 to 1." },
         { name: "shadow", type: "boolean", default: "true", description: "Drop shadow under each card." },
         { name: "shadowStrength", type: "number", default: "0.35", description: "Shadow opacity, 0 to 1." },
         { name: "dragSensitivity", type: "number", default: "1", description: "Multiplier on drag distance. Higher moves more cards per swipe." },
@@ -58,7 +58,7 @@ export function Gallery() {
           default: "0.93",
           description: "Momentum kept per frame after a flick, 0 to 1. Higher coasts longer.",
         },
-        { name: "snapStrength", type: "number", default: "0.14", description: "How quickly cards settle into place, 0 to 1." },
+        { name: "snapStrength", type: "number", default: "0.08", description: "How quickly cards settle into place, 0 to 1." },
         {
           name: "autoplay",
           type: "boolean",
@@ -68,7 +68,7 @@ export function Gallery() {
         {
           name: "autoplaySpeed",
           type: "number",
-          default: "0.35",
+          default: "0.15",
           description: "Autoplay speed in cards per second. Negative values run backwards.",
         },
         { name: "pauseOnHover", type: "boolean", default: "true", description: "Pause autoplay while a mouse is over the carousel." },

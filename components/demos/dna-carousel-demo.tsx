@@ -2,15 +2,11 @@
 
 import * as React from "react"
 
+import { demoImages } from "@/lib/demo-images"
 import { DnaCarousel } from "@/registry/new-york/blocks/dna-carousel/dna-carousel"
 import { DemoControls, DemoPanel, DemoStage, Range, Toggle } from "./controls"
 
-const images = [
-  { src: "/demo/venus.jpg", alt: "The Birth of Venus" },
-  { src: "/demo/bust.jpg", alt: "Marble bust" },
-  { src: "/demo/painting.jpg", alt: "Classical painting" },
-  { src: "/demo/portrait.jpg", alt: "Portrait" },
-]
+const images = Object.values(demoImages)
 
 export function DnaCarouselDemo() {
   const [depth, setDepth] = React.useState(260)
@@ -19,7 +15,9 @@ export function DnaCarouselDemo() {
   const [rotation, setRotation] = React.useState(22)
   const [tilt, setTilt] = React.useState(-6)
   const [blur, setBlur] = React.useState(1.5)
-  const [rgbSplit, setRgbSplit] = React.useState(1.5)
+  const [rgbSplit, setRgbSplit] = React.useState(0)
+  const [opacity, setOpacity] = React.useState(0.8)
+  const [speed, setSpeed] = React.useState(0.15)
   const [autoplay, setAutoplay] = React.useState(true)
   const [index, setIndex] = React.useState(0)
 
@@ -36,7 +34,9 @@ export function DnaCarouselDemo() {
           tilt={tilt}
           blur={blur}
           rgbSplit={rgbSplit}
+          inactiveOpacity={opacity}
           autoplay={autoplay}
+          autoplaySpeed={speed}
           onIndexChange={setIndex}
           className="h-[420px] w-full rounded-xl"
         />
@@ -52,6 +52,8 @@ export function DnaCarouselDemo() {
         <Range label="Tilt" value={tilt} onChange={setTilt} min={-30} max={30} format={(v) => `${v}°`} />
         <Range label="Blur" value={blur} onChange={setBlur} min={0} max={6} step={0.5} format={(v) => `${v}px`} />
         <Range label="RGB split" value={rgbSplit} onChange={setRgbSplit} min={0} max={6} step={0.5} format={(v) => `${v}px`} />
+        <Range label="Side opacity" value={opacity} onChange={setOpacity} min={0} max={1} step={0.05} format={(v) => v.toFixed(2)} />
+        <Range label="Speed" value={speed} onChange={setSpeed} min={0.05} max={1} step={0.05} format={(v) => `${v.toFixed(2)}/s`} />
         <Toggle label="Autoplay" checked={autoplay} onChange={setAutoplay} />
       </DemoControls>
     </DemoPanel>
