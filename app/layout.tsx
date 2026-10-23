@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/next"
 
 import { SITE_URL } from "@/lib/registry"
 import { ThemeProvider } from "@/components/theme-provider"
-// @ts-expect-error Next.js resolves global CSS imports at build time.
 import "./globals.css"
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] })
