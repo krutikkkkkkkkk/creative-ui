@@ -1,8 +1,10 @@
 import { collageFrame } from "./collage-frame"
+import { ditheringHover } from "./dithering-hover"
 import { dnaCarousel } from "./dna-carousel"
 import { duotoneImage } from "./duotone-image"
 import { grainOverlay } from "./grain-overlay"
 import { halftoneImage } from "./halftone-image"
+import { rotundaCarousel } from "./rotunda-carousel"
 import type { ItemDocs } from "./types"
 
 export type { ComponentApi, ExportDoc, ItemDocs, PropDoc } from "./types"
@@ -17,4 +19,6 @@ export const docs: Record<string, ItemDocs> = {
   "collage-frame": collageFrame,
   "duotone-image": duotoneImage,
   "dna-carousel": dnaCarousel,
+  "dithering-hover": ditheringHover,
+  "rotunda-carousel": rotundaCarousel,
 }

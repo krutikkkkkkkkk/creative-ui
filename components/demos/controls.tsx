@@ -3,9 +3,13 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
-/** Small, dependency-free controls for the component previews. */
+/** Small controls for the component previews, built on shadcn primitives. */
 
 export function DemoPanel({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -20,16 +24,19 @@ export function DemoPanel({ className, ...props }: React.ComponentProps<"div">) 
 }
 
 export function DemoControls({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      className={cn("flex w-full shrink-0 flex-col gap-4 rounded-xl border bg-card p-4 sm:w-56", className)}
-      {...props}
-    />
-  )
+  return <Card className={cn("w-full shrink-0 gap-4 p-4 shadow-none sm:w-56", className)} {...props} />
 }
 
 export function DemoStage({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("flex min-w-0 flex-1 items-center justify-center", className)} {...props} />
+}
+
+function ControlLabel({ children, ...props }: React.ComponentProps<typeof Label>) {
+  return (
+    <Label className="justify-between text-xs font-normal text-muted-foreground" {...props}>
+      {children}
+    </Label>
+  )
 }
 
 export function Range({
@@ -49,24 +56,23 @@ export function Range({
   step?: number
   format?: (v: number) => string
 }) {
-  const id = React.useId()
   return (
-    <label htmlFor={id} className="flex flex-col gap-1.5 text-xs">
-      <span className="flex items-center justify-between text-muted-foreground">
-        {label}
-        <span className="font-mono text-foreground tabular-nums">{format(value)}</span>
-      </span>
-      <input
-        id={id}
-        type="range"
+    <div className="flex flex-col gap-2.5">
+      <ControlLabel asChild>
+        <span>
+          {label}
+          <span className="font-mono text-foreground tabular-nums">{format(value)}</span>
+        </span>
+      </ControlLabel>
+      <Slider
+        aria-label={label}
         min={min}
         max={max}
         step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-foreground"
+        value={[value]}
+        onValueChange={([v]) => onChange(v)}
       />
-    </label>
+    </div>
   )
 }
 
@@ -81,23 +87,33 @@ export function Choice<T extends string>({
   options: readonly { value: T; label: string }[]
   onChange: (v: T) => void
 }) {
+  const id = React.useId()
   return (
-    <div className="flex flex-col gap-1.5 text-xs">
-      <span className="text-muted-foreground">{label}</span>
-      <div className="flex flex-wrap gap-1">
+    <div className="flex flex-col gap-1.5">
+      <ControlLabel id={id} asChild>
+        <span>{label}</span>
+      </ControlLabel>
+      <ToggleGroup
+        type="single"
+        variant="outline"
+        size="sm"
+        spacing={1}
+        aria-labelledby={id}
+        value={value}
+        // Radix lets a single group deselect; keep one option always picked.
+        onValueChange={(v) => v && onChange(v as T)}
+        className="flex-wrap"
+      >
         {options.map((o) => (
-          <Button
+          <ToggleGroupItem
             key={o.value}
-            type="button"
-            size="xs"
-            variant={o.value === value ? "default" : "outline"}
-            aria-pressed={o.value === value}
-            onClick={() => onChange(o.value)}
+            value={o.value}
+            className="h-6 min-w-0 px-2 text-xs data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
           >
             {o.label}
-          </Button>
+          </ToggleGroupItem>
         ))}
-      </div>
+      </ToggleGroup>
     </div>
   )
 }
@@ -113,26 +129,31 @@ export function Swatches({
   options: readonly { value: string; label: string }[]
   onChange: (v: string) => void
 }) {
+  const id = React.useId()
   return (
-    <div className="flex flex-col gap-1.5 text-xs">
-      <span className="text-muted-foreground">{label}</span>
-      <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-col gap-1.5">
+      <ControlLabel id={id} asChild>
+        <span>{label}</span>
+      </ControlLabel>
+      <ToggleGroup
+        type="single"
+        spacing={1.5}
+        aria-labelledby={id}
+        value={value}
+        onValueChange={(v) => v && onChange(v)}
+        className="flex-wrap"
+      >
         {options.map((o) => (
-          <button
+          <ToggleGroupItem
             key={o.value}
-            type="button"
+            value={o.value}
             title={o.label}
             aria-label={o.label}
-            aria-pressed={o.value === value}
-            onClick={() => onChange(o.value)}
-            className={cn(
-              "size-6 rounded-full border transition-shadow",
-              o.value === value && "ring-2 ring-ring ring-offset-2 ring-offset-background"
-            )}
+            className="size-6 min-w-0 rounded-full border p-0 transition-shadow hover:bg-transparent data-[state=on]:bg-transparent data-[state=on]:ring-2 data-[state=on]:ring-ring data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
             style={{ background: o.value }}
           />
         ))}
-      </div>
+      </ToggleGroup>
     </div>
   )
 }
@@ -146,15 +167,11 @@ export function Toggle({
   checked: boolean
   onChange: (v: boolean) => void
 }) {
+  const id = React.useId()
   return (
-    <label className="flex cursor-pointer items-center justify-between gap-3 text-xs text-muted-foreground">
-      {label}
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="size-3.5 accent-foreground"
-      />
-    </label>
+    <div className="flex items-center justify-between gap-3">
+      <ControlLabel htmlFor={id}>{label}</ControlLabel>
+      <Switch id={id} size="sm" checked={checked} onCheckedChange={onChange} />
+    </div>
   )
 }

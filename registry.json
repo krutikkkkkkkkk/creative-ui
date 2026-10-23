@@ -232,6 +232,96 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "dithering-hover",
+      "type": "registry:component",
+      "title": "Dithering Hover",
+      "description": "Any image turns into a black-and-white Bayer dither under the cursor. The dithered zone follows the pointer with a ragged rim and radial streaks that break up and fade, rendered live on a canvas. Controls for zone size, dot size, matrix, inks, roughness and an inverted mode. Exports drawDither for static renders.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/dithering-hover/dithering-hover.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rotunda-carousel",
+      "type": "registry:component",
+      "title": "Rotunda Carousel",
+      "description": "Square images and videos arranged on a spinning ring, largest at a focus angle and tapering to small tiles opposite it. Auto-spins in either direction, eases to a stop on hover, enlarges the hovered tile, and spins by dragging around the centre or scrolling, with momentum. Optional links per tile, reduced-motion support, no dependencies.",
+      "files": [
+        {
+          "path": "registry/new-york/blocks/rotunda-carousel/rotunda-carousel.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "lasting-logo-design",
+      "type": "registry:item",
+      "title": "Lasting Logo Design (Claude skill)",
+      "description": "Claude skill: lasting-logo-design",
+      "files": [
+        {
+          "path": "registry/skills/lasting-logo-design/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/SKILL.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/examples/saffron-lane.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/examples/saffron-lane.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/LICENSE",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/LICENSE"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/references/01-brief.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/references/01-brief.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/references/02-brand-nouns.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/references/02-brand-nouns.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/references/03-directions.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/references/03-directions.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/references/04-prompt-library.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/references/04-prompt-library.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/references/05-critique-and-stress-tests.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/references/05-critique-and-stress-tests.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/references/06-refine-and-system.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/references/06-refine-and-system.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/templates/output.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/templates/output.md"
+        },
+        {
+          "path": "registry/skills/lasting-logo-design/templates/output.schema.json",
+          "type": "registry:file",
+          "target": "~/.claude/skills/lasting-logo-design/templates/output.schema.json"
+        }
+      ]
     }
   ]
 }

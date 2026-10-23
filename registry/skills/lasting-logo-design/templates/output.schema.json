@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LogoPromptKit",
+  "description": "Structured output of the lasting-logo-design generator. Usable with structured-output APIs; some strict modes reject minItems/maxItems, so drop those keys there and enforce counts in the prompt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["brandName", "brandTruth", "assumptions", "nameAnalysis", "brandNouns", "pairings", "directions", "avoid"],
+  "properties": {
+    "brandName": { "type": "string" },
+    "brandTruth": { "type": "string", "description": "[Name] is the [category] that [differentiator] for [audience], feeling [adj, adj, adj]." },
+    "assumptions": { "type": "array", "items": { "type": "string" } },
+    "nameAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["meaning", "sound", "letterforms", "hiddenObjects", "wordmarkViability", "risks"],
+      "properties": {
+        "meaning": { "type": "string" },
+        "sound": { "type": "string" },
+        "letterforms": { "type": "string" },
+        "hiddenObjects": { "type": "array", "items": { "type": "string" } },
+        "wordmarkViability": { "type": "string" },
+        "risks": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "brandNouns": {
+      "type": "array",
+      "minItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["word", "category", "ownable"],
+        "properties": {
+          "word": { "type": "string" },
+          "category": { "type": "string", "enum": ["objects", "materials", "places", "actions", "tools", "nature", "people", "culture", "letters", "qualities", "tensions"] },
+          "ownable": { "type": "boolean", "description": "true = specific to this brand (★); false = generic or category cliché (○)" }
+        }
+      }
+    },
+    "pairings": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["a", "b", "visualIdea"],
+        "properties": { "a": { "type": "string" }, "b": { "type": "string" }, "visualIdea": { "type": "string" } }
+      }
+    },
+    "directions": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "logoType", "concept", "story", "whyItFits", "techniques", "risks", "recommended", "prompts"],
+        "properties": {
+          "title": { "type": "string" },
+          "logoType": { "type": "string", "enum": ["wordmark", "lettermark", "pictorial", "abstract", "combination", "emblem", "mascot"] },
+          "concept": { "type": "string" },
+          "story": { "type": "string" },
+          "whyItFits": { "type": "string" },
+          "techniques": { "type": "array", "items": { "type": "string" } },
+          "risks": { "type": "array", "items": { "type": "string" } },
+          "recommended": { "type": "boolean" },
+          "prompts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["conceptSheet", "singleMark", "iterations"],
+            "properties": {
+              "conceptSheet": { "type": "string" },
+              "singleMark": { "type": "string" },
+              "iterations": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "avoid": { "type": "array", "items": { "type": "string" } }
+  }
+}

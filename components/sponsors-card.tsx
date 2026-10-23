@@ -5,6 +5,7 @@ import { ArrowRight01Icon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
 import { SPONSORS, SPONSOR_URL, TIERS, type Sponsor, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
+import { Card } from "@/components/ui/card"
 
 /* Tile sizes per tier, largest first. */
 const TILE: Record<Tier, { height: string; logo: { width: number; height: number; className: string }; text: string }> = {
@@ -15,7 +16,7 @@ const TILE: Record<Tier, { height: string; logo: { width: number; height: number
 
 export function SponsorsCard({ className }: { className?: string }) {
   return (
-    <div className={cn("rounded-xl border bg-card p-3 text-card-foreground", className)}>
+    <Card className={cn("gap-0 p-3 shadow-none", className)}>
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="text-sm font-semibold tracking-tight">Sponsors</h2>
         <span className="font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">
@@ -52,7 +53,7 @@ export function SponsorsCard({ className }: { className?: string }) {
           strokeWidth={2}
         />
       </Link>
-    </div>
+    </Card>
   )
 }
 

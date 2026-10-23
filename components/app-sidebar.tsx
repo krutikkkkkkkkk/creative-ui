@@ -11,13 +11,16 @@ import {
   CommandLineIcon,
   GithubIcon,
   Home01Icon,
+  McpServerIcon,
+  PaintBoardIcon,
   PuzzleIcon,
   Search01Icon,
+  Wrench01Icon,
+  ZapIcon,
 } from "@hugeicons/core-free-icons"
 
 import type { ItemSummary } from "@/lib/registry"
 import { Kbd } from "@/components/ui/kbd"
-import { SponsorsCard } from "@/components/sponsors-card"
 import {
   Sidebar,
   SidebarContent,
@@ -44,6 +47,15 @@ export function Logo({ className = "size-8" }: { className?: string }) {
     </div>
   )
 }
+
+const GET_STARTED = [
+  { href: "/docs", label: "Introduction", icon: Home01Icon },
+  { href: "/docs/installation/next", label: "Install Next.js", icon: ZapIcon },
+  { href: "/docs/installation/tailwind", label: "Install Tailwind CSS", icon: PaintBoardIcon },
+  { href: "/docs/installation/utilities", label: "Add utilities", icon: Wrench01Icon },
+  { href: "/docs/installation/cli", label: "CLI", icon: CommandLineIcon },
+  { href: "/docs/installation/mcp", label: "MCP Server", icon: McpServerIcon },
+] as const
 
 export function AppSidebar({
   items,
@@ -111,25 +123,19 @@ export function AppSidebar({
       <SidebarContent className="no-scrollbar">
         {!q && (
           <SidebarGroup>
-            <SidebarGroupLabel>Getting started</SidebarGroupLabel>
+            <SidebarGroupLabel>Get started</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname === "/docs"}>
-                    <Link href="/docs" onClick={close}>
-                      <HugeiconsIcon icon={Home01Icon} strokeWidth={2} />
-                      <span>Introduction</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link href="/docs#installation" onClick={close}>
-                      <HugeiconsIcon icon={CommandLineIcon} strokeWidth={2} />
-                      <span>Installation</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                {GET_STARTED.map((entry) => (
+                  <SidebarMenuItem key={entry.href}>
+                    <SidebarMenuButton asChild isActive={pathname === entry.href} tooltip={entry.label}>
+                      <Link href={entry.href} onClick={close}>
+                        <HugeiconsIcon icon={entry.icon} strokeWidth={2} />
+                        <span>{entry.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -142,12 +148,6 @@ export function AppSidebar({
           <p className="px-4 py-6 text-center text-sm text-muted-foreground">
             Nothing matches “{query}”.
           </p>
-        )}
-
-        {!q && (
-          <SidebarGroup className="mt-auto group-data-[collapsible=icon]:hidden xl:hidden">
-            <SponsorsCard />
-          </SidebarGroup>
         )}
       </SidebarContent>
 

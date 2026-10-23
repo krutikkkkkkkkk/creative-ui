@@ -1,5 +1,6 @@
 import type { ComponentApi } from "@/lib/docs"
 import { cn } from "@/lib/utils"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 /** Renders `backticks` in doc strings as inline code. */
 export function InlineCode({ text, className }: { text: string; className?: string }) {
@@ -27,43 +28,45 @@ export function PropsTable({ api, showName }: { api: ComponentApi; showName?: bo
           {api.description && <InlineCode text={api.description} className="text-sm text-muted-foreground" />}
         </div>
       )}
-      <div className="overflow-x-auto rounded-xl border">
-        <table className="w-full min-w-xl text-left text-sm">
-          <thead className="border-b bg-muted/40 text-xs text-muted-foreground">
-            <tr>
-              <th className="px-4 py-2.5 font-medium">Prop</th>
-              <th className="px-4 py-2.5 font-medium">Type</th>
-              <th className="px-4 py-2.5 font-medium">Default</th>
-              <th className="px-4 py-2.5 font-medium">Description</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
+      <div className="overflow-hidden rounded-xl border">
+        <Table className="min-w-xl">
+          <TableHeader className="bg-muted/40 text-xs">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="px-4 text-muted-foreground">Prop</TableHead>
+              <TableHead className="px-4 text-muted-foreground">Type</TableHead>
+              <TableHead className="px-4 text-muted-foreground">Default</TableHead>
+              <TableHead className="px-4 text-muted-foreground">Description</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {api.props.map((p) => (
-              <tr key={p.name} className="align-top">
-                <td className="px-4 py-3 font-mono text-[13px] whitespace-nowrap">
+              <TableRow key={p.name} className="align-top hover:bg-transparent">
+                <TableCell className="px-4 py-3 align-top font-mono text-[13px]">
                   {p.name}
                   {p.required && (
                     <span className="text-destructive" title="Required">
                       *
                     </span>
                   )}
-                </td>
-                <td className="max-w-56 px-4 py-3 font-mono text-xs break-words text-muted-foreground">{p.type}</td>
-                <td
+                </TableCell>
+                <TableCell className="max-w-56 px-4 py-3 align-top font-mono text-xs break-words whitespace-normal text-muted-foreground">
+                  {p.type}
+                </TableCell>
+                <TableCell
                   className={cn(
-                    "px-4 py-3 text-xs whitespace-nowrap",
+                    "px-4 py-3 align-top text-xs",
                     p.default && !p.default.includes(" ") ? "font-mono" : "text-muted-foreground"
                   )}
                 >
                   {p.default ?? "—"}
-                </td>
-                <td className="min-w-64 px-4 py-3 leading-relaxed text-pretty text-muted-foreground">
+                </TableCell>
+                <TableCell className="min-w-64 px-4 py-3 align-top leading-relaxed text-pretty whitespace-normal text-muted-foreground">
                   <InlineCode text={p.description} />
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       {api.extends && (
         <p className="text-xs text-muted-foreground">

@@ -38,14 +38,35 @@ export function CopyButton({
 }
 
 const MANAGERS = [
-  { id: "pnpm", run: "pnpm dlx" },
-  { id: "npm", run: "npx" },
-  { id: "yarn", run: "yarn dlx" },
-  { id: "bun", run: "bunx --bun" },
+  { id: "pnpm", dlx: "pnpm dlx", create: "pnpm create", install: "pnpm add", run: "pnpm" },
+  { id: "npm", dlx: "npx", create: "npx create-", install: "npm install", run: "npm run" },
+  { id: "yarn", dlx: "yarn dlx", create: "yarn create", install: "yarn add", run: "yarn" },
+  { id: "bun", dlx: "bunx --bun", create: "bun create", install: "bun add", run: "bun run" },
 ] as const
 
-/** Package-manager tabs with a copyable `shadcn add` command. */
-export function InstallCommand({ target, className }: { target: string; className?: string }) {
+type Mode = "dlx" | "create" | "install" | "run"
+
+function build(m: (typeof MANAGERS)[number], mode: Mode, command: string) {
+  if (mode === "create") return `${m.create}${m.id === "npm" ? "" : " "}${command}`
+  return `${m[mode]} ${command}`
+}
+
+/**
+ * Package-manager tabs with a copyable command.
+ * - `target`: renders `shadcn@latest add <target>` (default mode "dlx").
+ * - `command` + `mode`: "dlx" (npx …), "create" (npx create-…), "install" (npm install …) or "run" (npm run …).
+ */
+export function InstallCommand({
+  target,
+  command,
+  mode = "dlx",
+  className,
+}: {
+  target?: string
+  command?: string
+  mode?: Mode
+  className?: string
+}) {
   return (
     <Tabs defaultValue="npm" className={cn("min-w-0 gap-0 overflow-hidden rounded-xl border bg-muted/40", className)}>
       <div className="flex items-center justify-between border-b px-2 py-1.5">
@@ -62,7 +83,7 @@ export function InstallCommand({ target, className }: { target: string; classNam
         </TabsList>
       </div>
       {MANAGERS.map((m) => {
-        const cmd = `${m.run} shadcn@latest add ${target}`
+        const cmd = build(m, mode, command ?? `shadcn@latest add ${target}`)
         return (
           <TabsContent key={m.id} value={m.id} className="m-0 flex items-center gap-2 px-4 py-3">
             <code className="min-w-0 flex-1 overflow-x-auto font-mono text-[13px] whitespace-nowrap">

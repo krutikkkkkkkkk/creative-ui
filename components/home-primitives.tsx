@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 /* Small Classical Collage primitives shared by the home page and its hero. */
 
@@ -19,6 +20,17 @@ export function Eyebrow({ children, className }: { children: React.ReactNode; cl
   )
 }
 
+/* Variants map onto shadcn Button variants; "light" and "ghost-dark" sit on dark panels. */
+const PILL_VARIANT = {
+  solid: { variant: "default", className: undefined },
+  outline: { variant: "outline", className: "bg-background/60" },
+  light: { variant: "default", className: "bg-white text-[#111214] hover:bg-white/85" },
+  "ghost-dark": {
+    variant: "ghost",
+    className: "border border-white/20 text-white hover:bg-white/10 hover:text-white dark:hover:bg-white/10",
+  },
+} as const
+
 export function PillLink({
   href,
   external,
@@ -28,28 +40,28 @@ export function PillLink({
 }: {
   href: string
   external?: boolean
-  variant?: "solid" | "outline" | "light" | "ghost-dark"
+  variant?: keyof typeof PILL_VARIANT
   className?: string
   children: React.ReactNode
 }) {
-  const classes = cn(
-    "inline-flex h-11 items-center gap-2 rounded-full px-5 font-mono text-[11px] tracking-[.08em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-    variant === "solid" && "bg-foreground text-background hover:bg-foreground/85",
-    variant === "outline" && "border bg-background/60 hover:bg-accent",
-    variant === "light" && "bg-white text-[#111214] hover:bg-white/85",
-    variant === "ghost-dark" && "border border-white/20 text-white hover:bg-white/10",
-    className
-  )
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noreferrer" className={classes}>
-        {children}
-      </a>
-    )
-  }
+  const pill = PILL_VARIANT[variant]
   return (
-    <Link href={href} className={classes}>
-      {children}
-    </Link>
+    <Button
+      asChild
+      variant={pill.variant}
+      className={cn(
+        "h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5",
+        pill.className,
+        className
+      )}
+    >
+      {external ? (
+        <a href={href} target="_blank" rel="noreferrer">
+          {children}
+        </a>
+      ) : (
+        <Link href={href}>{children}</Link>
+      )}
+    </Button>
   )
 }

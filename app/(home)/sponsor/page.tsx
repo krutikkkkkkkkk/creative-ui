@@ -8,6 +8,8 @@ import { getSummaries } from "@/lib/registry"
 import { SPONSORS, SPONSOR_URL, TIERS, type Sponsor, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { getVisitorCount } from "@/lib/visitors"
+import { Card } from "@/components/ui/card"
+import { Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
 import { CollageFrame, CollageFrameOverlay } from "@/registry/new-york/blocks/collage-frame/collage-frame"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
@@ -21,8 +23,6 @@ export const metadata: Metadata = {
 
 /* The visitor total is read live from Redis on each request. */
 export const dynamic = "force-dynamic"
-
-const GOLD = "#B8893A"
 
 /* Logo tile sizes per tier on the "On the wall" section, largest first. */
 const LOGO: Record<Tier, { height: string; cols: string; image: { width: number; height: number; className: string }; text: string }> = {
@@ -108,13 +108,12 @@ export default async function SponsorPage() {
               const left = Math.max(0, slots - taken)
               const diamond = tier === "diamond"
               return (
-                <div
+                <Card
                   key={tier}
                   className={cn(
-                    "relative isolate flex flex-col overflow-hidden rounded-2xl p-7 sm:p-8",
-                    diamond
-                      ? "bg-[#111214] text-white ring-1 ring-white/10"
-                      : cn("border bg-card", tier === "gold" && "border-[#B8893A]/50")
+                    "relative isolate gap-0 overflow-hidden rounded-2xl p-7 shadow-none sm:p-8",
+                    diamond && "border-transparent bg-[#111214] text-white ring-1 ring-white/10",
+                    tier === "gold" && "border-[#B8893A]/50"
                   )}
                 >
                   {diamond && <GrainOverlay opacity={0.22} />}
@@ -154,7 +153,7 @@ export default async function SponsorPage() {
                       <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
                     </PillLink>
                   </div>
-                </div>
+                </Card>
               )
             })}
           </div>
@@ -232,10 +231,6 @@ function compact(n: number) {
   return new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)
 }
 
-function delay(ms: number) {
-  return { "--cc-delay": `${ms}ms` } as React.CSSProperties
-}
-
 /** The brass plaque under the frame, waiting for a name. */
 function Plaque() {
   return (
@@ -276,52 +271,12 @@ function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
   )
 }
 
-function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <p className={cn("font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase", className)}>
-      {"// "}
-      {children}
-    </p>
-  )
-}
-
 function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-12">
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[-0.02em] sm:text-6xl">{title}</h2>
     </div>
-  )
-}
-
-function PillLink({
-  href,
-  external,
-  variant = "outline",
-  children,
-}: {
-  href: string
-  external?: boolean
-  variant?: "solid" | "outline" | "light"
-  children: React.ReactNode
-}) {
-  const className = cn(
-    "inline-flex h-11 items-center gap-2 rounded-full px-5 font-mono text-[11px] tracking-[.08em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-    variant === "solid" && "bg-foreground text-background hover:bg-foreground/85",
-    variant === "outline" && "border bg-background/60 hover:bg-accent",
-    variant === "light" && "bg-white text-[#111214] hover:bg-white/85"
-  )
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noreferrer" className={className}>
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link href={href} className={className}>
-      {children}
-    </Link>
   )
 }
 

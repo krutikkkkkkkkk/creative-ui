@@ -28,9 +28,12 @@ import {
 import { docs as allDocs } from "@/lib/docs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
+import { CopyForLlmButton } from "@/components/copy-for-llm-button"
+import { Code, Section } from "@/components/docs-prose"
 import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { previews } from "@/components/previews"
 import { InlineCode, PropsTable } from "@/components/props-table"
@@ -105,6 +108,7 @@ export default async function ItemPage({ params }: Props) {
         )}
         <div className="flex flex-wrap gap-2 pt-1">
           {!isSkill && <OpenInV0Button name={item.name} className="h-8" />}
+          <CopyForLlmButton name={item.name} />
           <Button variant="outline" size="sm" asChild>
             <a href={`/r/${item.name}.json`} target="_blank" rel="noreferrer">
               <HugeiconsIcon icon={LinkSquare02Icon} strokeWidth={2} />
@@ -119,13 +123,13 @@ export default async function ItemPage({ params }: Props) {
         <InstallCommand target={installUrl(item.name)} />
         <p className="mt-3 text-sm text-muted-foreground">
           With the namespace set up:{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
+          <Code>
             npx shadcn@latest add {NAMESPACE}/{item.name}
-          </code>
+          </Code>
           {isSkill && (
             <>
               . Files go into{" "}
-              <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.claude/skills/{item.name}/</code>
+              <Code>.claude/skills/{item.name}/</Code>
             </>
           )}
         </p>
@@ -248,18 +252,6 @@ function fileLabel(file: RegistryFile) {
   return file.target?.replace(/^~\//, "") ?? file.path.split("/").pop() ?? file.path
 }
 
-function Section({ title, aside, children }: { title: string; aside?: string; children: React.ReactNode }) {
-  return (
-    <section className="mt-12">
-      <div className="mb-4 flex items-baseline justify-between border-b pb-2">
-        <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
-        {aside && <span className="font-mono text-xs text-muted-foreground">{aside}</span>}
-      </div>
-      {children}
-    </section>
-  )
-}
-
 /** Groups a skill's files by folder, relative to .claude/skills/<root>/. */
 function FileTree({ files, root }: { files: RegistryFile[]; root: string }) {
   const prefix = `~/.claude/skills/${root}/`
@@ -274,8 +266,8 @@ function FileTree({ files, root }: { files: RegistryFile[]; root: string }) {
   return (
     <div className="grid items-start gap-3 sm:grid-cols-2">
       {dirs.map((dir) => (
-        <div key={dir || "root"} className="rounded-xl border bg-card p-4">
-          <div className="mb-3 flex items-center gap-2 text-sm font-medium">
+        <Card key={dir || "root"} className="gap-3 p-4 shadow-none">
+          <div className="flex items-center gap-2 text-sm font-medium">
             <HugeiconsIcon icon={Folder01Icon} className="size-4 text-amber-500" strokeWidth={2} />
             <span className="font-mono">{dir ? `${dir}/` : `${root}/`}</span>
             <span className="ml-auto font-mono text-xs font-normal text-muted-foreground">
@@ -290,7 +282,7 @@ function FileTree({ files, root }: { files: RegistryFile[]; root: string }) {
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       ))}
     </div>
   )

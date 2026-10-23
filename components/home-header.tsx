@@ -3,6 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { GithubIcon } from "@hugeicons/core-free-icons"
 
 import { GITHUB_URL } from "@/lib/registry"
+import { cn } from "@/lib/utils"
 import { Logo } from "@/components/app-sidebar"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -16,19 +17,15 @@ export function HomeHeader() {
           <Logo className="size-7" />
           <span className="font-semibold tracking-tight">creative-ui</span>
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
-          <Link href="/docs" className="rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground">
-            Docs
-          </Link>
-          <Link
-            href="/docs#installation"
-            className="hidden rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground sm:block"
-          >
+        <nav className="flex items-center gap-1">
+          <NavLink href="/docs">Docs</NavLink>
+          <NavLink href="/docs#components" className="hidden sm:inline-flex">
+            Components
+          </NavLink>
+          <NavLink href="/docs/installation/cli" className="hidden sm:inline-flex">
             Installation
-          </Link>
-          <Link href="/sponsor" className="rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground">
-            Sponsor
-          </Link>
+          </NavLink>
+          <NavLink href="/sponsor">Sponsor</NavLink>
         </nav>
         <div className="ml-auto flex items-center gap-1">
           <VisitorCount className="mr-1 hidden sm:flex" />
@@ -41,5 +38,13 @@ export function HomeHeader() {
         </div>
       </div>
     </header>
+  )
+}
+
+function NavLink({ href, className, children }: { href: string; className?: string; children: React.ReactNode }) {
+  return (
+    <Button variant="ghost" size="sm" className={cn("px-2.5 font-normal text-muted-foreground", className)} asChild>
+      <Link href={href}>{children}</Link>
+    </Button>
   )
 }

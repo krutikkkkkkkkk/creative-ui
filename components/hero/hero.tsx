@@ -3,16 +3,17 @@ import { GithubIcon } from "@hugeicons/core-free-icons"
 
 import { GITHUB_URL, NAMESPACE, type ItemSummary } from "@/lib/registry"
 import { Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
-import { HeroLens, HeroPainting } from "@/components/hero/hero-painting"
+import { HeroPainting } from "@/components/hero/hero-painting"
 import { HeroPieces } from "@/components/hero/hero-pieces"
 import { HeroStage } from "@/components/hero/hero-stage"
+import { HeroTrail } from "@/components/hero/hero-trail"
 import { LiveTerminal } from "@/components/hero/live-terminal"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
 /* Hero: a hand sets the keystone. One piece, and the arch holds.
-   The painting is printed across the stage as a halftone engraving; a lens
-   restores it to oil paint wherever it passes. The collection floats around
-   the stage as cut-outs, waiting to be placed. */
+   The painting is printed across the stage as a halftone engraving; moving the
+   pointer leaves a trail of paintings in full colour. The collection floats
+   around the stage as cut-outs, waiting to be placed. */
 
 export function Hero({ items }: { items: ItemSummary[] }) {
   const terminalItems = items.map((i) => ({ name: i.name, files: i.fileCount, kind: i.kind }))
@@ -27,7 +28,7 @@ export function Hero({ items }: { items: ItemSummary[] }) {
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[70%] bg-gradient-to-b from-[#F4F2EE] via-[#F4F2EE]/95 via-60% to-transparent dark:from-background dark:via-background/95"
       />
       <GrainOverlay opacity={0.14} className="-z-10" />
-      <HeroLens />
+      <HeroTrail />
 
       <HeroPieces />
 

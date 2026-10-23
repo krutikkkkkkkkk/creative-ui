@@ -5,6 +5,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ViewIcon } from "@hugeicons/core-free-icons"
 
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const VISITOR_ID_KEY = "creative-ui:visitor-id"
 
@@ -55,19 +57,20 @@ export function VisitorCount({ className }: { className?: string }) {
       : new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(count)
 
   return (
-    <div
-      className={cn("flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs", className)}
-      title={count === null ? undefined : `${count.toLocaleString("en")} ${label}`}
+    <Badge
+      asChild
+      variant="outline"
+      className={cn("h-8 gap-1.5 px-3 font-normal text-muted-foreground [&>svg]:size-4", className)}
     >
-      <HugeiconsIcon icon={ViewIcon} className="size-4 text-muted-foreground" strokeWidth={2} aria-hidden />
-      <p className="whitespace-nowrap text-muted-foreground">
+      <div title={count === null ? undefined : `${count.toLocaleString("en")} ${label}`}>
+        <HugeiconsIcon icon={ViewIcon} strokeWidth={2} aria-hidden />
         {formatted === null ? (
-          <span className="inline-block h-3.5 w-7 animate-pulse rounded bg-foreground/10 align-middle" />
+          <Skeleton className="h-3.5 w-7 rounded bg-foreground/10" />
         ) : (
           <span className="font-mono font-semibold text-foreground tabular-nums">{formatted}</span>
         )}
-        <span className="hidden sm:inline"> {label}</span>
-      </p>
-    </div>
+        <span className="-ml-0.5 hidden sm:inline">{label}</span>
+      </div>
+    </Badge>
   )
 }

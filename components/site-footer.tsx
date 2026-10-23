@@ -5,6 +5,7 @@ import { ArrowUpRight01Icon, FavouriteIcon, GithubIcon } from "@hugeicons/core-f
 import { GITHUB_URL, SITE_URL } from "@/lib/registry"
 import { SPONSOR_URL } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/app-sidebar"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
@@ -137,14 +138,10 @@ function FooterLink({ link }: { link: FooterLink }) {
 
 function FooterIcon({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={label}
-      className="grid size-9 place-items-center rounded-full border bg-background/60 transition-colors hover:bg-accent"
-    >
-      {children}
-    </a>
+    <Button variant="outline" size="icon" className="rounded-full bg-background/60 shadow-none" asChild>
+      <a href={href} target="_blank" rel="noreferrer" aria-label={label}>
+        {children}
+      </a>
+    </Button>
   )
 }
