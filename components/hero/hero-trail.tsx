@@ -7,7 +7,8 @@ import Image from "next/image"
  * Cursor image trail. Every ~80px of pointer travel a small painting rises
  * under the cursor, tilts with the direction of travel, hangs for a moment and
  * drifts away. A fixed pool of cards is recycled, so the DOM never grows.
- * Touch devices and reduced motion render nothing visible.
+ * Touch devices and reduced motion render nothing visible. Areas marked with
+ * `data-trail-quiet` (plus half a card of margin) never spawn cards.
  */
 
 export const TRAIL_ART = [
@@ -20,6 +21,12 @@ export const TRAIL_ART = [
   { src: "/art/laureate-laptop.webp", alt: "A marble statue with a laurel wreath holding a black laptop" },
   { src: "/art/sculptor-chisel.webp", alt: "A sculptor's hands with chisel and mallet at a marble face" },
   { src: "/art/still-life-keyboard.webp", alt: "Still life with grapes, oranges, a pewter jug and a keyboard" },
+  { src: "/art/owl-keyboard.webp", alt: "An owl perched on a cream mechanical keyboard" },
+  { src: "/art/statue-tablet.webp", alt: "A marble youth drawing on a black tablet with a stylus" },
+  { src: "/art/weaver-cable.webp", alt: "A woman at a spinning wheel spins thread into a white cable" },
+  { src: "/art/printing-press.webp", alt: "A printmaker pulls a website wireframe from a wooden press" },
+  { src: "/art/architect-compass.webp", alt: "An architect's hands with a brass compass over an inked interface grid" },
+  { src: "/art/philosopher-mouse.webp", alt: "An old philosopher studies a white computer mouse in his palm" },
 ]
 
 const POOL = 14
@@ -41,8 +48,21 @@ export function HeroTrail() {
     let lx = Number.NaN
     let ly = Number.NaN
 
+    const inQuietZone = (cx: number, cy: number) => {
+      const m = cards[0].offsetWidth / 2
+      return Array.from(stage.querySelectorAll<HTMLElement>("[data-trail-quiet]")).some((zone) => {
+        const q = zone.getBoundingClientRect()
+        return cx > q.left - m && cx < q.right + m && cy > q.top - m && cy < q.bottom + m
+      })
+    }
+
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse" && e.pointerType !== "pen") return
+      if (inQuietZone(e.clientX, e.clientY)) {
+        lx = Number.NaN
+        ly = Number.NaN
+        return
+      }
       const r = stage.getBoundingClientRect()
       const x = e.clientX - r.left
       const y = e.clientY - r.top

@@ -111,7 +111,7 @@ export default async function Home() {
                 n: "02",
                 title: "Run one command.",
                 body: "The shadcn CLI resolves the item and writes its files straight into your project. No package to install, nothing to configure, nothing to keep updated.",
-                art: { src: "/art/scholar-laptop.webp", alt: "Neoclassical painting of a woman in a white gown typing on a halftone laptop" },
+                art: { src: "/art/printing-press.webp", alt: "Oil painting of a printmaker pulling a freshly printed website wireframe from a wooden press" },
                 widget: first ? (
                   <LiveTerminal
                     items={[{ name: first.name, files: first.fileCount, kind: first.kind }]}

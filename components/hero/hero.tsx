@@ -33,36 +33,39 @@ export function Hero({ items }: { items: ItemSummary[] }) {
       <HeroPieces />
 
       <div className="hero-exit relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-6xl flex-col items-center px-4 pt-10 sm:px-8 lg:pt-14">
-        <Eyebrow className="cc-rise text-center">Open source · shadcn registry</Eyebrow>
+        {/* The copy and buttons stay clear of the cursor trail. */}
+        <div data-trail-quiet className="flex w-fit max-w-full flex-col items-center">
+          <Eyebrow className="cc-rise text-center">Open source · shadcn registry</Eyebrow>
 
-        <h1 className="mt-5 text-center font-serif text-[clamp(2.9rem,7.6vw,6.5rem)] leading-[0.92] tracking-[-0.025em] text-balance">
-          <span className="cc-reveal block">
-            <span style={delay(120)}>Timeless craft.</span>
-          </span>
-          <span className="cc-reveal block">
-            <span className="text-muted-foreground italic" style={delay(260)}>
-              One command away.
+          <h1 className="mt-5 text-center font-serif text-[clamp(2.9rem,7.6vw,6.5rem)] leading-[0.92] tracking-[-0.025em] text-balance">
+            <span className="cc-reveal block">
+              <span style={delay(120)}>Timeless craft.</span>
             </span>
-          </span>
-        </h1>
+            <span className="cc-reveal block">
+              <span className="text-muted-foreground italic" style={delay(260)}>
+                One command away.
+              </span>
+            </span>
+          </h1>
 
-        <p
-          className="cc-rise mt-6 max-w-[46ch] text-center text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
-          style={delay(420)}
-        >
-          React components and Claude skills by Krutik Raut, made with a designer’s eye. Install any of them into
-          your project with the shadcn CLI.
-        </p>
+          <p
+            className="cc-rise mt-6 max-w-[46ch] text-center text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
+            style={delay(420)}
+          >
+            React components and Claude skills by Krutik Raut, made with a designer’s eye. Install any of them into
+            your project with the shadcn CLI.
+          </p>
 
-        <div className="cc-rise mt-8 flex flex-wrap justify-center gap-3" style={delay(540)}>
-          <PillLink href="#collection" variant="solid">
-            <span className="size-1.5 rounded-full" style={{ backgroundColor: GOLD }} />
-            Browse the registry
-          </PillLink>
-          <PillLink href={GITHUB_URL} external>
-            <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
-            Star on GitHub
-          </PillLink>
+          <div className="cc-rise mt-8 flex flex-wrap justify-center gap-3" style={delay(540)}>
+            <PillLink href="#collection" variant="solid">
+              <span className="size-1.5 rounded-full" style={{ backgroundColor: GOLD }} />
+              Browse the registry
+            </PillLink>
+            <PillLink href={GITHUB_URL} external>
+              <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
+              Star on GitHub
+            </PillLink>
+          </div>
         </div>
 
         {/* Stage: the engraved painting rises behind; the terminal and cue sit on it. */}

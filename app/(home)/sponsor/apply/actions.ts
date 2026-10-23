@@ -1,7 +1,9 @@
 "use server"
 
+import { after } from "next/server"
 import { z } from "zod"
 
+import { EMAIL_FROM, resend } from "@/lib/email"
 import { redis } from "@/lib/redis"
 
 /* Each submission is pushed onto this list as JSON, newest first. */
@@ -71,5 +73,29 @@ export async function submitSponsor(_prev: ApplyState, formData: FormData): Prom
     return { status: "error", message: "Couldn't save your details. Try again in a minute.", values }
   }
 
+  /* The application is already saved, so a failed email only gets logged. */
+  after(() => notifySponsorApplication(application))
+
   return { status: "success" }
+}
+
+async function notifySponsorApplication(application: Record<string, string | undefined>) {
+  const to = process.env.SPONSOR_NOTIFY_EMAIL
+  if (!to) {
+    console.warn("[sponsor] SPONSOR_NOTIFY_EMAIL is not set, skipping notification")
+    return
+  }
+
+  const lines = Object.entries(application)
+    .filter(([, value]) => value)
+    .map(([key, value]) => `${key}: ${value}`)
+
+  const { error } = await resend.emails.send({
+    from: EMAIL_FROM,
+    to,
+    replyTo: application.email,
+    subject: `New ${application.tier} sponsor application: ${application.name}`,
+    text: lines.join("\n"),
+  })
+  if (error) console.error("[sponsor] Notification email failed", error)
 }
