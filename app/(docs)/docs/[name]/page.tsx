@@ -16,16 +16,19 @@ import {
 import {
   bannerOf,
   displayTitle,
+  GITHUB_URL,
   getItem,
   getItems,
   installName,
   installUrl,
   kindOf,
   readItemFile,
+  SITE_URL,
   skillIntro,
   type RegistryFile,
 } from "@/lib/registry"
 import { docs as allDocs } from "@/lib/docs"
+import { AUTHOR, pageMetadata } from "@/lib/seo"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -33,7 +36,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { CopyForLlmButton } from "@/components/copy-for-llm-button"
-import { Code, Section } from "@/components/docs-prose"
+import { JsonLd } from "@/components/json-ld"
+import { Code, Note, Section } from "@/components/docs-prose"
 import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { previews } from "@/components/previews"
 import { InlineCode, PropsTable } from "@/components/props-table"
@@ -48,11 +52,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = await getItem((await params).name)
   if (!item) return {}
   const banner = await bannerOf(item.name)
-  return {
-    title: displayTitle(item),
+  const title = displayTitle(item)
+  const path = `/docs/${item.name}`
+  const meta = pageMetadata({
+    title,
     description: item.description,
-    openGraph: banner ? { images: [{ url: banner, width: 3200, height: 1800 }] } : undefined,
-    twitter: banner ? { card: "summary_large_image", images: [banner] } : undefined,
+    path,
+    image: banner ? { url: banner, width: 3200, height: 1800, alt: `${title} banner` } : undefined,
+  })
+  return {
+    ...meta,
+    keywords: [title, item.name, installName(item.name), "shadcn", kindOf(item) === "skill" ? "Claude skill" : "React component"],
+    alternates: { ...meta.alternates, types: { "text/markdown": `${path}/llms.txt` } },
   }
 }
 
@@ -74,6 +85,21 @@ export default async function ItemPage({ params }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pt-10 pb-24 sm:px-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareSourceCode",
+          name: displayTitle(item),
+          description: item.description,
+          url: `${SITE_URL}/docs/${item.name}`,
+          codeRepository: GITHUB_URL,
+          programmingLanguage: isSkill ? "Markdown" : "TypeScript",
+          runtimePlatform: isSkill ? "Claude Code" : "React",
+          license: "https://opensource.org/licenses/MIT",
+          author: { "@type": "Person", name: AUTHOR.name, url: AUTHOR.url },
+          ...(banner && { image: `${SITE_URL}${banner}` }),
+        }}
+      />
       {/* Banner */}
       {banner && (
         <div className="mb-10 overflow-hidden rounded-2xl border bg-muted/30 shadow-sm">
@@ -133,6 +159,7 @@ export default async function ItemPage({ params }: Props) {
             </>
           )}
         </p>
+        {item.docs && <Note className="mt-3 text-sm text-muted-foreground">{item.docs}</Note>}
       </Section>
 
       {/* Preview / code for components */}

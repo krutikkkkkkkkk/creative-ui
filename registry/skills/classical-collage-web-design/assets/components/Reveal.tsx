@@ -1,3 +1,7 @@
+/* eslint-disable */
+// @ts-nocheck
+// Reference file from a Claude skill: type-checking and lint are off so it can't break your project.
+// If you copy it into your app, install the packages it imports and delete these four lines.
 'use client';
 import { motion, useReducedMotion } from 'motion/react';
 

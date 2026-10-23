@@ -19,6 +19,8 @@ export type RegistryItem = {
   description?: string
   dependencies?: string[]
   registryDependencies?: string[]
+  /** Printed by the shadcn CLI after install. */
+  docs?: string
   files?: RegistryFile[]
 }
 

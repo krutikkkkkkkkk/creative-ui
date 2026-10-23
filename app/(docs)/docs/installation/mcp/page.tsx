@@ -2,14 +2,16 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { getSummaries, NAMESPACE } from "@/lib/registry"
+import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "MCP Server",
   description: "Browse, search and install creative-ui items from your AI assistant with the shadcn MCP server.",
-}
+  path: "/docs/installation/mcp",
+})
 
 const CLIENTS = [
   { id: "claude", label: "Claude Code" },

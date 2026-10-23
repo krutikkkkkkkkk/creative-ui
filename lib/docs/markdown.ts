@@ -19,6 +19,7 @@ export async function itemMarkdown(item: RegistryItem) {
   out.push(fence(`npx shadcn@latest add ${installName(item.name)}`, "bash"))
   out.push(`On an older shadcn CLI, use the URL: \`npx shadcn@latest add ${installUrl(item.name)}\``)
   if (isSkill) out.push(`Files go into \`.claude/skills/${item.name}/\`.`)
+  if (item.docs) out.push(item.docs)
 
   if (item.dependencies?.length || item.registryDependencies?.length) {
     out.push("## Dependencies")

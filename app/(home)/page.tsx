@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -13,8 +14,11 @@ import {
   readItemFile,
   skillIntro,
 } from "@/lib/registry"
+import { SITE_NAME, SITE_TAGLINE, pageMetadata, siteJsonLd } from "@/lib/seo"
 import { cn } from "@/lib/utils"
 import { InstallCommand } from "@/components/copy-command"
+import { ItemCard } from "@/components/item-card"
+import { JsonLd } from "@/components/json-ld"
 import { Hero } from "@/components/hero/hero"
 import { LiveTerminal } from "@/components/hero/live-terminal"
 import { CollectionCarousel } from "@/components/home/collection-carousel"
@@ -29,6 +33,8 @@ import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-ove
 /* Home page in the Classical Collage art direction (warm variant): quiet UI, loud art,
    one metaphor per section, light serif statements and mono eyebrows. */
 
+export const metadata: Metadata = pageMetadata({ title: { absolute: `${SITE_NAME}: ${SITE_TAGLINE}` }, path: "/" })
+
 export default async function Home() {
   const items = await getSummaries()
   const skills = items.filter((i) => i.kind === "skill")
@@ -39,6 +45,7 @@ export default async function Home() {
 
   return (
     <div className="relative w-full overflow-x-clip">
+      <JsonLd data={siteJsonLd()} />
       <Hero items={items} />
 
       <div className="mx-auto w-full max-w-5xl px-4 pb-24 sm:px-8">
@@ -98,8 +105,18 @@ export default async function Home() {
           </section>
         )}
 
+        {/* The collection: every item, read from the registry so new pieces appear here on their own. */}
+        <section id="collection" className={cn("scroll-mt-20 py-20", featured && "border-t")}>
+          <SectionHeading eyebrow={`The collection · ${items.length} pieces`} title="Every piece, one command." />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[...skills, ...components].map((item) => (
+              <ItemCard key={item.name} item={item} />
+            ))}
+          </div>
+        </section>
+
         {/* How it works: three moves, stacked like prints laid on a table. */}
-        <section id="how-it-works" className={cn("scroll-mt-20 py-20", featured && "border-t")}>
+        <section id="how-it-works" className="scroll-mt-20 border-t py-20">
           <SectionHeading eyebrow="How it works" title="Three moves." />
           <StackSteps
             steps={[

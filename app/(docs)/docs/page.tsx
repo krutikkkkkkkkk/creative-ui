@@ -3,14 +3,16 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { getSummaries, installName } from "@/lib/registry"
+import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, Section } from "@/components/docs-prose"
 import { ItemCard } from "@/components/item-card"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Introduction",
   description: "How to install creative-ui components and Claude skills with the shadcn CLI.",
-}
+  path: "/docs",
+})
 
 export default async function DocsPage() {
   const items = await getSummaries()

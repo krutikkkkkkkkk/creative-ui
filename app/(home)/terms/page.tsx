@@ -1,12 +1,14 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { pageMetadata } from "@/lib/seo"
 import { LegalPage, LegalSection } from "@/components/legal-page"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Terms of use",
   description: "The terms for using the creative-ui website and registry.",
-}
+  path: "/terms",
+})
 
 const UPDATED = "24 Oct 2026"
 

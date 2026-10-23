@@ -5,6 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, CheckmarkCircle02Icon, FavouriteIcon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
 import { getSummaries } from "@/lib/registry"
+import { pageMetadata } from "@/lib/seo"
 import {
   LAUNCH_OFFER,
   PLATFORM_SPONSORS,
@@ -28,10 +29,11 @@ import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-ove
 /* Sponsor page in the same Classical Collage direction as home. The metaphor: a gallery
    wall with a gilt frame waiting for its plaque. */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Sponsor",
   description: "Sponsor creative-ui and put your logo in front of the developers who install it.",
-}
+  path: "/sponsor",
+})
 
 /* The visitor total is read live from Redis on each request, then synced with the nav on the client. */
 export const dynamic = "force-dynamic"

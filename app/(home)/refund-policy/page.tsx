@@ -2,12 +2,14 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { LegalPage, LegalSection } from "@/components/legal-page"
+import { pageMetadata } from "@/lib/seo"
 import { LAUNCH_OFFER, SPONSOR_EMAIL } from "@/lib/sponsors"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Refund and cancellation policy",
   description: "How creative-ui sponsorships are billed through Dodo Payments, how to cancel, and when a payment is refunded.",
-}
+  path: "/refund-policy",
+})
 
 const UPDATED = "24 Oct 2026"
 

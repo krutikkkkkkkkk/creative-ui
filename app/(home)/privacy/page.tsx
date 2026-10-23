@@ -1,12 +1,14 @@
 import type { Metadata } from "next"
 
 import { LegalPage, LegalSection } from "@/components/legal-page"
+import { pageMetadata } from "@/lib/seo"
 import { SPONSOR_EMAIL } from "@/lib/sponsors"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Privacy policy",
   description: "What creative-ui collects when you visit, which is very little, and why.",
-}
+  path: "/privacy",
+})
 
 const UPDATED = "24 Oct 2026"
 

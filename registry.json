@@ -68,6 +68,7 @@
       "type": "registry:item",
       "title": "Classical Collage Web Design (Claude skill)",
       "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting × modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
+      "docs": "This skill includes reference code that imports clsx, motion, next. Those files have type-checking and lint turned off, so they won't break your project. To use one in your app, install its packages and delete the header at the top of the file.",
       "files": [
         {
           "path": "registry/skills/classical-collage-web-design/SKILL.md",
@@ -279,7 +280,7 @@
       "name": "lasting-logo-design",
       "type": "registry:item",
       "title": "Lasting Logo Design (Claude skill)",
-      "description": "Claude skill: lasting-logo-design",
+      "description": "Use when someone gives a brand name and wants brand nouns, logo concept directions or AI logo prompts (Figma AI, ChatGPT, Midjourney, Ideogram), or wants help designing a logo that lasts, from brief to stress tests, refinement and brand system.",
       "files": [
         {
           "path": "registry/skills/lasting-logo-design/SKILL.md",

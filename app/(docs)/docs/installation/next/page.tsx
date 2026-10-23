@@ -1,13 +1,15 @@
 import type { Metadata } from "next"
 
+import { pageMetadata } from "@/lib/seo"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Install Next.js",
   description: "Create a Next.js app with the App Router, TypeScript and Tailwind CSS.",
-}
+  path: "/docs/installation/next",
+})
 
 const prompts = `Would you like to use TypeScript? ... Yes
 Would you like to use ESLint? ... Yes

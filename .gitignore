@@ -42,6 +42,8 @@ next-env.d.ts
 
 .vercel
 .env*
+.env.local
+.env
 
 # agent skills installed by integrations (local only)
 .agents/

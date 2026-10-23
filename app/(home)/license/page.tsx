@@ -2,13 +2,15 @@ import type { Metadata } from "next"
 import { promises as fs } from "fs"
 import path from "path"
 
+import { pageMetadata } from "@/lib/seo"
 import { LegalPage, LegalSection } from "@/components/legal-page"
 import { CodeBlock } from "@/components/code-block"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "License",
   description: "creative-ui is released under the MIT License.",
-}
+  path: "/license",
+})
 
 export default async function LicensePage() {
   const license = await fs.readFile(path.join(process.cwd(), "LICENSE"), "utf8")

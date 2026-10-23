@@ -1,13 +1,15 @@
 import type { Metadata } from "next"
 
+import { pageMetadata } from "@/lib/seo"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Add utilities",
   description: "Add the cn() class helper that every component imports.",
-}
+  path: "/docs/installation/utilities",
+})
 
 const utils = `import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"

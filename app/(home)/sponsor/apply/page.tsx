@@ -3,6 +3,7 @@ import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 
+import { pageMetadata } from "@/lib/seo"
 import { getApplication } from "@/lib/sponsor-applications"
 import { TIERS, type Tier } from "@/lib/sponsors"
 import { Eyebrow, delay } from "@/components/home-primitives"
@@ -10,10 +11,11 @@ import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-ove
 
 import { SponsorForm } from "./sponsor-form"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Sponsor creative-ui",
   description: "Add the logo and link that go up on the creative-ui sponsor wall, then pay with Dodo Payments.",
-}
+  path: "/sponsor/apply",
+})
 
 export default async function SponsorApplyPage({
   searchParams,

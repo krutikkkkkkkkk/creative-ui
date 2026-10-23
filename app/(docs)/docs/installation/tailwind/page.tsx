@@ -1,13 +1,15 @@
 import type { Metadata } from "next"
 
+import { pageMetadata } from "@/lib/seo"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Install Tailwind CSS",
   description: "Add Tailwind CSS v4 to a Next.js project with the PostCSS plugin.",
-}
+  path: "/docs/installation/tailwind",
+})
 
 const postcss = `export default {
   plugins: {

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "lasting-logo-design",
   "title": "Lasting Logo Design (Claude skill)",
-  "description": "Claude skill: lasting-logo-design",
+  "description": "Use when someone gives a brand name and wants brand nouns, logo concept directions or AI logo prompts (Figma AI, ChatGPT, Midjourney, Ideogram), or wants help designing a logo that lasts, from brief to stress tests, refinement and brand system.",
   "files": [
     {
       "path": "registry/skills/lasting-logo-design/SKILL.md",

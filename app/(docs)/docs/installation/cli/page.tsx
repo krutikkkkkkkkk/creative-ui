@@ -1,13 +1,15 @@
 import type { Metadata } from "next"
 
 import { getSummaries, installName, installUrl, NAMESPACE } from "@/lib/registry"
+import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "CLI",
   description: "Install creative-ui components and Claude skills with the shadcn CLI.",
-}
+  path: "/docs/installation/cli",
+})
 
 export default async function CliPage() {
   const items = await getSummaries()

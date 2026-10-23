@@ -3,15 +3,17 @@ import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 
+import { pageMetadata } from "@/lib/seo"
 import { Eyebrow, delay } from "@/components/home-primitives"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
 import { PlatformForm } from "./platform-form"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Become a platform sponsor",
   description: "Back creative-ui with credits, hosting or tools, and your logo goes in the platform sponsor strip.",
-}
+  path: "/sponsor/platform",
+})
 
 export default function PlatformSponsorPage() {
   return (

@@ -1,3 +1,7 @@
+/* eslint-disable */
+// @ts-nocheck
+// Reference file from a Claude skill: type-checking and lint are off so it can't break your project.
+// If you copy it into your app, install the packages it imports and delete these four lines.
 /** Faint monospace "system text" behind a hero (Aureon signature). Server component. */
 const TOKENS = {
   finance: ['SETTLEMENT_STATUS: COMPLETE', 'TXN_ID 0x8F2C7A91', 'API_RESPONSE 200 OK', 'LEDGER_SYNC OK', 'FX_RATE USD/EUR 0.9213', 'ENCRYPTION AES-256', 'NODE FRA-02', 'LATENCY 12MS', 'BALANCE_CHECK PASSED', 'AMOUNT 248,560.00', 'NETWORK GLOBAL', 'KYC VERIFIED'],

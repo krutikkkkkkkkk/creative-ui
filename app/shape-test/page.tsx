@@ -1,3 +1,5 @@
+import type { Metadata } from "next"
+
 import { demoImages } from "@/lib/demo-images"
 import { CollageFrame, CollageFrameOverlay } from "@/registry/new-york/blocks/collage-frame/collage-frame"
 import { DuotoneImage } from "@/registry/new-york/blocks/duotone-image/duotone-image"
@@ -10,6 +12,9 @@ const card = (
     <p className="mt-1 font-serif text-base">Pre-Raphaelite school</p>
   </div>
 )
+
+/* Internal visual test bench, kept out of search. */
+export const metadata: Metadata = { title: "Shape test", robots: { index: false, follow: false } }
 
 export default function ShapeTest() {
   return (
