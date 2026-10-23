@@ -3,7 +3,7 @@ import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
-import { LAUNCH_OFFER, SPONSORS, SPONSOR_URL, TIERS, type Tier } from "@/lib/sponsors"
+import { LAUNCH_OFFER, PLATFORM_SPONSORS, SPONSORS, SPONSOR_URL, TIERS, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { Eyebrow } from "@/components/home-primitives"
 
@@ -88,6 +88,52 @@ export function SponsorsBand() {
           )
         })}
       </div>
+
+      <PlatformSponsors />
     </section>
+  )
+}
+
+/** Platform sponsors sit below the wall as a quiet logo strip, apart from the paid tiers. */
+function PlatformSponsors() {
+  return (
+    <div className="mt-12 grid gap-4 border-t pt-8 sm:grid-cols-[180px_1fr] sm:items-center sm:gap-8">
+      <p className="font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase">Platform sponsors</p>
+      {PLATFORM_SPONSORS.length === 0 ? (
+        <Link
+          href="/sponsor/platform"
+          className="group flex min-h-16 items-center justify-center rounded-xl border border-dashed px-4 py-3 text-center text-sm text-balance text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+        >
+          <span>
+            <HugeiconsIcon icon={PlusSignIcon} className="mr-1.5 inline size-3.5 -translate-y-px" strokeWidth={2} />
+            Offer credits, hosting or tools? Become a platform sponsor.
+          </span>
+        </Link>
+      ) : (
+        <ul className="flex flex-wrap items-center gap-x-10 gap-y-6">
+          {PLATFORM_SPONSORS.map((p) => (
+            <li key={p.name}>
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noreferrer sponsored"
+                className="flex flex-col items-start gap-1 opacity-70 grayscale transition-[opacity,filter] hover:opacity-100 hover:grayscale-0"
+              >
+                {p.logo ? (
+                  <Image src={p.logo} alt={p.name} width={120} height={24} className="h-6 w-auto object-contain dark:invert" />
+                ) : (
+                  <span className="font-serif text-2xl leading-none">{p.name}</span>
+                )}
+                {p.provides && (
+                  <span className="font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">
+                    {p.provides}
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }

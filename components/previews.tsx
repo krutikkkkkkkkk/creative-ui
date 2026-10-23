@@ -6,6 +6,7 @@ import { DnaCarouselDemo } from "@/components/demos/dna-carousel-demo"
 import { DuotoneImageDemo } from "@/components/demos/duotone-image-demo"
 import { GrainOverlayDemo } from "@/components/demos/grain-overlay-demo"
 import { HalftoneImageDemo } from "@/components/demos/halftone-image-demo"
+import { ImageTrailDemo } from "@/components/demos/image-trail-demo"
 import { RotundaCarouselDemo } from "@/components/demos/rotunda-carousel-demo"
 
 /**
@@ -21,4 +22,5 @@ export const previews: Record<string, React.ComponentType> = {
   "dna-carousel": DnaCarouselDemo,
   "dithering-hover": DitheringHoverDemo,
   "rotunda-carousel": RotundaCarouselDemo,
+  "image-trail": ImageTrailDemo,
 }

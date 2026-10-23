@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import { SITE_URL } from "@/lib/registry"
+import { X_HANDLE } from "@/lib/sponsors"
 import { TESTIMONIALS } from "@/lib/testimonials"
 import { Eyebrow, GOLD, PillLink } from "@/components/home-primitives"
 import { TestimonialCard } from "@/components/home/testimonial-card"
@@ -12,6 +13,7 @@ import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-ove
 const SHARE_URL = `https://x.com/intent/post?${new URLSearchParams({
   text: "Shipped with creative-ui:",
   url: SITE_URL,
+  via: X_HANDLE,
 })}`
 
 export function Testimonials() {

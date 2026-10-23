@@ -3,6 +3,8 @@ export const SPONSOR_URL = "/sponsor#tiers"
 
 /* Where sponsors send billing and refund questions. */
 export const SPONSOR_EMAIL = "krutik@infinitylinkage.com"
+/* Or a DM on X. */
+export const X_HANDLE = "krutikkkkkkkkk"
 
 /* Launch offer, pre-applied at checkout. The code must exist in the Dodo dashboard, in test and
    live mode, as a 30% percentage discount limited to 3 subscription cycles. Set to null to end
@@ -32,6 +34,19 @@ export type Sponsor = {
 
 /* Add sponsors here. Empty tiers show a "your logo here" slot. */
 export const SPONSORS: Sponsor[] = []
+
+/* Companies that back the project with their platform (credits, hosting, tools) rather than a paid
+   tier. Shown as a logo strip under the wall on home. Empty, it invites the first one. */
+export type PlatformSponsor = {
+  name: string
+  href: string
+  /** Path under /public. Falls back to the name when omitted. */
+  logo?: string
+  /** What they provide, e.g. "Hosting" or "Email". */
+  provides?: string
+}
+
+export const PLATFORM_SPONSORS: PlatformSponsor[] = []
 
 /* Prices are USD per month, billed through Dodo Payments. Slots stack as a pyramid:
    one Diamond on top, two Gold, three Silver. productId is the matching subscription product

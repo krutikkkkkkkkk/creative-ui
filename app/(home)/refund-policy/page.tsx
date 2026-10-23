@@ -14,6 +14,9 @@ const UPDATED = "24 Oct 2026"
 /* Dodo Payments only allows a refund within this many days of the payment. */
 const REFUND_WINDOW_DAYS = 30
 
+/* A sponsor who cancels can get that charge back only if they ask within this many hours of it. */
+const CANCEL_REFUND_HOURS = 24
+
 export default function RefundPolicyPage() {
   return (
     <LegalPage
@@ -81,12 +84,18 @@ export default function RefundPolicyPage() {
           Your placement stays live until the end of the month you have already paid for, then comes down on the
           next deploy. Nothing is charged after you cancel.
         </p>
+        <p>
+          <strong>Changed your mind?</strong> Cancel and ask for a refund within {CANCEL_REFUND_HOURS} hours of a
+          charge, and that charge is refunded in full. The time on your Dodo Payments receipt counts. After{" "}
+          {CANCEL_REFUND_HOURS} hours, cancelling stops future charges but doesn&apos;t refund the current month.
+        </p>
       </LegalSection>
 
       <LegalSection n="04" title="When you get a refund">
         <p>
-          Once your logo is live, a monthly payment is <strong>not refunded</strong>, including for the rest of a
-          month after you cancel. You do get your money back when:
+          Outside the {CANCEL_REFUND_HOURS}-hour window above, a monthly payment is <strong>not refunded</strong>,
+          including for the rest of a month after you cancel. The exceptions are the times we fall short, so the{" "}
+          {CANCEL_REFUND_HOURS}-hour window doesn&apos;t apply to them. You get your money back when:
         </p>
         <ul>
           <li>
@@ -119,9 +128,10 @@ export default function RefundPolicyPage() {
           Payments to your original payment method. They usually reach your account within 5 to 10 business days.
         </p>
         <p>
-          Dodo Payments can only refund a payment within {REFUND_WINDOW_DAYS} days of the charge, so please ask
-          within <strong>20 days</strong>. That leaves time to review and issue the refund. You can also contact
-          Dodo Payments directly through the support address on your receipt.
+          A cancellation refund must be asked for within <strong>{CANCEL_REFUND_HOURS} hours of the charge</strong>.
+          For the cases in section 04, ask as soon as you notice. Dodo Payments can only refund a payment within{" "}
+          {REFUND_WINDOW_DAYS} days of the charge, so after that it can&apos;t be refunded through them. You can also
+          contact Dodo Payments directly through the support address on your receipt.
         </p>
       </LegalSection>
 

@@ -5,7 +5,17 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, CheckmarkCircle02Icon, FavouriteIcon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
 import { getSummaries } from "@/lib/registry"
-import { LAUNCH_OFFER, SPONSORS, SPONSOR_EMAIL, TIERS, offerPrice, type Sponsor, type Tier } from "@/lib/sponsors"
+import {
+  LAUNCH_OFFER,
+  PLATFORM_SPONSORS,
+  SPONSORS,
+  SPONSOR_EMAIL,
+  TIERS,
+  X_HANDLE,
+  offerPrice,
+  type Sponsor,
+  type Tier,
+} from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { getVisitorCount } from "@/lib/visitors"
 import { Card } from "@/components/ui/card"
@@ -242,13 +252,18 @@ export default async function SponsorPage() {
               )
             })}
           </div>
-          <div className="mt-6 max-w-[90ch] space-y-2 font-mono text-[11px] leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-foreground">
+          <div className="mx-auto mt-10 max-w-[68ch] space-y-3 text-center text-[13px] leading-relaxed text-pretty text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:text-foreground">
             <p>
               Prices in USD per month, with any sales tax or VAT already included.{" "}
               {LAUNCH_OFFER &&
                 `The launch discount covers your first ${LAUNCH_OFFER.months} monthly payments, then the subscription renews at the full price shown. `}
               Each tier renews monthly until you cancel, which you can do any time from the Dodo Payments customer
-              portal or by emailing <a href={`mailto:${SPONSOR_EMAIL}`}>{SPONSOR_EMAIL}</a>.
+              portal, by emailing <a href={`mailto:${SPONSOR_EMAIL}`}>{SPONSOR_EMAIL}</a> or with a DM on X to{" "}
+              <a href={`https://x.com/${X_HANDLE}`} target="_blank" rel="noreferrer">
+                @{X_HANDLE}
+              </a>
+              . Cancel and ask within
+              24 hours of a charge to get that charge refunded.
             </p>
             <p>
               Dodo Payments is the merchant of record, so the charge and invoice come from them. By checking out you
@@ -256,6 +271,7 @@ export default async function SponsorPage() {
               <Link href="/refund-policy">refund and cancellation policy</Link>.
             </p>
           </div>
+          <PlatformOffer />
         </section>
 
         {/* Current sponsors */}
@@ -294,8 +310,37 @@ export default async function SponsorPage() {
               })}
             </div>
           )}
+          {PLATFORM_SPONSORS.length > 0 && (
+            <div className="mt-10">
+              <p className="mb-4 text-center font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase">
+                Platform
+              </p>
+              <ul className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+                {PLATFORM_SPONSORS.map((p) => (
+                  <li key={p.name}>
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noreferrer sponsored"
+                      className="flex flex-col items-center gap-1 opacity-70 grayscale transition-[opacity,filter] hover:opacity-100 hover:grayscale-0"
+                    >
+                      {p.logo ? (
+                        <Image src={p.logo} alt={p.name} width={140} height={28} className="h-7 w-auto object-contain dark:invert" />
+                      ) : (
+                        <span className="font-serif text-2xl leading-none">{p.name}</span>
+                      )}
+                      {p.provides && (
+                        <span className="font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">
+                          {p.provides}
+                        </span>
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
-
       </div>
     </div>
   )
@@ -318,6 +363,28 @@ function LaunchOffer({ offer }: { offer: NonNullable<typeof LAUNCH_OFFER> }) {
         </code>
         <span className="text-muted-foreground">. It&apos;s applied for you at checkout.</span>
       </p>
+    </div>
+  )
+}
+
+/** The unpaid route: credits, hosting or tools instead of a monthly tier. */
+function PlatformOffer() {
+  return (
+    <div className="mt-12 grid gap-6 rounded-2xl border border-dashed p-7 sm:p-8 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
+      <div>
+        <Eyebrow>Platform sponsor · No payment</Eyebrow>
+        <h3 className="mt-4 font-serif text-3xl leading-[1.05] tracking-[-0.01em] sm:text-4xl">
+          Or back it with your platform.
+        </h3>
+        <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-pretty text-muted-foreground">
+          Offer credits, hosting or tools that creative-ui runs on, and your logo goes in the platform sponsor strip
+          on the home page.
+        </p>
+      </div>
+      <PillLink href="/sponsor/platform" className="justify-self-start">
+        Become a platform sponsor
+        <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
+      </PillLink>
     </div>
   )
 }

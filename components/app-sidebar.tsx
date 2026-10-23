@@ -34,6 +34,7 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar"
 
@@ -152,6 +153,7 @@ export function AppSidebar({
       </SidebarContent>
 
       <SidebarFooter>
+        <SidebarSeparator />
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>

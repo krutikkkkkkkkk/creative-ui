@@ -261,6 +261,21 @@
       ]
     },
     {
+      "name": "image-trail",
+      "type": "registry:component",
+      "title": "Image Trail",
+      "description": "Moving the pointer leaves a trail of images behind it. Each card rises under the cursor, tilts with the direction of travel, hangs for a moment and drifts away. Recycles a fixed pool of cards, keeps quiet zones clear for headlines and buttons, loads images lazily, mouse and pen only, with reduced-motion support.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/image-trail/image-trail.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "lasting-logo-design",
       "type": "registry:item",
       "title": "Lasting Logo Design (Claude skill)",

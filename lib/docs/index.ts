@@ -4,6 +4,7 @@ import { dnaCarousel } from "./dna-carousel"
 import { duotoneImage } from "./duotone-image"
 import { grainOverlay } from "./grain-overlay"
 import { halftoneImage } from "./halftone-image"
+import { imageTrail } from "./image-trail"
 import { rotundaCarousel } from "./rotunda-carousel"
 import type { ItemDocs } from "./types"
 
@@ -21,4 +22,5 @@ export const docs: Record<string, ItemDocs> = {
   "dna-carousel": dnaCarousel,
   "dithering-hover": ditheringHover,
   "rotunda-carousel": rotundaCarousel,
+  "image-trail": imageTrail,
 }
