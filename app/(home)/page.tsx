@@ -101,7 +101,7 @@ export default async function Home() {
         {featured && (
           <section className="grid items-center gap-10 py-20 lg:grid-cols-2 lg:gap-14">
             <Link
-              href={`/items/${featured.name}`}
+              href={`/docs/${featured.name}`}
               className="group relative isolate block aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-border"
             >
               <Image
@@ -131,7 +131,7 @@ export default async function Home() {
               </p>
               <InstallCommand target={`${SITE_URL}/r/${featured.name}.json`} className="mt-8" />
               <Link
-                href={`/items/${featured.name}`}
+                href={`/docs/${featured.name}`}
                 className="group mt-6 inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
               >
                 Read the skill

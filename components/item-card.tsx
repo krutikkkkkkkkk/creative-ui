@@ -11,7 +11,7 @@ export function ItemCard({ item }: { item: ItemSummary }) {
   const isSkill = item.kind === "skill"
 
   return (
-    <Link href={`/items/${item.name}`} className="group block h-full rounded-xl focus-visible:outline-none">
+    <Link href={`/docs/${item.name}`} className="group block h-full rounded-xl focus-visible:outline-none">
       <Card
         className={cn(
           "h-full gap-4 overflow-hidden py-5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5 group-hover:border-foreground/20 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-ring",

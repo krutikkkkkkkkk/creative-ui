@@ -52,7 +52,7 @@ Node 20+ is required. The site is Next.js 15 (App Router) with Tailwind v4 and s
    shape; keep defaults and descriptions in sync with the component's props.
 4. Add a live demo in `components/demos/<name>-demo.tsx` and register it in `components/previews.tsx`.
 5. Run `npm run registry:build` and check that `public/r/<name>.json` was generated.
-6. Open http://localhost:3000/items/<name> and confirm the page renders, the install command is right,
+6. Open http://localhost:3000/docs/<name> and confirm the page renders, the install command is right,
    and the file list is complete.
 7. Test the install in a scratch project:
 

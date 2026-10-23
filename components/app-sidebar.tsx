@@ -115,8 +115,8 @@ export function AppSidebar({
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname === "/"}>
-                    <Link href="/" onClick={close}>
+                  <SidebarMenuButton asChild isActive={pathname === "/docs"}>
+                    <Link href="/docs" onClick={close}>
                       <HugeiconsIcon icon={Home01Icon} strokeWidth={2} />
                       <span>Introduction</span>
                     </Link>
@@ -124,7 +124,7 @@ export function AppSidebar({
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <Link href="/#installation" onClick={close}>
+                    <Link href="/docs#installation" onClick={close}>
                       <HugeiconsIcon icon={CommandLineIcon} strokeWidth={2} />
                       <span>Installation</span>
                     </Link>
@@ -197,7 +197,7 @@ function NavGroup({
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => {
-            const href = `/items/${item.name}`
+            const href = `/docs/${item.name}`
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton

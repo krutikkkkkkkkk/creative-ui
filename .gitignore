@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*
+
+# agent skills installed by integrations (local only)
+.agents/
+.claude/
+skills-lock.json

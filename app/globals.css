@@ -131,7 +131,30 @@
 
   *::-webkit-scrollbar {
     width: 8px;
-    height: 8px;
+    height: 6px;
+  }
+
+  /* Horizontal bars: slimmer pill, inset from the container edges */
+  *::-webkit-scrollbar:horizontal {
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track:horizontal {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb:horizontal {
+    border-width: 1px;
+    background-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+  }
+
+  *:hover::-webkit-scrollbar-thumb:horizontal {
+    background-color: color-mix(in oklch, var(--foreground) 25%, transparent);
+  }
+
+  *::-webkit-scrollbar-thumb:horizontal:hover {
+    background-color: color-mix(in oklch, var(--foreground) 40%, transparent);
   }
 
   *::-webkit-scrollbar-track {

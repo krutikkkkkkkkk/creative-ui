@@ -1,39 +1,17 @@
 import Image from "next/image"
+import Link from "next/link"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon, PlusSignIcon, UserIcon } from "@hugeicons/core-free-icons"
+import { ArrowRight01Icon, PlusSignIcon } from "@hugeicons/core-free-icons"
 
+import { SPONSORS, SPONSOR_URL, TIERS, type Sponsor, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 
-export const SPONSOR_URL = "https://github.com/sponsors/krutikkkkkkkkk"
-
-type Tier = "diamond" | "silver"
-
-type Sponsor = {
-  name: string
-  href: string
-  tier: Tier
-  /** Path under /public. Falls back to the name when omitted. */
-  logo?: string
-  tagline?: string
+/* Tile sizes per tier, largest first. */
+const TILE: Record<Tier, { height: string; logo: { width: number; height: number; className: string }; text: string }> = {
+  diamond: { height: "h-16", logo: { width: 160, height: 28, className: "h-7" }, text: "text-sm" },
+  gold: { height: "h-14", logo: { width: 128, height: 24, className: "h-6" }, text: "text-sm" },
+  silver: { height: "h-11", logo: { width: 96, height: 20, className: "h-5" }, text: "text-xs" },
 }
-
-/* Add sponsors here. Empty tiers show a "your logo here" slot. */
-const SPONSORS: Sponsor[] = []
-
-/* Reach shown to prospective sponsors. Update from your analytics. */
-const VISITORS = { count: 12400, label: "monthly visitors" }
-
-const AVATAR_TINTS = [
-  "bg-amber-500/15 text-amber-600 dark:text-amber-400",
-  "bg-sky-500/15 text-sky-600 dark:text-sky-400",
-  "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
-  "bg-rose-500/15 text-rose-600 dark:text-rose-400",
-]
-
-const TIERS: { tier: Tier; label: string; slots: number }[] = [
-  { tier: "diamond", label: "Diamond", slots: 1 },
-  { tier: "silver", label: "Silver", slots: 2 },
-]
 
 export function SponsorsCard({ className }: { className?: string }) {
   return (
@@ -45,15 +23,13 @@ export function SponsorsCard({ className }: { className?: string }) {
         </span>
       </div>
 
-      <Visitors />
-
       {TIERS.map(({ tier, label, slots }) => {
         const sponsors = SPONSORS.filter((s) => s.tier === tier)
         const empty = Math.max(0, slots - sponsors.length)
         return (
           <div key={tier} className="mt-3">
             <p className="mb-1.5 text-xs text-muted-foreground">{label}</p>
-            <div className={cn("grid gap-1.5", tier === "silver" && "grid-cols-2")}>
+            <div className={cn("grid gap-1.5", slots > 1 && "grid-cols-2")}>
               {sponsors.map((s) => (
                 <SponsorTile key={s.name} sponsor={s} />
               ))}
@@ -65,10 +41,8 @@ export function SponsorsCard({ className }: { className?: string }) {
         )
       })}
 
-      <a
-        href={SPONSOR_URL}
-        target="_blank"
-        rel="noreferrer"
+      <Link
+        href="/sponsor"
         className="group mt-3 flex items-center justify-between rounded-md px-1 py-1 text-xs font-medium text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300"
       >
         Become a sponsor
@@ -77,37 +51,13 @@ export function SponsorsCard({ className }: { className?: string }) {
           className="size-3.5 transition-transform group-hover:translate-x-0.5"
           strokeWidth={2}
         />
-      </a>
-    </div>
-  )
-}
-
-function Visitors() {
-  const count = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(
-    VISITORS.count
-  )
-  return (
-    <div className="mt-3 flex items-center gap-2.5 rounded-lg bg-muted/60 px-2.5 py-2">
-      <div className="flex -space-x-1.5" aria-hidden>
-        {AVATAR_TINTS.map((tint) => (
-          <span
-            key={tint}
-            className={cn("grid size-6 place-items-center rounded-full ring-2 ring-card", tint)}
-          >
-            <HugeiconsIcon icon={UserIcon} className="size-3.5" strokeWidth={2} />
-          </span>
-        ))}
-      </div>
-      <p className="min-w-0 truncate text-xs leading-tight text-muted-foreground">
-        <span className="font-mono text-sm font-semibold text-foreground tabular-nums">{count}+</span>{" "}
-        {VISITORS.label}
-      </p>
+      </Link>
     </div>
   )
 }
 
 function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
-  const diamond = sponsor.tier === "diamond"
+  const tile = TILE[sponsor.tier]
   return (
     <a
       href={sponsor.href}
@@ -116,23 +66,21 @@ function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
       title={sponsor.name}
       className={cn(
         "flex flex-col items-center justify-center gap-0.5 rounded-lg bg-muted/60 px-2 text-center transition-colors hover:bg-muted",
-        diamond ? "h-16" : "h-11"
+        tile.height
       )}
     >
       {sponsor.logo ? (
         <Image
           src={sponsor.logo}
           alt={sponsor.name}
-          width={diamond ? 160 : 96}
-          height={diamond ? 28 : 20}
-          className={cn("w-auto object-contain dark:invert", diamond ? "h-7" : "h-5")}
+          width={tile.logo.width}
+          height={tile.logo.height}
+          className={cn("w-auto object-contain dark:invert", tile.logo.className)}
         />
       ) : (
-        <span className={cn("truncate font-semibold tracking-tight", diamond ? "text-sm" : "text-xs")}>
-          {sponsor.name}
-        </span>
+        <span className={cn("truncate font-semibold tracking-tight", tile.text)}>{sponsor.name}</span>
       )}
-      {diamond && sponsor.tagline && (
+      {sponsor.tier === "diamond" && sponsor.tagline && (
         <span className="truncate text-[11px] text-muted-foreground">{sponsor.tagline}</span>
       )}
     </a>
@@ -147,7 +95,7 @@ function EmptyTile({ tier }: { tier: Tier }) {
       rel="noreferrer"
       className={cn(
         "flex items-center justify-center gap-1.5 rounded-lg border border-dashed text-[11px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground",
-        tier === "diamond" ? "h-16" : "h-11"
+        TILE[tier].height
       )}
     >
       <HugeiconsIcon icon={PlusSignIcon} className="size-3" strokeWidth={2} />

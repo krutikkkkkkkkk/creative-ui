@@ -18,10 +18,11 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { VisitorCount } from "@/components/visitor-count"
 
 export function SiteHeader({ items }: { items: ItemSummary[] }) {
   const pathname = usePathname()
-  const name = pathname.startsWith("/items/") ? pathname.split("/")[2] : null
+  const name = pathname.startsWith("/docs/") ? pathname.split("/")[2] : null
   const item = name ? items.find((i) => i.name === name) : null
 
   return (
@@ -31,12 +32,18 @@ export function SiteHeader({ items }: { items: ItemSummary[] }) {
       <Breadcrumb className="min-w-0 flex-1">
         <BreadcrumbList className="flex-nowrap">
           <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">creative-ui</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
             {item ? (
               <BreadcrumbLink asChild>
-                <Link href="/">creative-ui</Link>
+                <Link href="/docs">Docs</Link>
               </BreadcrumbLink>
             ) : (
-              <BreadcrumbPage>creative-ui</BreadcrumbPage>
+              <BreadcrumbPage>Docs</BreadcrumbPage>
             )}
           </BreadcrumbItem>
           {item && (
@@ -54,6 +61,7 @@ export function SiteHeader({ items }: { items: ItemSummary[] }) {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex items-center gap-1">
+        <VisitorCount className="mr-1" />
         <Button variant="ghost" size="icon" className="size-8" asChild>
           <a href="https://github.com/krutikkkkkkkkk/creative-ui" target="_blank" rel="noreferrer" aria-label="GitHub">
             <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
