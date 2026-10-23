@@ -225,3 +225,268 @@
     }
   }
 }
+
+/* Immersive hero: engraved painting, restoration lens, depth parallax, clip reveals, ticker, scroll exit */
+@property --lens {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 230px;
+}
+
+@keyframes hero-varnish {
+  from {
+    transform: translate(-5%, -4%) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate(5%, 4%) rotate(8deg) scale(1.12);
+  }
+}
+
+@keyframes hero-lens-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-develop {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+@layer utilities {
+  [data-pointer] {
+    --lens: 230px;
+    transition: --lens 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-press="in"] {
+    --lens: 330px;
+  }
+
+  @media (max-width: 640px) {
+    [data-pointer] {
+      --lens: 170px;
+    }
+  }
+
+  /* Warm light drifting over the paper, like sun across a studio wall. */
+  .hero-varnish {
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    background:
+      radial-gradient(42% 38% at 28% 32%, rgba(184, 137, 58, 0.26), transparent 70%),
+      radial-gradient(36% 44% at 74% 66%, rgba(150, 84, 40, 0.16), transparent 70%),
+      radial-gradient(30% 30% at 58% 18%, rgba(184, 137, 58, 0.12), transparent 70%);
+    filter: blur(48px);
+    mix-blend-mode: multiply;
+    animation: hero-varnish 28s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  .dark .hero-varnish {
+    mix-blend-mode: screen;
+    opacity: 0.45;
+  }
+
+  /* The engraving develops like a print coming up in the tray. */
+  .hero-engraving {
+    opacity: 0.72;
+    animation: hero-develop 1600ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+  }
+
+  .dark .hero-engraving {
+    opacity: 0.5;
+  }
+
+  /* The oil painting, cut to a soft circle under the lens. */
+  .hero-lens {
+    -webkit-mask-image: radial-gradient(
+      circle var(--lens) at var(--mx, 50%) var(--my, 62%),
+      black 0,
+      black 60%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(circle var(--lens) at var(--mx, 50%) var(--my, 62%), black 0, black 60%, transparent 100%);
+    animation: hero-develop 1600ms cubic-bezier(0.22, 1, 0.36, 1) 500ms both;
+  }
+
+  /* The lens is drawn on the stage, not inside the painting, so --mx/--my map 1:1. */
+  .hero-lens-ring {
+    position: absolute;
+    left: var(--mx, 50%);
+    top: var(--my, 62%);
+    width: calc(var(--lens) * 2);
+    height: calc(var(--lens) * 2);
+    translate: -50% -50%;
+    pointer-events: none;
+    animation: hero-develop 1200ms cubic-bezier(0.22, 1, 0.36, 1) 900ms both;
+  }
+
+  .hero-lens-orbit {
+    animation: hero-lens-orbit 36s linear infinite;
+  }
+
+  [data-pointer="in"] .hero-lens-idle,
+  [data-pointer="out"] .hero-lens-live {
+    display: none;
+  }
+
+  .hero-depth {
+    translate: calc(var(--px, 0) * var(--depth, 1) * 28px) calc(var(--py, 0) * var(--depth, 1) * 28px);
+    will-change: translate;
+  }
+
+  .cc-reveal {
+    overflow: hidden;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+
+  .cc-reveal > * {
+    display: block;
+    animation: cc-reveal 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--cc-delay, 0ms);
+  }
+
+  .hero-caret {
+    animation: hero-caret 1s steps(2, jump-none) infinite;
+  }
+
+  .hero-cue {
+    animation: hero-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  .hero-ticker {
+    width: max-content;
+    animation: hero-ticker 60s linear infinite;
+  }
+
+  .hero-ticker:hover {
+    animation-play-state: paused;
+  }
+
+  @supports (animation-timeline: view()) {
+    .hero-exit {
+      animation: hero-exit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cc-reveal > *,
+    .hero-cue,
+    .hero-ticker,
+    .hero-exit {
+      animation: none;
+    }
+    .hero-depth {
+      translate: none;
+    }
+    .hero-varnish,
+    .hero-lens-orbit {
+      animation: none;
+    }
+  }
+}
+
+@keyframes cc-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes hero-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes hero-exit {
+  to {
+    opacity: 0.2;
+    translate: 0 -56px;
+    scale: 0.965;
+  }
+}
+
+/* Scroll-driven reveals for the home page (progressive: full opacity without support) */
+@layer utilities {
+  .cc-mega {
+    translate: 0 -50%;
+  }
+
+  @supports (animation-timeline: view()) {
+    .cc-word {
+      animation: cc-word linear both;
+      animation-timeline: view();
+      animation-range: entry 80% cover 42%;
+    }
+
+    .cc-mega {
+      animation: cc-mega linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cc-word,
+    .cc-mega {
+      animation: none;
+    }
+  }
+}
+
+@keyframes cc-word {
+  from {
+    opacity: 0.16;
+    translate: 0 0.12em;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes cc-mega {
+  from {
+    translate: 8vw -50%;
+  }
+  to {
+    translate: -10vw -50%;
+  }
+}

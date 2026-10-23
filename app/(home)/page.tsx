@@ -8,13 +8,18 @@ import { cn } from "@/lib/utils"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { ItemCard } from "@/components/item-card"
-import { CollageFrame, CollageFrameOverlay } from "@/registry/new-york/blocks/collage-frame/collage-frame"
+import { Hero } from "@/components/hero/hero"
+import { LiveTerminal } from "@/components/hero/live-terminal"
+import { CollectionCarousel } from "@/components/home/collection-carousel"
+import { CountUp } from "@/components/home/count-up"
+import { Manifesto } from "@/components/home/manifesto"
+import { SponsorsBand } from "@/components/home/sponsors-band"
+import { StackSteps } from "@/components/home/stack-steps"
+import { Eyebrow, PillLink } from "@/components/home-primitives"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
 /* Home page in the Classical Collage art direction (warm variant): quiet UI, loud art,
    one metaphor per section, light serif statements and mono eyebrows. */
-
-const GOLD = "#B8893A"
 
 export default async function Home() {
   const items = await getSummaries()
@@ -32,61 +37,7 @@ export default async function Home() {
 
   return (
     <div className="relative w-full overflow-x-clip">
-      {/* Hero: a hand sets the keystone. One piece, and the arch holds. */}
-      <section className="relative isolate border-b bg-[#F4F2EE] dark:bg-transparent">
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
-        />
-        <GrainOverlay opacity={0.12} className="-z-10" />
-
-        <div className="mx-auto grid w-full max-w-5xl items-center gap-14 px-4 pt-14 pb-20 sm:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:pt-20 lg:pb-24">
-          <div>
-            <Eyebrow className="cc-rise">Open source · shadcn registry</Eyebrow>
-            <h1 className="mt-6 font-serif text-[2.75rem] leading-[0.95] tracking-[-0.02em] sm:text-6xl lg:text-[4.25rem]">
-              <span className="cc-rise block" style={delay(100)}>
-                Timeless craft.
-              </span>
-              <span className="cc-rise block text-muted-foreground italic" style={delay(200)}>
-                One command away.
-              </span>
-            </h1>
-            <p
-              className="cc-rise mt-7 max-w-[46ch] text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
-              style={delay(300)}
-            >
-              React components and Claude skills by Krutik Raut, made with a designer’s eye. Install any of them
-              into your project with the shadcn CLI.
-            </p>
-            <div className="cc-rise mt-9 flex flex-wrap gap-3" style={delay(400)}>
-              {first && (
-                <PillLink href="#collection" variant="solid">
-                  <span className="size-1.5 rounded-full" style={{ backgroundColor: GOLD }} />
-                  Browse the registry
-                </PillLink>
-              )}
-              <PillLink href={GITHUB_URL} external>
-                <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
-                Star on GitHub
-              </PillLink>
-            </div>
-          </div>
-
-          <div className="cc-rise relative mx-auto w-full max-w-[340px] lg:mr-0" style={delay(250)}>
-            <CollageFrame
-              src="/art/arch-keystone.webp"
-              alt="Oil painting of a hand placing a gold coin as the keystone of a stone arch"
-              shape="arch"
-              tilt={-1.5}
-              className="aspect-[4/5] w-full"
-            >
-              <CollageFrameOverlay position="bottom-left" hang={28} tilt={1.5} className="cc-float">
-                <Terminal name={first?.name} files={first?.fileCount} isSkill={first?.kind === "skill"} />
-              </CollageFrameOverlay>
-            </CollageFrame>
-          </div>
-        </div>
-      </section>
+      <Hero items={items} />
 
       <div className="mx-auto w-full max-w-5xl px-4 pb-24 sm:px-8">
         {/* Stats */}
@@ -145,8 +96,52 @@ export default async function Home() {
           </section>
         )}
 
+        {/* How it works: three moves, stacked like prints laid on a table. */}
+        <section id="how-it-works" className={cn("scroll-mt-20 py-20", featured && "border-t")}>
+          <SectionHeading eyebrow="How it works" title="Three moves." />
+          <StackSteps
+            steps={[
+              {
+                n: "01",
+                title: "Pick a piece.",
+                body: "Browse the collection. Every component and skill is one plain JSON file at /r/name.json, so v0, Cursor and Claude Code can read it as easily as you can.",
+                art: { src: "/art/sorting-prints.webp", alt: "Oil painting of a woman sorting a fan of small prints on a wooden desk" },
+              },
+              {
+                n: "02",
+                title: "Run one command.",
+                body: "The shadcn CLI resolves the item and writes its files straight into your project. No package to install, nothing to configure, nothing to keep updated.",
+                art: { src: "/art/scholar-laptop.webp", alt: "Neoclassical painting of a woman in a white gown typing on a halftone laptop" },
+                widget: first ? (
+                  <LiveTerminal
+                    items={[{ name: first.name, files: first.fileCount, kind: first.kind }]}
+                    namespace={NAMESPACE}
+                    className="rotate-[-1.5deg]"
+                  />
+                ) : undefined,
+              },
+              {
+                n: "03",
+                title: "Own the marble.",
+                body: "What lands in your repo is plain React and Tailwind. Rename it, restyle it, delete half of it. There is no runtime dependency on this site.",
+                art: { src: "/art/sculptor-chisel.webp", alt: "Oil painting of a sculptor's hands with chisel and mallet at a marble face emerging from stone" },
+              },
+            ]}
+          />
+        </section>
+
+        {/* In motion: the DNA carousel with the collection's artworks. */}
+        <section className="border-t py-20">
+          <SectionHeading eyebrow="In motion" title="The collection, in motion." />
+          <CollectionCarousel />
+        </section>
+      </div>
+
+      <Manifesto />
+
+      <div className="mx-auto w-full max-w-5xl px-4 pb-24 sm:px-8">
         {/* Installation */}
-        <section id="installation" className={cn("scroll-mt-20 py-20", featured && "border-t")}>
+        <section id="installation" className="scroll-mt-20 py-20">
           <SectionHeading eyebrow="Installation" title="Two ways in." />
           <div className="grid gap-10 lg:grid-cols-2">
             <Step n="01" title="Install by URL" body="Works in any project. No setup needed.">
@@ -185,8 +180,10 @@ export default async function Home() {
           )}
         </section>
 
+        <SponsorsBand />
+
         {/* Closing call to action */}
-        <section className="relative isolate overflow-hidden rounded-3xl bg-[#111214] px-6 py-16 text-white ring-1 ring-white/10 sm:px-12 sm:py-20">
+        <section className="relative isolate mt-4 overflow-hidden rounded-3xl bg-[#111214] px-6 py-16 text-white ring-1 ring-white/10 sm:px-12 sm:py-20">
           <DataTexture />
           <GrainOverlay opacity={0.25} />
           <Eyebrow className="text-white/60">Built in the open</Eyebrow>
@@ -221,19 +218,6 @@ async function getFeaturedSkill(name: string) {
   return { ...summary, intro: (skillMd && skillIntro(skillMd)) || summary.description }
 }
 
-function delay(ms: number) {
-  return { "--cc-delay": `${ms}ms` } as React.CSSProperties
-}
-
-function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <p className={cn("font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase", className)}>
-      {"// "}
-      {children}
-    </p>
-  )
-}
-
 function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-12">
@@ -243,64 +227,13 @@ function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) 
   )
 }
 
-function PillLink({
-  href,
-  external,
-  variant = "outline",
-  children,
-}: {
-  href: string
-  external?: boolean
-  variant?: "solid" | "outline" | "light" | "ghost-dark"
-  children: React.ReactNode
-}) {
-  const className = cn(
-    "inline-flex h-11 items-center gap-2 rounded-full px-5 font-mono text-[11px] tracking-[.08em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-    variant === "solid" && "bg-foreground text-background hover:bg-foreground/85",
-    variant === "outline" && "border bg-background/60 hover:bg-accent",
-    variant === "light" && "bg-white text-[#111214] hover:bg-white/85",
-    variant === "ghost-dark" && "border border-white/20 text-white hover:bg-white/10"
-  )
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noreferrer" className={className}>
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link href={href} className={className}>
-      {children}
-    </Link>
-  )
-}
-
-/** One focused dark widget floating on the painting. */
-function Terminal({ name, files, isSkill }: { name?: string; files?: number; isSkill?: boolean }) {
-  return (
-    <div className="w-[min(300px,78vw)] rounded-xl bg-[#111214] p-4 text-white shadow-2xl ring-1 ring-white/10">
-      <div className="flex items-center gap-1.5">
-        <span className="size-2 rounded-full bg-white/20" />
-        <span className="size-2 rounded-full bg-white/20" />
-        <span className="size-2 rounded-full bg-white/20" />
-        <span className="ml-auto font-mono text-[10px] tracking-[.08em] text-white/40 uppercase">terminal</span>
-      </div>
-      <pre className="mt-3 font-mono text-[11.5px] leading-relaxed whitespace-pre-wrap text-white/80">
-        <span className="text-white/40">$ </span>npx shadcn add {NAMESPACE}/{name ?? "name"}
-        {"\n"}
-        <span style={{ color: GOLD }}>✓</span> Resolved registry item
-        {"\n"}
-        <span style={{ color: GOLD }}>✓</span> {files ?? 1} files written to {isSkill ? ".claude/skills/" : "components/"}
-      </pre>
-    </div>
-  )
-}
-
 function Stat({ value, label }: { value: string | number; label: string }) {
   return (
     <div className="flex flex-col-reverse px-1">
       <dt className="mt-3 font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">{label}</dt>
-      <dd className="font-serif text-6xl leading-none tracking-[-0.02em] sm:text-7xl">{value}</dd>
+      <dd className="font-serif text-6xl leading-none tracking-[-0.02em] sm:text-7xl">
+        <CountUp value={value} />
+      </dd>
     </div>
   )
 }
