@@ -1,8 +1,6 @@
 import "server-only"
 
-import { Redis } from "@upstash/redis"
-
-export const redis = Redis.fromEnv()
+import { redis } from "@/lib/redis"
 
 /* HyperLogLog: counts unique ids in ~12KB, re-adding an id is a no-op. */
 export const VISITORS_KEY = "visitors:unique"

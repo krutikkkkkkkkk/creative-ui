@@ -60,7 +60,7 @@ export function SponsorsBand() {
                 ) : (
                   <span className="font-serif text-2xl">{s.name}</span>
                 )}
-                {s.tagline && <span className="text-xs text-muted-foreground">{s.tagline}</span>}
+                {s.offer && <span className="text-xs text-balance text-muted-foreground">{s.offer}</span>}
               </a>
             )),
             ...Array.from({ length: empty }, (_, i) => (

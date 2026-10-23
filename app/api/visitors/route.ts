@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
-import { getVisitorCount, redis, VISITORS_KEY } from "@/lib/visitors"
+import { redis } from "@/lib/redis"
+import { getVisitorCount, VISITORS_KEY } from "@/lib/visitors"
 
 const ID = /^[0-9a-f-]{36}$/i
 

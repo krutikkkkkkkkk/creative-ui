@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card"
 
 /* Tile sizes per tier, largest first. */
 const TILE: Record<Tier, { height: string; logo: { width: number; height: number; className: string }; text: string }> = {
-  diamond: { height: "h-16", logo: { width: 160, height: 28, className: "h-7" }, text: "text-sm" },
+  diamond: { height: "min-h-16 py-2.5", logo: { width: 160, height: 28, className: "h-7" }, text: "text-sm" },
   gold: { height: "h-14", logo: { width: 128, height: 24, className: "h-6" }, text: "text-sm" },
   silver: { height: "h-11", logo: { width: 96, height: 20, className: "h-5" }, text: "text-xs" },
 }
@@ -64,9 +64,9 @@ function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
       href={sponsor.href}
       target="_blank"
       rel="noreferrer sponsored"
-      title={sponsor.name}
+      title={sponsor.offer ? `${sponsor.name}: ${sponsor.offer}` : sponsor.name}
       className={cn(
-        "flex flex-col items-center justify-center gap-0.5 rounded-lg bg-muted/60 px-2 text-center transition-colors hover:bg-muted",
+        "flex min-w-0 flex-col items-center justify-center gap-1 rounded-lg bg-muted/60 px-2 text-center transition-colors hover:bg-muted",
         tile.height
       )}
     >
@@ -81,8 +81,11 @@ function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
       ) : (
         <span className={cn("truncate font-semibold tracking-tight", tile.text)}>{sponsor.name}</span>
       )}
-      {sponsor.tier === "diamond" && sponsor.tagline && (
-        <span className="truncate text-[11px] text-muted-foreground">{sponsor.tagline}</span>
+      {/* The offer wraps to two lines; the full text is in the title tooltip. */}
+      {sponsor.tier === "diamond" && sponsor.offer && (
+        <span className="line-clamp-2 w-full text-[11px] leading-snug text-balance text-muted-foreground">
+          {sponsor.offer}
+        </span>
       )}
     </a>
   )

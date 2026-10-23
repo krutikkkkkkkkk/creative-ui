@@ -103,7 +103,7 @@ export default async function SponsorPage() {
         <section id="tiers" className="scroll-mt-20 py-20">
           <SectionHeading eyebrow="Tiers" title="Three ways to show up." />
           <div className="grid gap-6 lg:grid-cols-3">
-            {TIERS.map(({ tier, label, slots, summary, perks }) => {
+            {TIERS.map(({ tier, label, price, slots, summary, perks }) => {
               const taken = SPONSORS.filter((s) => s.tier === tier).length
               const left = Math.max(0, slots - taken)
               const diamond = tier === "diamond"
@@ -133,7 +133,18 @@ export default async function SponsorPage() {
                       {left > 0 ? `${left} of ${slots} open` : "Full"}
                     </span>
                   </div>
-                  <p className={cn("mt-2", diamond ? "text-white/65" : "text-muted-foreground")}>{summary}</p>
+                  <p className="mt-6 flex items-baseline gap-1.5">
+                    <span className="font-serif text-6xl leading-none tracking-[-0.02em]">${price}</span>
+                    <span
+                      className={cn(
+                        "font-mono text-[11px] tracking-[.08em] uppercase",
+                        diamond ? "text-white/55" : "text-muted-foreground"
+                      )}
+                    >
+                      / month
+                    </span>
+                  </p>
+                  <p className={cn("mt-4", diamond ? "text-white/65" : "text-muted-foreground")}>{summary}</p>
                   <ul className="mt-7 flex flex-1 flex-col gap-3 text-sm">
                     {perks.map((perk) => (
                       <li key={perk} className="flex gap-2.5">
@@ -158,7 +169,11 @@ export default async function SponsorPage() {
             })}
           </div>
           <p className="mt-6 font-mono text-[11px] text-muted-foreground">
-            Pricing and billing are handled on GitHub Sponsors.
+            Prices in USD, billed monthly through GitHub Sponsors. Already sponsoring?{" "}
+            <Link href="/sponsor/apply" className="underline underline-offset-4 hover:text-foreground">
+              Send your details
+            </Link>
+            .
           </p>
         </section>
 
@@ -206,21 +221,27 @@ export default async function SponsorPage() {
         <section className="border-t py-20">
           <SectionHeading eyebrow="How it works" title="Three steps to the wall." />
           <div className="grid gap-10 sm:grid-cols-3">
-            <Step n="01" title="Pick a tier" body="Sponsor on GitHub at Diamond, Gold or Silver." />
-            <Step n="02" title="Send your logo" body="Share a logo (SVG works best), a link and, for Diamond, a one-line tagline." />
+            <Step n="01" title="Pick a tier" body="Sponsor monthly on GitHub at Diamond ($250), Gold ($150) or Silver ($50)." />
+            <Step n="02" title="Send your logo" body="Fill in the form with your logo (SVG works best), a link and, for Diamond, an offer for our users." />
             <Step n="03" title="Go live" body="Your logo appears in the docs sidebar and on this page on the next deploy." />
           </div>
-          <Link
-            href="/docs"
-            className="group mt-12 inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
-          >
-            See where sponsors appear in the docs
-            <HugeiconsIcon
-              icon={ArrowRight01Icon}
-              className="size-4 transition-transform group-hover:translate-x-0.5"
-              strokeWidth={2}
-            />
-          </Link>
+          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <PillLink href="/sponsor/apply" variant="solid">
+              Send your details
+              <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
+            </PillLink>
+            <Link
+              href="/docs"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
+            >
+              See where sponsors appear in the docs
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                className="size-4 transition-transform group-hover:translate-x-0.5"
+                strokeWidth={2}
+              />
+            </Link>
+          </div>
         </section>
       </div>
     </div>
@@ -266,7 +287,7 @@ function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
       ) : (
         <span className={cn("font-serif tracking-[-0.01em]", size.text)}>{sponsor.name}</span>
       )}
-      {sponsor.tier === "diamond" && sponsor.tagline && <span className="text-sm text-muted-foreground">{sponsor.tagline}</span>}
+      {sponsor.tier === "diamond" && sponsor.offer && <span className="text-sm text-balance text-muted-foreground">{sponsor.offer}</span>}
     </a>
   )
 }

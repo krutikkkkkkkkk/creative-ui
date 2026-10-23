@@ -8,20 +8,23 @@ export type Sponsor = {
   tier: Tier
   /** Path under /public. Falls back to the name when omitted. */
   logo?: string
-  tagline?: string
+  /** Diamond only: a short offer for creative-ui users, shown under the logo. */
+  offer?: string
 }
 
 /* Add sponsors here. Empty tiers show a "your logo here" slot. */
 export const SPONSORS: Sponsor[] = []
 
-export const TIERS: { tier: Tier; label: string; slots: number; summary: string; perks: string[] }[] = [
+/* Prices are USD per month, billed through GitHub Sponsors. */
+export const TIERS: { tier: Tier; label: string; price: number; slots: number; summary: string; perks: string[] }[] = [
   {
     tier: "diamond",
     label: "Diamond",
+    price: 250,
     slots: 1,
     summary: "One sponsor, top billing.",
     perks: [
-      "Large logo and tagline in the docs sidebar, on every docs page",
+      "Large logo and your offer in the docs sidebar, on every docs page",
       "Featured first on this page",
       "The only Diamond slot, so no one shares it",
     ],
@@ -29,6 +32,7 @@ export const TIERS: { tier: Tier; label: string; slots: number; summary: string;
   {
     tier: "gold",
     label: "Gold",
+    price: 150,
     slots: 1,
     summary: "One sponsor, a size up from Silver.",
     perks: [
@@ -39,6 +43,7 @@ export const TIERS: { tier: Tier; label: string; slots: number; summary: string;
   {
     tier: "silver",
     label: "Silver",
+    price: 50,
     slots: 2,
     summary: "Two sponsors, side by side.",
     perks: ["Logo in the docs sidebar, on every docs page", "Listed on this page"],
