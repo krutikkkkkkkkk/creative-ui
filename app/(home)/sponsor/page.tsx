@@ -18,11 +18,11 @@ import {
   type Tier,
 } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
-import { getVisitorCount } from "@/lib/visitors"
+import { getPageViewCount, getVisitorCount } from "@/lib/visitors"
 import { Card } from "@/components/ui/card"
 import { Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
 import { StackSteps } from "@/components/home/stack-steps"
-import { VisitorTotal } from "@/components/visitor-count"
+import { PageViewTotal, VisitorTotal } from "@/components/visitor-count"
 import { CollageFrame, CollageFrameOverlay } from "@/registry/new-york/blocks/collage-frame/collage-frame"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
@@ -35,7 +35,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/sponsor",
 })
 
-/* The visitor total is read live from Redis on each request, then synced with the nav on the client. */
+/* Visitor and page view totals are read live from Redis on each request, then synced with the nav on the client. */
 export const dynamic = "force-dynamic"
 
 /* Logo tile sizes per tier on the "On the wall" section, largest first. Widths hang the
@@ -70,7 +70,7 @@ const LOGO: Record<Tier, { height: string; width: string; image: { width: number
 }
 
 export default async function SponsorPage() {
-  const [visitors, items] = await Promise.all([getVisitorCount(), getSummaries()])
+  const [visitors, views, items] = await Promise.all([getVisitorCount(), getPageViewCount(), getSummaries()])
   const slots = TIERS.reduce((n, t) => n + t.slots, 0)
   const open = slots - Math.min(slots, SPONSORS.length)
 
@@ -135,9 +135,9 @@ export default async function SponsorPage() {
         {/* Reach */}
         <dl className="grid grid-cols-2 gap-y-10 border-b py-14 sm:grid-cols-4">
           <Stat value={<VisitorTotal initial={visitors} />} label="Unique visitors" />
+          <Stat value={<PageViewTotal initial={views} />} label="Page views" />
           <Stat value={items.length} label="Items in the registry" />
           <Stat value={slots} label="Sponsor slots" />
-          <Stat value="MIT" label="License" />
         </dl>
 
         {/* How it works: three moves, stacked like prints laid on a table, as on home. */}

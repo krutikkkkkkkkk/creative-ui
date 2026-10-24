@@ -7,6 +7,7 @@ import { COMPANY_NAME, SITE_URL } from "@/lib/registry"
 import { AUTHOR, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo"
 import { X_HANDLE } from "@/lib/sponsors"
 import { ThemeProvider } from "@/components/theme-provider"
+import { PageViewTracker } from "@/components/visitor-count"
 import "./globals.css"
 
 /* Google Tag Manager container. */
@@ -88,6 +89,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <PageViewTracker />
         <Analytics />
       </body>
     </html>

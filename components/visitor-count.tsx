@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { usePathname } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ViewIcon } from "@hugeicons/core-free-icons"
 
@@ -60,6 +61,52 @@ function useVisitorCount() {
   return count
 }
 
+/* Page views: the tracker posts once per route and publishes the new total to every reader.
+   null while loading, false when the count is unavailable. */
+let pageViews: number | null | false = null
+let lastTrackedPath: string | null = null
+const pageViewListeners = new Set<() => void>()
+
+function publishPageViews(total: number | false) {
+  pageViews = total
+  pageViewListeners.forEach((notify) => notify())
+}
+
+function subscribePageViews(notify: () => void) {
+  pageViewListeners.add(notify)
+  return () => {
+    pageViewListeners.delete(notify)
+  }
+}
+
+function usePageViews() {
+  return React.useSyncExternalStore(subscribePageViews, () => pageViews, () => null)
+}
+
+/** Counts one page view per route. Mounted once, in the root layout. */
+export function PageViewTracker() {
+  const pathname = usePathname()
+
+  React.useEffect(() => {
+    // Strict Mode runs effects twice in development; count each route once.
+    if (lastTrackedPath === pathname) return
+    lastTrackedPath = pathname
+    fetch("/api/pageviews", { method: "POST" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => publishPageViews(typeof data?.count === "number" ? data.count : false))
+      .catch(() => publishPageViews(false))
+  }, [pathname])
+
+  return null
+}
+
+/** Bare page view total that starts from a server-read value and follows the live count. */
+export function PageViewTotal({ initial }: { initial: number | null }) {
+  const count = usePageViews()
+  const value = typeof count === "number" ? count : initial
+  return value === null ? "—" : compact(value)
+}
+
 function compact(n: number) {
   return new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)
 }
@@ -73,9 +120,17 @@ export function VisitorTotal({ initial }: { initial: number | null }) {
 
 export function VisitorCount({ className }: { className?: string }) {
   const count = useVisitorCount()
+  const views = usePageViews()
   if (count === false) return null
   const label = count === 1 ? "visitor" : "visitors"
   const formatted = count === null ? null : compact(count)
+  const viewsLabel = views === 1 ? "view" : "views"
+  const title = [
+    count !== null && `${count.toLocaleString("en")} ${label}`,
+    typeof views === "number" && `${views.toLocaleString("en")} page ${viewsLabel}`,
+  ]
+    .filter(Boolean)
+    .join(" · ")
 
   return (
     <Badge
@@ -83,7 +138,7 @@ export function VisitorCount({ className }: { className?: string }) {
       variant="outline"
       className={cn("h-8 gap-1.5 px-3 font-normal text-muted-foreground [&>svg]:size-4", className)}
     >
-      <div title={count === null ? undefined : `${count.toLocaleString("en")} ${label}`}>
+      <div title={title || undefined}>
         <HugeiconsIcon icon={ViewIcon} strokeWidth={2} aria-hidden />
         {formatted === null ? (
           <Skeleton className="h-3.5 w-7 rounded bg-foreground/10" />
@@ -91,6 +146,15 @@ export function VisitorCount({ className }: { className?: string }) {
           <span className="font-mono font-semibold text-foreground tabular-nums">{formatted}</span>
         )}
         <span className="-ml-0.5 hidden sm:inline">{label}</span>
+        {typeof views === "number" && (
+          <span className="hidden items-center gap-1.5 sm:inline-flex">
+            <span aria-hidden className="text-border">
+              ·
+            </span>
+            <span className="font-mono font-semibold text-foreground tabular-nums">{compact(views)}</span>
+            <span className="-ml-0.5">{viewsLabel}</span>
+          </span>
+        )}
       </div>
     </Badge>
   )
