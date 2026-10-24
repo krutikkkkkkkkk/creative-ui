@@ -46,6 +46,20 @@ export function drawHalftone(
   height: number,
   options: HalftoneOptions = {}
 ) {
+  const steps = halftoneSteps(canvas, image, width, height, options)
+  while (!steps.next().done) {
+    // All at once. HalftoneImage spreads the same steps over several short tasks.
+  }
+}
+
+/** drawHalftone as a generator that pauses after each row of the screen. */
+function* halftoneSteps(
+  canvas: HTMLCanvasElement,
+  image: Source,
+  width: number,
+  height: number,
+  options: HalftoneOptions
+): Generator<void, void, void> {
   const {
     dotSize = 6,
     angle = 45,
@@ -131,6 +145,7 @@ export function drawHalftone(
         ctx.restore()
       }
     }
+    yield
   }
 }
 
@@ -206,32 +221,50 @@ export function HalftoneImage({
     if (!el || !canvas || !image) return
 
     let frame = 0
+    let slice = 0
     const render = () => {
       cancelAnimationFrame(frame)
+      clearTimeout(slice)
       frame = requestAnimationFrame(() => {
         const { width, height } = el.getBoundingClientRect()
         if (!width || !height) return
         const ink = color === "currentColor" ? getComputedStyle(el).color : color
         const paper = background === "currentColor" ? getComputedStyle(el).color : background
-        try {
-          drawHalftone(canvas, image, width, height, {
-            dotSize,
-            angle,
-            color: ink,
-            background: paper,
-            shape,
-            invert,
-            contrast,
-            gain,
-            fit,
-          })
-          renderedRef.current?.()
-        } catch (error) {
-          console.warn(
-            "HalftoneImage: could not read the image pixels. Serve it from the same origin or with CORS headers.",
-            error
-          )
+        // A large screen is tens of thousands of dots. Draw them off screen in ~8ms slices so the
+        // page can paint and respond in between, then swap the finished image in at once.
+        const off = document.createElement("canvas")
+        const steps = halftoneSteps(off, image, width, height, {
+          dotSize,
+          angle,
+          color: ink,
+          background: paper,
+          shape,
+          invert,
+          contrast,
+          gain,
+          fit,
+        })
+        const pump = () => {
+          const end = performance.now() + 8
+          try {
+            while (performance.now() < end) {
+              if (!steps.next().done) continue
+              canvas.width = off.width
+              canvas.height = off.height
+              canvas.getContext("2d")?.drawImage(off, 0, 0)
+              renderedRef.current?.()
+              return
+            }
+          } catch (error) {
+            console.warn(
+              "HalftoneImage: could not read the image pixels. Serve it from the same origin or with CORS headers.",
+              error
+            )
+            return
+          }
+          slice = window.setTimeout(pump)
         }
+        pump()
       })
     }
 
@@ -250,6 +283,7 @@ export function HalftoneImage({
       ro.disconnect()
       mo?.disconnect()
       cancelAnimationFrame(frame)
+      clearTimeout(slice)
     }
   }, [image, dotSize, angle, color, background, shape, invert, contrast, gain, fit])
 

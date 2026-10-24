@@ -6,7 +6,7 @@ import { COMPANY_NAME, COMPANY_URL, GITHUB_URL, SITE_URL } from "@/lib/registry"
 import { SPONSOR_URL } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Logo } from "@/components/app-sidebar"
+import { Logo } from "@/components/logo"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
 const GOLD = "#B8893A"

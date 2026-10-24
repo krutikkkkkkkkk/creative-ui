@@ -33,6 +33,7 @@ export type ItemSummary = {
   kind: ItemKind
   fileCount: number
   banner: string | null
+  poster: string | null
 }
 
 async function readRegistry(): Promise<{ items: RegistryItem[] }> {
@@ -63,6 +64,7 @@ export async function getSummaries(): Promise<ItemSummary[]> {
       kind: kindOf(item),
       fileCount: item.files?.length ?? 0,
       banner: await bannerOf(item.name),
+      poster: await posterOf(item.name),
     }))
   )
 }
@@ -105,7 +107,18 @@ export function skillIntro(skillMd: string) {
  * appears on the item page and as its social preview image.
  */
 export async function bannerOf(name: string) {
-  const rel = `/banners/${name}.png`
+  return publicFile(`/banners/${name}.png`)
+}
+
+/**
+ * The still on an item's card: `public/posters/<name>.webp`, captured from its live preview.
+ * Falls back to the banner, so skills keep their artwork.
+ */
+export async function posterOf(name: string) {
+  return (await publicFile(`/posters/${name}.webp`)) ?? bannerOf(name)
+}
+
+async function publicFile(rel: string) {
   try {
     await fs.access(path.join(process.cwd(), "public", rel))
     return rel

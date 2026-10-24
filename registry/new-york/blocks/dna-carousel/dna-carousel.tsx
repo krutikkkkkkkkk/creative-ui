@@ -524,7 +524,9 @@ export function DnaCarousel({
               src={image.src}
               alt={image.alt ?? ""}
               draggable={false}
-              loading={Math.abs(p) <= s.visibleItems ? "eager" : "lazy"}
+              // Lazy for every card: the browser still fetches the visible ones before they
+              // scroll into view, and a carousel below the fold no longer loads with the page.
+              loading="lazy"
               decoding="async"
               className="pointer-events-none block size-full object-cover select-none"
             />

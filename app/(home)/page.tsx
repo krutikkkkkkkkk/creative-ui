@@ -17,7 +17,6 @@ import {
 import { SITE_NAME, SITE_TAGLINE, pageMetadata, siteJsonLd } from "@/lib/seo"
 import { cn } from "@/lib/utils"
 import { InstallCommand } from "@/components/copy-command"
-import { ItemCard } from "@/components/item-card"
 import { JsonLd } from "@/components/json-ld"
 import { Hero } from "@/components/hero/hero"
 import { LiveTerminal } from "@/components/hero/live-terminal"
@@ -105,18 +104,8 @@ export default async function Home() {
           </section>
         )}
 
-        {/* The collection: every item, read from the registry so new pieces appear here on their own. */}
-        <section id="collection" className={cn("scroll-mt-20 py-20", featured && "border-t")}>
-          <SectionHeading eyebrow={`The collection · ${items.length} pieces`} title="Every piece, one command." />
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[...skills, ...components].map((item) => (
-              <ItemCard key={item.name} item={item} />
-            ))}
-          </div>
-        </section>
-
         {/* How it works: three moves, stacked like prints laid on a table. */}
-        <section id="how-it-works" className="scroll-mt-20 border-t py-20">
+        <section id="how-it-works" className={cn("scroll-mt-20 py-20", featured && "border-t")}>
           <SectionHeading eyebrow="How it works" title="Three moves." />
           <StackSteps
             steps={[

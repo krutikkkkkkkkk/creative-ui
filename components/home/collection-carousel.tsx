@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
+import { getImageProps } from "next/image"
 
 import { DnaCarousel } from "@/registry/new-york/blocks/dna-carousel/dna-carousel"
 
-const IMAGES = [
+const ART = [
   { src: "/art/arch-laurel.webp", alt: "A hand sets a carved marble keystone into an arch" },
   { src: "/art/bust-headphones.webp", alt: "Marble bust of a Roman woman wearing white headphones" },
   { src: "/art/owl-keyboard.webp", alt: "An owl perched on a cream mechanical keyboard" },
@@ -22,6 +23,13 @@ const IMAGES = [
   { src: "/art/philosopher-mouse.webp", alt: "An old philosopher studies a white computer mouse in his palm" },
   { src: "/art/hands-card.webp", alt: "Hands in red velvet presenting a blank marble card" },
 ]
+
+// Resized by next/image instead of the 928px originals. getImageProps' `src` is the 2x candidate,
+// so 192 gives a 384px image: sharp on the 220px cards at the densities phones report.
+const IMAGES = ART.map(({ src, alt }) => ({
+  src: getImageProps({ src, alt, width: 192, height: 262 }).props.src,
+  alt,
+}))
 
 /** The home page showcase of the DNA carousel: drag, scroll or use the arrow keys. */
 export function CollectionCarousel() {

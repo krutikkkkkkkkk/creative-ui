@@ -13,12 +13,12 @@ const LINES = [
 export function Manifesto() {
   return (
     <section className="relative isolate overflow-hidden border-t py-24 sm:py-32">
+      {/* The watermark word is generated content: decoration, so contrast checkers don't read it as text. */}
       <span
         aria-hidden
-        className="cc-mega pointer-events-none absolute -right-[4vw] top-1/2 -z-10 -translate-y-1/2 font-serif text-[clamp(10rem,32vw,30rem)] leading-none tracking-[-0.05em] text-foreground/[0.035] italic select-none"
-      >
-        craft
-      </span>
+        data-word="craft"
+        className="cc-mega pointer-events-none absolute -right-[4vw] top-1/2 -z-10 -translate-y-1/2 font-serif text-[clamp(10rem,32vw,30rem)] leading-none tracking-[-0.05em] text-foreground/[0.035] italic select-none before:content-[attr(data-word)]"
+      />
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-8">
         <Eyebrow>The house style</Eyebrow>
         <div className="mt-10 flex flex-col gap-10 sm:gap-14">

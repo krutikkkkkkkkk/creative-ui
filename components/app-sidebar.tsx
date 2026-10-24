@@ -20,6 +20,7 @@ import {
 } from "@hugeicons/core-free-icons"
 
 import type { ItemSummary } from "@/lib/registry"
+import { Logo } from "@/components/logo"
 import { Kbd } from "@/components/ui/kbd"
 import {
   Sidebar,
@@ -37,17 +38,6 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar"
-
-export function Logo({ className = "size-8" }: { className?: string }) {
-  return (
-    <div
-      className={`${className} relative grid shrink-0 place-items-center overflow-hidden rounded-lg bg-foreground text-background`}
-    >
-      <span className="font-serif text-lg leading-none italic">c</span>
-      <span className="absolute right-1 bottom-1 size-1.5 rounded-full bg-amber-400" />
-    </div>
-  )
-}
 
 const GET_STARTED = [
   { href: "/docs", label: "Introduction", icon: Home01Icon },

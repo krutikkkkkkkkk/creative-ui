@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { getStarCount } from "@/lib/github"
 import { cn } from "@/lib/utils"
-import { Logo } from "@/components/app-sidebar"
+import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { GithubLink } from "@/components/github-link"
 import { ThemeToggle } from "@/components/theme-toggle"

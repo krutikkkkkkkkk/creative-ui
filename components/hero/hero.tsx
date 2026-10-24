@@ -48,8 +48,9 @@ export function Hero({ items }: { items: ItemSummary[] }) {
             </span>
           </h1>
 
+          {/* em, not ch: a ch width follows the font's "0", so it resized (a layout shift) when Geist loaded. */}
           <p
-            className="cc-rise mt-6 max-w-[46ch] text-center text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
+            className="cc-rise mt-6 max-w-[30.5em] text-center text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             style={delay(420)}
           >
             React components and Claude skills by Krutik Raut, made with a designer’s eye. Install any of them into

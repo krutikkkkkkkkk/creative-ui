@@ -73,7 +73,7 @@ export function LiveTerminal({
         <span className="size-2 rounded-full bg-white/20" />
         <span className="size-2 rounded-full bg-white/20" />
         <span className="size-2 rounded-full bg-white/20" />
-        <span className="ml-auto font-mono text-[10px] tracking-[.08em] text-white/40 uppercase">terminal</span>
+        <span className="ml-auto font-mono text-[10px] tracking-[.08em] text-white/50 uppercase">terminal</span>
       </div>
       <pre className="mt-3 min-h-[4.6rem] font-mono text-[11.5px] leading-relaxed whitespace-pre-wrap text-white/80">
         <span className="text-white/40">$ </span>
