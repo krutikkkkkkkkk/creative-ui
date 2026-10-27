@@ -200,7 +200,12 @@ function NavGroup({
                 >
                   <Link href={href} onClick={onNavigate}>
                     <HugeiconsIcon icon={icon} strokeWidth={2} />
-                    <span>{item.title}</span>
+                    <span className="truncate">{item.title}</span>
+                    {item.isNew && (
+                      <span className="-ml-0.5 size-1.5 shrink-0 rounded-full bg-[#B8893A]" title="New">
+                        <span className="sr-only">New</span>
+                      </span>
+                    )}
                   </Link>
                 </SidebarMenuButton>
                 {item.fileCount > 1 && (

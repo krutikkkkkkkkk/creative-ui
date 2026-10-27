@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "shadcn build && next build",
+    "build": "node scripts/stamp-dates.mjs && shadcn build && next build",
     "start": "next start",
     "lint": "next lint",
-    "registry:build": "shadcn build",
+    "registry:build": "node scripts/stamp-dates.mjs && shadcn build",
     "sync:skill": "node scripts/sync-skill.mjs"
   },
   "dependencies": {

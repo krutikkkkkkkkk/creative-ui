@@ -21,6 +21,8 @@ export type RegistryItem = {
   registryDependencies?: string[]
   /** Printed by the shadcn CLI after install. */
   docs?: string
+  /** `addedAt` (YYYY-MM-DD) is stamped by scripts/stamp-dates.mjs on registry:build. */
+  meta?: { addedAt?: string; [key: string]: unknown }
   files?: RegistryFile[]
 }
 
@@ -34,6 +36,17 @@ export type ItemSummary = {
   fileCount: number
   banner: string | null
   poster: string | null
+  /** Published within the last NEW_FOR_DAYS days. Shown as a dot in the sidebar. */
+  isNew: boolean
+}
+
+/** How long a freshly published item keeps its "new" dot. */
+export const NEW_FOR_DAYS = 3
+
+/** Evaluated at render time, so on a static deploy the dot clears with the next build. */
+export function isNewItem(item: RegistryItem, now = Date.now()) {
+  const added = item.meta?.addedAt ? Date.parse(item.meta.addedAt) : NaN
+  return Number.isFinite(added) && now - added < NEW_FOR_DAYS * 24 * 60 * 60 * 1000
 }
 
 async function readRegistry(): Promise<{ items: RegistryItem[] }> {
@@ -65,6 +78,7 @@ export async function getSummaries(): Promise<ItemSummary[]> {
       fileCount: item.files?.length ?? 0,
       banner: await bannerOf(item.name),
       poster: await posterOf(item.name),
+      isNew: isNewItem(item),
     }))
   )
 }

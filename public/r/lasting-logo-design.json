@@ -71,5 +71,8 @@
       "target": "~/.claude/skills/lasting-logo-design/templates/output.schema.json"
     }
   ],
+  "meta": {
+    "addedAt": "2026-10-23"
+  },
   "type": "registry:item"
 }

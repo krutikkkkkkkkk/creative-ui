@@ -92,6 +92,8 @@ const item = {
 
 const registry = JSON.parse(fs.readFileSync("registry.json", "utf8"))
 const i = registry.items.findIndex((x) => x.name === name)
+// Keep the original publish date when re-syncing; a new skill is dated today.
+item.meta = { ...registry.items[i]?.meta, addedAt: registry.items[i]?.meta?.addedAt ?? new Date().toISOString().slice(0, 10) }
 if (i >= 0) registry.items[i] = item
 else registry.items.push(item)
 fs.writeFileSync("registry.json", JSON.stringify(registry, null, 2) + "\n")

@@ -52,6 +52,12 @@ Node 20+ is required. The site is Next.js 15 (App Router) with Tailwind v4 and s
    shape; keep defaults and descriptions in sync with the component's props.
 4. Add a live demo in `components/demos/<name>-demo.tsx` and register it in `components/previews.tsx`.
 5. Run `npm run registry:build` and check that `public/r/<name>.json` was generated.
+   The build also stamps `"meta": { "addedAt": "<today>" }` on any entry that has no date. That
+   date gives the item a "new" dot in the sidebar for three days (`NEW_FOR_DAYS` in `lib/registry.ts`).
+   Commit the stamped `registry.json` so the date stays fixed.
+
+   Where the entry sits in `registry.json` is where it appears on the site. Showpieces go first and
+   quiet building blocks such as Halftone Image and Grain Overlay go last.
 6. Open http://localhost:3000/docs/<name> and confirm the page renders, the install command is right,
    and the file list is complete.
 7. Test the install in a scratch project:
