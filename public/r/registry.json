@@ -52,7 +52,7 @@
       "name": "duotone-image",
       "type": "registry:component",
       "title": "Duotone & Print Filter",
-      "description": "Two-ink colour treatment for photos in the spirit of risograph and screen prints: seven ink presets or any two colours, a mix slider and optional misregistration. Pure SVG filters.",
+      "description": "Two-ink colour treatment for photos in the spirit of risograph and screen prints: seven ink presets or any two colours, a mix slider and optional misregistration that can slide into register when the image scrolls into view or as you scroll. Pure SVG filters.",
       "registryDependencies": [
         "utils"
       ],
@@ -287,6 +287,81 @@
       "files": [
         {
           "path": "registry/new-york/blocks/cyanotype/cyanotype.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marbled-paper",
+      "type": "registry:component",
+      "title": "Marbled Paper",
+      "description": "A living sheet of marbled paper in four traditional patterns: stone, combed, nonpareil and bouquet. Each pixel is traced through exact drop and comb maps, so edges stay sharp. It drifts slowly and you can drag through the ink like a stylus. Use it as a section or card background.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/marbled-paper/marbled-paper.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "etching",
+      "type": "registry:component",
+      "title": "Etching",
+      "description": "Renders an image as a copperplate engraving on canvas: hatch lines that bow around the forms and swell with the shadows, cross-hatching in the darks, a third pass in the deepest shadows, and ink on paper with plate tone. The lines cut themselves in, stroke by stroke, when it scrolls into view, or follow a controlled progress value.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/etching/etching.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "gold-leaf",
+      "type": "registry:component",
+      "title": "Gold Leaf",
+      "description": "Gilds text with real-looking gold leaf: square leaves with visible seams, slight tone differences, fine cracks and missed flecks, and burnished metal with a highlight that follows the pointer. A slow pass of light runs on touch screens, and an optional lay animation settles the leaves on in a staggered sweep. The text stays real, selectable text.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/gold-leaf/gold-leaf.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "wax-seal",
+      "type": "registry:component",
+      "title": "Wax Seal",
+      "description": "A press-and-hold button with a wax seal, in two variants. Seal pools molten wax from the centre while held and presses a stamp into it, leaving an embossed impression. Open starts stamped: holding strains the wax until a crack runs across it and it snaps in two. Letting go early undoes the hold.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/wax-seal/wax-seal.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tear-reveal",
+      "type": "registry:component",
+      "title": "Tear Reveal",
+      "description": "A sheet of paper over any content that you tear open by dragging from a notch. The tear follows your path with a jagged edge and a pale fibrous rim, the halves fall away with gravity and spin past a threshold, and an early release springs it shut. Enter or Space tears it in one pass.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/tear-reveal/tear-reveal.tsx",
           "type": "registry:component"
         }
       ]

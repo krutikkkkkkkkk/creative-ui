@@ -16,6 +16,9 @@ export function Cover() {
   )
 }
 
+// Slide the shadow pass into register the first time it scrolls into view.
+<DuotoneImage src="/poster.jpg" preset="fluoro" offset={2} registration="view" className="aspect-[4/5] w-72" />
+
 // Or filter an element you already render:
 <DuotoneImage shadow="#0a2a6e" highlight="#dbe7f5" className="w-72">
   <Image src="/portrait.jpg" alt="Portrait" width={600} height={600} />
@@ -59,6 +62,20 @@ export function Cover() {
           description: "Riso-style misregistration: offsets a second pass of the shadow ink by this many px.",
         },
         { name: "offsetAngle", type: "number", default: "30", description: "Direction of the misregistration in degrees." },
+        {
+          name: "registration",
+          type: `"static" | "view" | "scroll"`,
+          default: `"static"`,
+          description:
+            "Animate the shadow pass into register, like a riso pull. `view` slides it in once, the first time the image scrolls into view. `scroll` ties it to the image's position in the viewport. It lands on `offset`. Needs `src`.",
+        },
+        {
+          name: "registrationOffset",
+          type: "number",
+          default: "24",
+          description: "How far out of register the pass starts, along `offsetAngle`, in px. It also starts turned by about 0.06° per px.",
+        },
+        { name: "registrationDuration", type: "number", default: "1200", description: "Length of the `view` slide in ms." },
         { name: "fit", type: `"cover" | "contain"`, default: `"cover"`, description: "How the image fills the box." },
         { name: "imageClassName", type: "string", description: "Class names for the `img` element." },
         {
@@ -81,7 +98,9 @@ export function Cover() {
   ],
   notes: [
     "Inks are baked into an SVG filter, so CSS variables and named colours are not supported. An unreadable shadow falls back to black and an unreadable highlight to white.",
-    "`offset` adds a second copy of the image. `mix` below 1 adds one more.",
-    "No client JavaScript, so it is safe in React Server Components.",
+    "`offset` adds a second copy of the image. `mix` below 1 adds one more. `offset` and `registration` need `src` and are ignored when wrapping `children`.",
+    "With `registration`, the pass travels on `transform` and `opacity` only. `view` is a CSS transition triggered once; `scroll` writes the transform from `requestAnimationFrame` while the image is on screen, with no React renders.",
+    "With reduced motion the pass is in register from the first paint. To replay `view`, remount with a new `key`.",
+    "It is a client component because of the registration animation. With the default `registration=\"static\"` it renders the same markup on the server and adds no observers. Import `duotonePresets` and `parseColor` from client code.",
   ],
 }

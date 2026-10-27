@@ -3,10 +3,15 @@ import { cyanotype } from "./cyanotype"
 import { ditheringHover } from "./dithering-hover"
 import { dnaCarousel } from "./dna-carousel"
 import { duotoneImage } from "./duotone-image"
+import { etching } from "./etching"
+import { goldLeaf } from "./gold-leaf"
 import { grainOverlay } from "./grain-overlay"
 import { halftoneImage } from "./halftone-image"
 import { imageTrail } from "./image-trail"
+import { marbledPaper } from "./marbled-paper"
 import { rotundaCarousel } from "./rotunda-carousel"
+import { tearReveal } from "./tear-reveal"
+import { waxSeal } from "./wax-seal"
 import type { ItemDocs } from "./types"
 
 export type { ComponentApi, ExportDoc, ItemDocs, PropDoc } from "./types"
@@ -25,4 +30,9 @@ export const docs: Record<string, ItemDocs> = {
   "rotunda-carousel": rotundaCarousel,
   "image-trail": imageTrail,
   cyanotype,
+  "marbled-paper": marbledPaper,
+  etching,
+  "gold-leaf": goldLeaf,
+  "wax-seal": waxSeal,
+  "tear-reveal": tearReveal,
 }

@@ -14,7 +14,7 @@ export async function HomeHeader() {
     <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 sm:px-8">
         <Link href="/" className="mr-1 flex shrink-0 items-center gap-2.5 sm:mr-4">
-          <Logo className="size-7" />
+          <Logo className="size-9" />
           <span className="font-semibold tracking-tight whitespace-nowrap max-[379px]:sr-only">creative-ui</span>
         </Link>
         <nav className="flex items-center gap-1">

@@ -8,6 +8,7 @@ import { HeroPieces } from "@/components/hero/hero-pieces"
 import { HeroStage } from "@/components/hero/hero-stage"
 import { HeroTrail } from "@/components/hero/hero-trail"
 import { LiveTerminal } from "@/components/hero/live-terminal"
+import { GoldLeaf } from "@/registry/new-york/blocks/gold-leaf/gold-leaf"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
 /* Hero: a hand sets the keystone. One piece, and the arch holds.
@@ -17,6 +18,8 @@ import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-ove
 
 export function Hero({ items }: { items: ItemSummary[] }) {
   const terminalItems = items.map((i) => ({ name: i.name, files: i.fileCount, kind: i.kind }))
+  const skills = items.filter((i) => i.kind === "skill").length
+  const components = items.length - skills
 
   return (
     <HeroStage className="border-b bg-[#F4F2EE] dark:bg-transparent">
@@ -35,15 +38,23 @@ export function Hero({ items }: { items: ItemSummary[] }) {
       <div className="hero-exit relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-6xl flex-col items-center px-4 pt-10 sm:px-8 lg:pt-14">
         {/* The copy and buttons stay clear of the cursor trail. */}
         <div data-trail-quiet className="flex w-fit max-w-full flex-col items-center">
-          <Eyebrow className="cc-rise text-center">Open source · shadcn registry</Eyebrow>
+          <Eyebrow className="cc-rise text-center">
+            {components} components · {skills} skills · Open source
+          </Eyebrow>
 
           <h1 className="mt-5 text-center font-serif text-[clamp(2.9rem,7.6vw,6.5rem)] leading-[0.92] tracking-[-0.025em] text-balance">
             <span className="cc-reveal block">
-              <span style={delay(120)}>Timeless craft.</span>
+              <span style={delay(120)}>
+                <GoldLeaf lay leafSize={40} cracks={0.25}>
+                  Timeless craft.
+                </GoldLeaf>
+              </span>
             </span>
             <span className="cc-reveal block">
-              <span className="text-muted-foreground italic" style={delay(260)}>
-                One command away.
+              <span className="italic" style={delay(260)}>
+                <GoldLeaf lay tone="white" leafSize={40} cracks={0.25} seed={12} layDuration={2000}>
+                  One command away.
+                </GoldLeaf>
               </span>
             </span>
           </h1>
