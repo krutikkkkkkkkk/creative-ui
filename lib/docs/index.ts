@@ -1,4 +1,5 @@
 import { collageFrame } from "./collage-frame"
+import { cyanotype } from "./cyanotype"
 import { ditheringHover } from "./dithering-hover"
 import { dnaCarousel } from "./dna-carousel"
 import { duotoneImage } from "./duotone-image"
@@ -23,4 +24,5 @@ export const docs: Record<string, ItemDocs> = {
   "dithering-hover": ditheringHover,
   "rotunda-carousel": rotundaCarousel,
   "image-trail": imageTrail,
+  cyanotype,
 }

@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import { CollageFrameDemo } from "@/components/demos/collage-frame-demo"
+import { CyanotypeDemo } from "@/components/demos/cyanotype-demo"
 import { DitheringHoverDemo } from "@/components/demos/dithering-hover-demo"
 import { DnaCarouselDemo } from "@/components/demos/dna-carousel-demo"
 import { DuotoneImageDemo } from "@/components/demos/duotone-image-demo"
@@ -23,4 +24,5 @@ export const previews: Record<string, React.ComponentType> = {
   "dithering-hover": DitheringHoverDemo,
   "rotunda-carousel": RotundaCarouselDemo,
   "image-trail": ImageTrailDemo,
+  cyanotype: CyanotypeDemo,
 }

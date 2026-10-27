@@ -277,6 +277,21 @@
       ]
     },
     {
+      "name": "cyanotype",
+      "type": "registry:component",
+      "title": "Cyanotype",
+      "description": "Turns any image into a hand-coated cyanotype: Prussian-blue tones, a brushed emulsion edge with an exposed border, uneven coating and paper tooth. Photogram mode prints objects as white silhouettes, and an optional develop wash plays when the print scrolls into view. Pure SVG filters, no CORS needed.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/cyanotype/cyanotype.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "lasting-logo-design",
       "type": "registry:item",
       "title": "Lasting Logo Design (Claude skill)",
