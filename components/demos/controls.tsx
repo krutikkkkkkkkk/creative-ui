@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
@@ -154,6 +155,38 @@ export function Swatches({
           />
         ))}
       </ToggleGroup>
+    </div>
+  )
+}
+
+export function Text({
+  label,
+  value,
+  onChange,
+  placeholder,
+  maxLength = 32,
+}: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  maxLength?: number
+}) {
+  const id = React.useId()
+  return (
+    <div className="flex flex-col gap-1.5">
+      <ControlLabel htmlFor={id}>{label}</ControlLabel>
+      <Input
+        id={id}
+        value={value}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        spellCheck={false}
+        autoComplete="off"
+        onChange={(e) => onChange(e.target.value)}
+        // 16px below md stops iOS zooming in on focus.
+        className="h-8 md:text-xs"
+      />
     </div>
   )
 }
