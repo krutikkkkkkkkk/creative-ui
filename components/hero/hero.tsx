@@ -42,7 +42,7 @@ export function Hero({ items }: { items: ItemSummary[] }) {
             {components} components · {skills} skills · Open source
           </Eyebrow>
 
-          <h1 className="mt-5 text-center font-serif text-[clamp(2.9rem,7.6vw,6.5rem)] leading-[0.92] tracking-[-0.025em] text-balance">
+          <h1 className="mt-5 text-center font-serif text-[clamp(2.3rem,5.6vw,4.75rem)] leading-[0.92] tracking-[-0.025em] text-balance">
             <span className="cc-reveal block">
               <span style={delay(120)}>
                 <GoldLeaf lay leafSize={40} cracks={0.25}>

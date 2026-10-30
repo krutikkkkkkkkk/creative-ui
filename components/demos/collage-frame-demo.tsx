@@ -34,7 +34,7 @@ export function CollageFrameDemo() {
                 <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Lot 17</span>
                 <span className="size-1.5 rounded-full bg-emerald-500" />
               </div>
-              <p className="mt-1.5 font-serif text-lg leading-none">Pre-Raphaelite school</p>
+              <p className="mt-1.5 font-serif text-lg leading-tight">Pre-Raphaelite school</p>
               <p className="mt-2 text-xs text-muted-foreground">Oil painting · 19th century</p>
               <div className="mt-3 flex items-baseline justify-between">
                 <span className="text-xs text-muted-foreground">Est.</span>
