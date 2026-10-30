@@ -51,7 +51,7 @@ export function Hero({ items }: { items: ItemSummary[] }) {
               </span>
             </span>
             <span className="cc-reveal block">
-              <span className="italic" style={delay(260)}>
+              <span style={delay(260)}>
                 <GoldLeaf lay tone="white" leafSize={40} cracks={0.25} seed={12} layDuration={2000}>
                   One command away.
                 </GoldLeaf>

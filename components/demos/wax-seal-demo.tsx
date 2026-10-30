@@ -59,11 +59,11 @@ function Envelope({ opened, children }: { opened: boolean; children: React.React
           transition: `transform 700ms ${GLIDE} ${opened ? 420 : 0}ms`,
         }}
       >
-        <p className="font-serif text-sm italic sm:text-base">My dear friend,</p>
+        <p className="font-serif text-sm sm:text-base">My dear friend,</p>
         <p className="mt-2 font-serif text-[11px] leading-relaxed opacity-75 sm:text-xs">
           The frescoes are finished at last. Come and see them before the scaffolding comes down.
         </p>
-        <p className="mt-2 text-right font-serif text-sm italic sm:text-base">A.</p>
+        <p className="mt-2 text-right font-serif text-sm sm:text-base">A.</p>
       </div>
 
       {/* Side and bottom folds: the pocket, cut away where the flap lies. */}
@@ -97,7 +97,7 @@ function Envelope({ opened, children }: { opened: boolean; children: React.React
           className="absolute inset-0 bg-[#ece6d8] [backface-visibility:hidden]"
           style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
         >
-          <p className="absolute inset-x-0 top-5 text-center font-serif text-sm italic opacity-60">From the atelier</p>
+          <p className="absolute inset-x-0 top-5 text-center font-serif text-sm opacity-60">From the atelier</p>
         </div>
         {/* Inside face, pre-flipped so it reads right way up once the flap is open. */}
         <div

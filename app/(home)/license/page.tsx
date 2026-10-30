@@ -20,7 +20,7 @@ export default async function LicensePage() {
       eyebrow="License"
       title={
         <>
-          MIT. <span className="text-muted-foreground italic">Keep the notice, do the rest.</span>
+          MIT. <span className="text-muted-foreground">Keep the notice, do the rest.</span>
         </>
       }
       updated="23 Oct 2026"

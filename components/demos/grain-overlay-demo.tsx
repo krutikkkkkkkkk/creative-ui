@@ -30,7 +30,7 @@ export function GrainOverlayDemo() {
         >
           <p className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-60">Section · 04</p>
           <h3 className="mt-3 font-serif text-3xl leading-tight">
-            Printed on paper, <span className="italic opacity-70">not pixels.</span>
+            Printed on paper, <span className="opacity-70">not pixels.</span>
           </h3>
           <p className="mt-3 max-w-xs text-sm leading-relaxed opacity-70">
             The overlay sits above this content, ignores the pointer and reads on light and dark alike.

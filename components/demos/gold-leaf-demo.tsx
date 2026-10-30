@@ -59,13 +59,13 @@ export function GoldLeafDemo() {
             {...shared}
             seed={12}
             className={cn(
-              "max-w-full font-serif leading-none tracking-[-0.01em] text-balance italic wrap-anywhere",
+              "max-w-full font-serif leading-none tracking-[-0.01em] text-balance wrap-anywhere",
               fit(custom || "Ex Libris", ["text-5xl sm:text-6xl", "text-4xl sm:text-5xl", "text-3xl sm:text-4xl"])
             )}
           >
             {custom || "Ex Libris"}
           </GoldLeaf>
-          <p className="mt-3 font-serif text-sm text-[#241d17]/60 italic">tooled on the spine, laid by hand</p>
+          <p className="mt-3 font-serif text-sm text-[#241d17]/60">tooled on the spine, laid by hand</p>
         </div>
       </DemoStage>
       <DemoControls>

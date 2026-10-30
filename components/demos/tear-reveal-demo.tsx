@@ -31,7 +31,7 @@ function Ticket() {
       <p className="text-[10px] font-medium tracking-[0.3em] uppercase opacity-70">Private view</p>
       <div className="flex flex-col items-center gap-3">
         <span className="grid size-14 place-items-center rounded-full border border-[#b8893a] text-[#b8893a]">
-          <span className="font-serif text-2xl leading-none italic">vii</span>
+          <span className="font-serif text-2xl leading-none">vii</span>
         </span>
         <p className="font-serif text-3xl leading-tight">
           The Water

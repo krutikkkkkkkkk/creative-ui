@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       eyebrow="Privacy policy"
       title={
         <>
-          We count visitors. <span className="text-muted-foreground italic">That is about it.</span>
+          We count visitors. <span className="text-muted-foreground">That is about it.</span>
         </>
       }
       updated={UPDATED}

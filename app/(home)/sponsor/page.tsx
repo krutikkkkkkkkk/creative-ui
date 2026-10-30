@@ -94,7 +94,7 @@ export default async function SponsorPage() {
               <span className="cc-rise block" style={delay(100)}>
                 Hang your name
               </span>
-              <span className="cc-rise block text-muted-foreground italic" style={delay(200)}>
+              <span className="cc-rise block text-muted-foreground" style={delay(200)}>
                 in the gallery.
               </span>
             </h1>
@@ -398,7 +398,7 @@ function Plaque() {
       <p className="font-mono text-[10px] tracking-[.12em] uppercase" style={{ color: GOLD }}>
         Diamond sponsor
       </p>
-      <p className="mt-1 font-serif text-xl italic">Your name here</p>
+      <p className="mt-1 font-serif text-xl">Your name here</p>
     </div>
   )
 }

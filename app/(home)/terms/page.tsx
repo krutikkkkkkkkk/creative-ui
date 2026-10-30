@@ -18,7 +18,7 @@ export default function TermsPage() {
       eyebrow="Terms of use"
       title={
         <>
-          Free to use. <span className="text-muted-foreground italic">Offered as is.</span>
+          Free to use. <span className="text-muted-foreground">Offered as is.</span>
         </>
       }
       updated={UPDATED}

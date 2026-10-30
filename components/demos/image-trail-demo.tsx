@@ -54,7 +54,7 @@ export function ImageTrailDemo() {
             data-trail-quiet={quiet || undefined}
             className="relative z-10 flex flex-col items-center gap-1 px-4 text-center"
           >
-            <p className="font-serif text-2xl italic">Move your pointer</p>
+            <p className="font-serif text-2xl">Move your pointer</p>
             <p className="font-mono text-[10px] text-muted-foreground">
               {quiet ? "this label is a quiet zone" : "cards spawn everywhere"}
             </p>

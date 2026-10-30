@@ -25,7 +25,7 @@ export default function RefundPolicyPage() {
       eyebrow="Refund and cancellation policy"
       title={
         <>
-          Cancel any time. <span className="text-muted-foreground italic">Refunds when we fall short.</span>
+          Cancel any time. <span className="text-muted-foreground">Refunds when we fall short.</span>
         </>
       }
       updated={UPDATED}

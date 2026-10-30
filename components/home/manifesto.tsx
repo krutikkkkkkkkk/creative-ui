@@ -17,7 +17,7 @@ export function Manifesto() {
       <span
         aria-hidden
         data-word="craft"
-        className="cc-mega pointer-events-none absolute -right-[4vw] top-1/2 -z-10 -translate-y-1/2 font-serif text-[clamp(10rem,32vw,30rem)] leading-none tracking-[-0.05em] text-foreground/[0.035] italic select-none before:content-[attr(data-word)]"
+        className="cc-mega pointer-events-none absolute -right-[4vw] top-1/2 -z-10 -translate-y-1/2 font-serif text-[clamp(10rem,32vw,30rem)] leading-none tracking-[-0.05em] text-foreground/[0.035] select-none before:content-[attr(data-word)]"
       />
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-8">
         <Eyebrow>The house style</Eyebrow>

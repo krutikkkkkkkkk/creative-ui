@@ -63,7 +63,7 @@ export function SiteFooter({ className }: { className?: string }) {
               <span className="font-semibold tracking-tight">creative-ui</span>
             </Link>
             <p className="mt-5 font-serif text-2xl leading-tight tracking-[-0.01em]">
-              Timeless craft, <span className="text-muted-foreground italic">one command away.</span>
+              Timeless craft, <span className="text-muted-foreground">one command away.</span>
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Components and Claude skills by Krutik Raut at{" "}
