@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { getSummaries, NAMESPACE } from "@/lib/registry"
+import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
@@ -21,8 +22,8 @@ const CLIENTS = [
   { id: "opencode", label: "OpenCode" },
 ] as const
 
-export default async function McpPage() {
-  const items = await getSummaries()
+export default async function McpPage({ params }: { params: StyleParams }) {
+  const items = await getSummaries(await styleOf(params))
   const component = items.find((i) => i.kind === "component")
   const skill = items.find((i) => i.kind === "skill")
 

@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   AiMagicIcon,
@@ -38,6 +37,7 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useSitePathname } from "@/hooks/use-site-pathname"
 
 const GET_STARTED = [
   { href: "/docs", label: "Introduction", icon: Home01Icon },
@@ -52,7 +52,7 @@ export function AppSidebar({
   items,
   ...props
 }: { items: ItemSummary[] } & React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname()
+  const pathname = useSitePathname()
   const { setOpenMobile } = useSidebar()
   const [query, setQuery] = React.useState("")
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -202,7 +202,7 @@ function NavGroup({
                     <HugeiconsIcon icon={icon} strokeWidth={2} />
                     <span className="truncate">{item.title}</span>
                     {item.isNew && (
-                      <span className="-ml-0.5 size-1.5 shrink-0 rounded-full bg-[#B8893A]" title="New">
+                      <span className="-ml-0.5 size-1.5 shrink-0 rounded-full bg-brand" title="New">
                         <span className="sr-only">New</span>
                       </span>
                     )}

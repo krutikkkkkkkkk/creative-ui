@@ -7,9 +7,10 @@ import { Analytics } from "@vercel/analytics/next"
 import { COMPANY_NAME, SITE_URL } from "@/lib/registry"
 import { AUTHOR, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo"
 import { X_HANDLE } from "@/lib/sponsors"
+import { UI_STYLES, styleOf, type StyleParams } from "@/lib/ui-style"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PageViewTracker } from "@/components/visitor-count"
-import "./globals.css"
+import "../globals.css"
 
 /* Google Tag Manager container. */
 const GTM_ID = "GTM-NTLHSPCG"
@@ -58,9 +59,27 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+/* Both looks are built ahead of time; middleware.ts rewrites each request to one of them. */
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return UI_STYLES.map((style) => ({ style }))
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: Readonly<{ children: React.ReactNode; params: StyleParams }>) {
+  const style = await styleOf(params)
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    // Font variables sit on <html> so the :root display-face token can resolve them.
+    <html
+      lang="en"
+      data-style={style}
+      className={`${geistSans.variable} ${geistMono.variable} ${GeistSerifRegular.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <Script id="gtm" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -70,9 +89,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');`}
         </Script>
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${GeistSerifRegular.variable} font-sans antialiased`}
-      >
+      <body className="font-sans antialiased">
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}

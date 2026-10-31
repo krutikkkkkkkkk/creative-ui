@@ -22,7 +22,7 @@ export function Hero({ items }: { items: ItemSummary[] }) {
   const components = items.length - skills
 
   return (
-    <HeroStage className="border-b bg-[#F4F2EE] dark:bg-transparent">
+    <HeroStage className="border-b bg-paper">
       {/* Paper: drifting varnish light, the engraved painting, a scrim for the type, grain. */}
       <div aria-hidden className="hero-varnish -z-10" />
       <HeroPainting />

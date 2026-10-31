@@ -20,12 +20,12 @@ export function LegalPage({
 }) {
   return (
     <div className="relative w-full overflow-x-clip">
-      <section className="relative isolate border-b bg-[#F4F2EE] dark:bg-transparent">
+      <section className="relative isolate border-b bg-paper">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
         />
-        <GrainOverlay opacity={0.12} className="-z-10" />
+        <GrainOverlay opacity={0.12} className="-z-10 modern:hidden" />
         <div className="mx-auto w-full max-w-3xl px-4 pt-14 pb-14 sm:px-8 lg:pt-20 lg:pb-16">
           <Eyebrow className="cc-rise">
             {eyebrow} · Updated {updated}

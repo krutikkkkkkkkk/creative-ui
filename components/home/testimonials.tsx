@@ -3,7 +3,7 @@ import Image from "next/image"
 import { SITE_URL } from "@/lib/registry"
 import { X_HANDLE } from "@/lib/sponsors"
 import { TESTIMONIALS } from "@/lib/testimonials"
-import { Eyebrow, GOLD, PillLink } from "@/components/home-primitives"
+import { Eyebrow, BRAND, PillLink } from "@/components/home-primitives"
 import { TestimonialCard } from "@/components/home/testimonial-card"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
@@ -41,7 +41,7 @@ export function Testimonials() {
         </div>
 
         <div className="relative flex min-w-0 flex-col rounded-2xl bg-card p-8 ring-1 ring-border sm:p-10">
-          <span aria-hidden className="font-serif text-7xl leading-[0.6]" style={{ color: GOLD }}>
+          <span aria-hidden className="font-serif text-7xl leading-[0.6]" style={{ color: BRAND }}>
             &ldquo;
           </span>
           {TESTIMONIALS.length > 0 ? (

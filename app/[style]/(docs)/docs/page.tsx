@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { getSummaries, installName } from "@/lib/registry"
+import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, Section } from "@/components/docs-prose"
@@ -14,8 +15,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/docs",
 })
 
-export default async function DocsPage() {
-  const items = await getSummaries()
+export default async function DocsPage({ params }: { params: StyleParams }) {
+  const items = await getSummaries(await styleOf(params))
   const skills = items.filter((i) => i.kind === "skill")
   const components = items.filter((i) => i.kind === "component")
   const first = skills[0] ?? components[0]

@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 
 import type { ItemSummary } from "@/lib/registry"
+import type { UiStyle } from "@/lib/ui-style"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,11 +15,13 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { GithubLink } from "@/components/github-link"
+import { StyleToggle } from "@/components/style-toggle"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { VisitorCount } from "@/components/visitor-count"
+import { useSitePathname } from "@/hooks/use-site-pathname"
 
-export function SiteHeader({ items, stars }: { items: ItemSummary[]; stars: number | null }) {
-  const pathname = usePathname()
+export function SiteHeader({ items, stars, style }: { items: ItemSummary[]; stars: number | null; style: UiStyle }) {
+  const pathname = useSitePathname()
   const name = pathname.startsWith("/docs/") ? pathname.split("/")[2] : null
   const item = name ? items.find((i) => i.name === name) : null
 
@@ -31,7 +33,9 @@ export function SiteHeader({ items, stars }: { items: ItemSummary[]; stars: numb
         <BreadcrumbList className="flex-nowrap">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">creative-ui</Link>
+              <Link href="/" className="whitespace-nowrap">
+                creative-ui
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -59,8 +63,9 @@ export function SiteHeader({ items, stars }: { items: ItemSummary[]; stars: numb
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex items-center gap-1">
-        <VisitorCount className="mr-1" />
+        <VisitorCount className="mr-1 max-sm:hidden" />
         <GithubLink stars={stars} />
+        <StyleToggle style={style} className="mx-1" />
         <ThemeToggle />
       </div>
     </header>

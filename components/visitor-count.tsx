@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { usePathname } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ViewIcon } from "@hugeicons/core-free-icons"
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useSitePathname } from "@/hooks/use-site-pathname"
 
 const VISITOR_ID_KEY = "creative-ui:visitor-id"
 
@@ -85,7 +85,7 @@ function usePageViews() {
 
 /** Counts one page view per route. Mounted once, in the root layout. */
 export function PageViewTracker() {
-  const pathname = usePathname()
+  const pathname = useSitePathname()
 
   React.useEffect(() => {
     // Strict Mode runs effects twice in development; count each route once.

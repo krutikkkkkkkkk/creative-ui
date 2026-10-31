@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 /* Small Classical Collage primitives shared by the home page and its hero. */
 
 export const GOLD = "#B8893A"
+/** The look's accent: gold in classic, blue in modern (the --brand token). */
+export const BRAND = "var(--brand)"
 
 export function delay(ms: number) {
   return { "--cc-delay": `${ms}ms` } as React.CSSProperties
@@ -14,7 +16,7 @@ export function delay(ms: number) {
 export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <p className={cn("font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase", className)}>
-      {"// "}
+      <span className="modern:hidden">{"// "}</span>
       {children}
     </p>
   )
@@ -31,7 +33,9 @@ const PILL_VARIANT = {
   },
 } as const
 
-const PILL = "h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5"
+const PILL =
+  "h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5 " +
+  "modern:h-10 modern:font-sans modern:text-sm modern:font-medium modern:tracking-normal modern:normal-case modern:active:scale-[0.97]"
 
 export function PillLink({
   href,

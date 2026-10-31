@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { GOLD } from "@/components/home-primitives"
+import { BRAND } from "@/components/home-primitives"
 
 import { submitPlatformSponsor, type Field, type PlatformState } from "./actions"
 
@@ -22,7 +22,7 @@ export function PlatformForm() {
   if (state.status === "sent") {
     return (
       <div role="status" className="flex flex-col items-start gap-4 border-t pt-8">
-        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-8" style={{ color: GOLD }} strokeWidth={2} />
+        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-8" style={{ color: BRAND }} strokeWidth={2} />
         <h2 className="font-serif text-4xl leading-[0.95] tracking-[-0.02em]">
           {v.name ? `Thanks, ${v.name}.` : "Thanks."}
         </h2>

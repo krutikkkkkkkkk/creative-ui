@@ -1,13 +1,15 @@
 import Link from "next/link"
 import { getStarCount } from "@/lib/github"
+import type { UiStyle } from "@/lib/ui-style"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { GithubLink } from "@/components/github-link"
+import { StyleToggle } from "@/components/style-toggle"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { VisitorCount } from "@/components/visitor-count"
 
-export async function HomeHeader() {
+export async function HomeHeader({ style }: { style: UiStyle }) {
   const stars = await getStarCount()
 
   return (
@@ -15,7 +17,7 @@ export async function HomeHeader() {
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 sm:px-8">
         <Link href="/" className="mr-1 flex shrink-0 items-center gap-2.5 sm:mr-4">
           <Logo className="size-9" />
-          <span className="font-semibold tracking-tight whitespace-nowrap max-[379px]:sr-only">creative-ui</span>
+          <span className="font-semibold tracking-tight whitespace-nowrap max-sm:sr-only">creative-ui</span>
         </Link>
         <nav className="flex items-center gap-1">
           <NavLink href="/docs">Docs</NavLink>
@@ -25,11 +27,14 @@ export async function HomeHeader() {
           <NavLink href="/docs/installation/cli" className="hidden sm:inline-flex">
             Installation
           </NavLink>
-          <NavLink href="/sponsor">Sponsor</NavLink>
+          <NavLink href="/sponsor" className="max-[379px]:hidden">
+            Sponsor
+          </NavLink>
         </nav>
         <div className="ml-auto flex items-center gap-1">
           <VisitorCount className="mr-1 hidden sm:flex" />
           <GithubLink stars={stars} />
+          <StyleToggle style={style} className="mx-1" />
           <ThemeToggle />
         </div>
       </div>

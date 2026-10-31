@@ -3,6 +3,8 @@ import "server-only"
 import { promises as fs } from "fs"
 import path from "path"
 
+import type { UiStyle } from "@/lib/ui-style"
+
 export const SITE_URL = "https://ui.krutikraut.com"
 export const GITHUB_URL = "https://github.com/krutikkkkkkkkk/creative-ui"
 export const NAMESPACE = "@creative-ui"
@@ -21,8 +23,11 @@ export type RegistryItem = {
   registryDependencies?: string[]
   /** Printed by the shadcn CLI after install. */
   docs?: string
-  /** `addedAt` (YYYY-MM-DD) is stamped by scripts/stamp-dates.mjs on registry:build. */
-  meta?: { addedAt?: string; [key: string]: unknown }
+  /**
+   * `addedAt` (YYYY-MM-DD) is stamped by scripts/stamp-dates.mjs on registry:build.
+   * `look` lists the item under one site look only; without it the item is listed in both.
+   */
+  meta?: { addedAt?: string; look?: UiStyle; [key: string]: unknown }
   files?: RegistryFile[]
 }
 
@@ -33,6 +38,8 @@ export type ItemSummary = {
   title: string
   description: string
   kind: ItemKind
+  /** The site look this item belongs to, or null when it is shared. */
+  look: UiStyle | null
   fileCount: number
   banner: string | null
   poster: string | null
@@ -67,14 +74,16 @@ export async function getItems(): Promise<RegistryItem[]> {
   return (await readRegistry()).items ?? []
 }
 
-export async function getSummaries(): Promise<ItemSummary[]> {
-  const items = await getItems()
+/** Every item, or with `style` only the ones listed in that look. Item pages and /r/*.json serve all of them. */
+export async function getSummaries(style?: UiStyle): Promise<ItemSummary[]> {
+  const items = (await getItems()).filter((item) => !style || !item.meta?.look || item.meta.look === style)
   return Promise.all(
     items.map(async (item) => ({
       name: item.name,
       title: displayTitle(item),
       description: item.description ?? "",
       kind: kindOf(item),
+      look: item.meta?.look ?? null,
       fileCount: item.files?.length ?? 0,
       banner: await bannerOf(item.name),
       poster: await posterOf(item.name),

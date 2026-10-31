@@ -11,10 +11,12 @@ import {
   getSummaries,
   installName,
   installUrl,
+  type ItemSummary,
   readItemFile,
   skillIntro,
 } from "@/lib/registry"
 import { SITE_NAME, SITE_TAGLINE, pageMetadata, siteJsonLd } from "@/lib/seo"
+import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { cn } from "@/lib/utils"
 import { InstallCommand } from "@/components/copy-command"
 import { JsonLd } from "@/components/json-ld"
@@ -23,19 +25,34 @@ import { LiveTerminal } from "@/components/hero/live-terminal"
 import { CollectionCarousel } from "@/components/home/collection-carousel"
 import { CountUp } from "@/components/home/count-up"
 import { Manifesto } from "@/components/home/manifesto"
+import { ModernHome } from "@/components/modern/modern-home"
 import { SponsorsBand } from "@/components/home/sponsors-band"
 import { StackSteps } from "@/components/home/stack-steps"
 import { Testimonials } from "@/components/home/testimonials"
 import { Eyebrow, PillLink } from "@/components/home-primitives"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
-/* Home page in the Classical Collage art direction (warm variant): quiet UI, loud art,
-   one metaphor per section, light serif statements and mono eyebrows. */
+/* Home page. Classic is the Classical Collage art direction (warm variant): quiet UI, loud art,
+   one metaphor per section, light serif statements and mono eyebrows. Modern is the clean
+   Vercel-style counterpart in components/modern. */
 
 export const metadata: Metadata = pageMetadata({ title: { absolute: `${SITE_NAME}: ${SITE_TAGLINE}` }, path: "/" })
 
-export default async function Home() {
-  const items = await getSummaries()
+export default async function Home({ params }: { params: StyleParams }) {
+  const style = await styleOf(params)
+  const items = await getSummaries(style)
+  if (style === "modern") {
+    return (
+      <>
+        <JsonLd data={siteJsonLd()} />
+        <ModernHome items={items} />
+      </>
+    )
+  }
+  return <ClassicHome items={items} />
+}
+
+async function ClassicHome({ items }: { items: ItemSummary[] }) {
   const skills = items.filter((i) => i.kind === "skill")
   const components = items.filter((i) => i.kind === "component")
   const first = skills[0] ?? components[0]

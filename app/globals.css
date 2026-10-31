@@ -2,14 +2,20 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+/* The two site looks (lib/ui-style.ts), set as data-style on <html>. */
+@custom-variant classic (&:where([data-style="classic"] *));
+@custom-variant modern (&:where([data-style="modern"] *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  /* Geist Serif has one upright weight and no italic: set serif asides muted, never `italic`. */
-  --font-serif: var(--font-geist-serif-regular), ui-serif, Georgia, serif;
+  /* Geist Serif has one upright weight and no italic: set serif asides muted, never `italic`.
+     The display face follows the look: Geist Serif in classic, tight Geist Sans in modern. */
+  --font-serif: var(--font-display);
+  --color-paper: var(--paper);
+  --color-brand: var(--brand);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,6 +52,10 @@
 }
 
 :root {
+  --font-display: var(--font-geist-serif-regular), ui-serif, Georgia, serif;
+  /* Warm stock behind heroes and the footer; brand is the gilt accent (dots, hearts, checks). */
+  --paper: #f4f2ee;
+  --brand: #b8893a;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -81,6 +91,7 @@
 }
 
 .dark {
+  --paper: transparent;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -112,6 +123,59 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Modern look: Vercel/Geist-style. Pure surfaces, hairline borders, one blue accent and
+   Geist Sans for every display face. Comes after :root/.dark so it wins at equal specificity. */
+[data-style="modern"] {
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --paper: transparent;
+  --brand: oklch(0.57 0.21 258);
+  --radius: 0.5rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.205 0 0);
+  --card: oklch(1 0 0);
+  --muted: oklch(0.985 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --border: oklch(0.93 0 0);
+  --input: oklch(0.93 0 0);
+  --primary: oklch(0.145 0 0);
+  --secondary: oklch(0.97 0 0);
+  --accent: oklch(0.97 0 0);
+  --ring: oklch(0.57 0.21 258 / 60%);
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-border: oklch(0.93 0 0);
+}
+
+[data-style="modern"].dark {
+  --brand: oklch(0.66 0.17 255);
+  --background: oklch(0.12 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.15 0 0);
+  --popover: oklch(0.15 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 14%);
+  --primary: oklch(0.97 0 0);
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.2 0 0);
+  --accent: oklch(0.2 0 0);
+  --ring: oklch(0.66 0.17 255 / 60%);
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-border: oklch(1 0 0 / 11%);
+}
+
+/* Display type in modern is semibold and tight. Unlayered, so it outranks the tracking
+   utilities the serif headings carry. Live component previews ([data-preview]) keep their own type. */
+[data-style="modern"] [data-preview] {
+  --font-display: var(--font-geist-serif-regular), ui-serif, Georgia, serif;
+}
+
+[data-style="modern"] .font-serif:not([data-preview] *) {
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
 }
 
 @layer base {
@@ -428,5 +492,178 @@
   }
   to {
     translate: -10vw -50%;
+  }
+}
+
+/* Modern look motion: quick, crisp entrances (strong ease-out, short stagger). Reduced motion keeps the fade only. */
+@keyframes mo-enter {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+    filter: blur(4px);
+  }
+}
+
+@keyframes mo-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .mo-enter {
+    animation: mo-enter 500ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mo-enter {
+      animation: mo-fade 200ms ease both;
+    }
+  }
+}
+
+/* Modern hero: the install stage (type, tick, reveal, scan), its 3D rise, chip progress and grid beams.
+   All composite-only (clip-path, translate, opacity, scale); reduced motion shows the end state. */
+@keyframes mo-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes mo-line {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+
+@keyframes mo-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+    filter: blur(6px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+  }
+}
+
+/* The line rides the overlay's bottom edge, so the glow trails above it over the revealed part. */
+@keyframes mo-scan {
+  from {
+    translate: 0 -100%;
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  to {
+    translate: 0 0;
+    opacity: 0;
+  }
+}
+
+@keyframes mo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(48px) rotateX(14deg) scale(0.96);
+  }
+}
+
+@keyframes mo-progress {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes mo-beam-y {
+  from {
+    translate: 0 -100%;
+  }
+  to {
+    translate: 0 100%;
+  }
+}
+
+@keyframes mo-beam-x {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 100% 0;
+  }
+}
+
+@layer utilities {
+  .mo-type {
+    animation: mo-type var(--mo-type, 1s) steps(var(--mo-chars, 40), jump-none) both;
+  }
+
+  .mo-line {
+    animation: mo-line 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  .mo-reveal {
+    animation: mo-reveal 760ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  .mo-scan {
+    background: linear-gradient(
+      to top,
+      var(--brand) 0,
+      var(--brand) 1px,
+      color-mix(in oklch, var(--brand) 22%, transparent) 1px,
+      transparent 72px
+    );
+    animation: mo-scan 760ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  .mo-rise {
+    transform-origin: 50% 0%;
+    animation: mo-rise 1100ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  .mo-progress {
+    transform-origin: left;
+    animation: mo-progress var(--mo-hold, 4s) linear both;
+  }
+
+  .mo-beam-y {
+    background: linear-gradient(to bottom, transparent 70%, var(--brand) 96%, transparent);
+    animation: mo-beam-y var(--mo-dur, 7s) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  .mo-beam-x {
+    background: linear-gradient(to right, transparent 70%, var(--brand) 96%, transparent);
+    animation: mo-beam-x var(--mo-dur, 7s) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    animation-delay: var(--mo-delay, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mo-type,
+    .mo-line,
+    .mo-reveal,
+    .mo-scan,
+    .mo-rise,
+    .mo-progress {
+      animation: none;
+    }
+    .mo-scan,
+    .mo-beam-y,
+    .mo-beam-x {
+      display: none;
+    }
   }
 }

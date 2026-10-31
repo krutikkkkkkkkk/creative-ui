@@ -4,7 +4,7 @@ import { ArrowRight01Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-ic
 
 import { getApplication } from "@/lib/sponsor-applications"
 import { SPONSOR_EMAIL, TIERS } from "@/lib/sponsors"
-import { Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
+import { Eyebrow, BRAND, PillLink, delay } from "@/components/home-primitives"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
 export const metadata: Metadata = {
@@ -28,12 +28,12 @@ export default async function SponsorThanksPage({
 
   return (
     <div className="relative w-full overflow-x-clip">
-      <section className="relative isolate bg-[#F4F2EE] dark:bg-transparent">
+      <section className="relative isolate bg-paper">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
         />
-        <GrainOverlay opacity={0.12} className="-z-10" />
+        <GrainOverlay opacity={0.12} className="-z-10 modern:hidden" />
 
         <div className="mx-auto flex min-h-[60svh] w-full max-w-3xl flex-col items-start justify-center px-4 py-20 sm:px-8">
           <Eyebrow className="cc-rise">Step 02 of 02 · Payment</Eyebrow>
@@ -69,7 +69,7 @@ export default async function SponsorThanksPage({
               <HugeiconsIcon
                 icon={CheckmarkCircle02Icon}
                 className="cc-rise mt-8 size-8"
-                style={{ ...delay(50), color: GOLD }}
+                style={{ ...delay(50), color: BRAND }}
                 strokeWidth={2}
               />
               <h1

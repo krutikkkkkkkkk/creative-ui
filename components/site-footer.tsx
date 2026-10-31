@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
-const GOLD = "#B8893A"
+const BRAND = "var(--brand)"
 
 type FooterLink = { label: string; href: string; external?: boolean }
 
@@ -48,12 +48,12 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
 export function SiteFooter({ className }: { className?: string }) {
   const year = new Date().getFullYear()
   return (
-    <footer className={cn("relative isolate overflow-hidden border-t bg-[#F4F2EE] dark:bg-transparent", className)}>
+    <footer className={cn("relative isolate overflow-hidden border-t bg-paper", className)}>
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_top,black,transparent)]"
       />
-      <GrainOverlay opacity={0.1} className="-z-10" />
+      <GrainOverlay opacity={0.1} className="-z-10 modern:hidden" />
 
       <div className="mx-auto w-full max-w-5xl px-4 pt-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
@@ -82,7 +82,7 @@ export function SiteFooter({ className }: { className?: string }) {
                 <HugeiconsIcon icon={GithubIcon} className="size-4" strokeWidth={2} />
               </FooterIcon>
               <FooterIcon href={SPONSOR_URL} label="Sponsor creative-ui">
-                <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: GOLD }} strokeWidth={2} />
+                <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: BRAND }} strokeWidth={2} />
               </FooterIcon>
             </div>
           </div>
@@ -90,7 +90,7 @@ export function SiteFooter({ className }: { className?: string }) {
           {COLUMNS.map((col) => (
             <nav key={col.title} aria-label={col.title}>
               <p className="font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase">
-                {"// "}
+                <span className="modern:hidden">{"// "}</span>
                 {col.title}
               </p>
               <ul className="mt-4 space-y-2.5">
@@ -115,7 +115,7 @@ export function SiteFooter({ className }: { className?: string }) {
               {SITE_URL.replace("https://", "")}
             </a>
           </p>
-          <p>Art: public-domain paintings and original generated work.</p>
+          <p className="modern:hidden">Art: public-domain paintings and original generated work.</p>
         </div>
       </div>
 

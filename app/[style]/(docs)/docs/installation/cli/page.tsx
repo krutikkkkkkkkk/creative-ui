@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import { getSummaries, installName, installUrl, NAMESPACE } from "@/lib/registry"
+import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
@@ -11,8 +12,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/docs/installation/cli",
 })
 
-export default async function CliPage() {
-  const items = await getSummaries()
+export default async function CliPage({ params }: { params: StyleParams }) {
+  const items = await getSummaries(await styleOf(params))
   const first = items.find((i) => i.kind === "skill") ?? items[0]
   const name = first?.name ?? "<name>"
 

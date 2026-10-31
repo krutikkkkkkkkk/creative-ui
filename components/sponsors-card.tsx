@@ -45,7 +45,7 @@ export function SponsorsCard({ className }: { className?: string }) {
 
       <Link
         href="/sponsor"
-        className="group mt-3 flex items-center justify-between rounded-md px-1 py-1 text-xs font-medium text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300"
+        className="group mt-3 flex items-center justify-between rounded-md px-1 py-1 text-xs font-medium text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300 modern:text-brand! modern:hover:opacity-80"
       >
         <span>
           Become a sponsor

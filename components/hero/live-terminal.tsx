@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 export type TerminalItem = { name: string; files: number; kind: "component" | "skill" }
 
-const GOLD = "#B8893A"
+const BRAND = "var(--brand)"
 
 /**
  * A dark terminal widget that types the install command for each registry item,
@@ -84,13 +84,13 @@ export function LiveTerminal({
         {lines >= 1 && (
           <>
             {"\n"}
-            <span style={{ color: GOLD }}>✓</span> Resolved registry item
+            <span style={{ color: BRAND }}>✓</span> Resolved registry item
           </>
         )}
         {lines >= 2 && (
           <>
             {"\n"}
-            <span style={{ color: GOLD }}>✓</span> {item.files} {item.files === 1 ? "file" : "files"} written to{" "}
+            <span style={{ color: BRAND }}>✓</span> {item.files} {item.files === 1 ? "file" : "files"} written to{" "}
             {target}
           </>
         )}

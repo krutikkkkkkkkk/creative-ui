@@ -18,10 +18,12 @@ import {
   type Tier,
 } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
+import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { getPageViewCount, getVisitorCount } from "@/lib/visitors"
 import { Card } from "@/components/ui/card"
-import { Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
+import { BRAND, Eyebrow, GOLD, PillLink, delay } from "@/components/home-primitives"
 import { StackSteps } from "@/components/home/stack-steps"
+import { StepGrid } from "@/components/modern/step-grid"
 import { PageViewTotal, VisitorTotal } from "@/components/visitor-count"
 import { CollageFrame, CollageFrameOverlay } from "@/registry/new-york/blocks/collage-frame/collage-frame"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
@@ -69,20 +71,26 @@ const LOGO: Record<Tier, { height: string; width: string; image: { width: number
   silver: { height: "h-28", width: "sm:w-[calc((100%-2rem)/3)]", image: { width: 160, height: 32, className: "h-8" }, text: "text-2xl" },
 }
 
-export default async function SponsorPage() {
-  const [visitors, views, items] = await Promise.all([getVisitorCount(), getPageViewCount(), getSummaries()])
+export default async function SponsorPage({ params }: { params: StyleParams }) {
+  const [visitors, views, items, style] = await Promise.all([
+    getVisitorCount(),
+    getPageViewCount(),
+    getSummaries(),
+    styleOf(params),
+  ])
+  const modern = style === "modern"
   const slots = TIERS.reduce((n, t) => n + t.slots, 0)
   const open = slots - Math.min(slots, SPONSORS.length)
 
   return (
     <div className="relative w-full overflow-x-clip">
       {/* Hero: an empty gilt frame on the gallery wall. */}
-      <section className="relative isolate border-b bg-[#F4F2EE] dark:bg-transparent">
+      <section className="relative isolate border-b bg-paper">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
         />
-        <GrainOverlay opacity={0.12} className="-z-10" />
+        <GrainOverlay opacity={0.12} className="-z-10 modern:hidden" />
 
         <div className="mx-auto grid w-full max-w-5xl items-center gap-14 px-4 pt-14 pb-20 sm:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:pt-20 lg:pb-24">
           <div>
@@ -107,27 +115,31 @@ export default async function SponsorPage() {
             </p>
             <div className="cc-rise mt-9 flex flex-wrap gap-3" style={delay(400)}>
               <PillLink href="#tiers" variant="solid">
-                <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: GOLD }} strokeWidth={2} />
+                <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: BRAND }} strokeWidth={2} />
                 Become a sponsor
               </PillLink>
               <PillLink href="#how-it-works">How it works</PillLink>
             </div>
           </div>
 
-          <div className="cc-rise relative mx-auto w-full max-w-[320px] lg:mr-0" style={delay(250)}>
-            <CollageFrame
-              src="/art/arch-keystone.webp"
-              alt="Oil painting of a hand placing a gold coin as the keystone of a stone arch, in a gilt museum frame"
-              shape="museum"
-              frameColor="#b08d4a"
-              tilt={1}
-              className="aspect-[4/5] w-full"
-            >
-              <CollageFrameOverlay position="bottom" hang={30} className="cc-float">
-                <Plaque />
-              </CollageFrameOverlay>
-            </CollageFrame>
-          </div>
+          {modern ? (
+            <SlotPreview />
+          ) : (
+            <div className="cc-rise relative mx-auto w-full max-w-[320px] lg:mr-0" style={delay(250)}>
+              <CollageFrame
+                src="/art/arch-keystone.webp"
+                alt="Oil painting of a hand placing a gold coin as the keystone of a stone arch, in a gilt museum frame"
+                shape="museum"
+                frameColor="#b08d4a"
+                tilt={1}
+                className="aspect-[4/5] w-full"
+              >
+                <CollageFrameOverlay position="bottom" hang={30} className="cc-float">
+                  <Plaque />
+                </CollageFrameOverlay>
+              </CollageFrame>
+            </div>
+          )}
         </div>
       </section>
 
@@ -143,10 +155,10 @@ export default async function SponsorPage() {
         {/* How it works: three moves, stacked like prints laid on a table, as on home. */}
         <section id="how-it-works" className="scroll-mt-20 py-20">
           <SectionHeading eyebrow="How it works" title="Three steps to the wall." />
-          <StackSteps steps={STEPS} />
+          {modern ? <StepGrid steps={STEPS} /> : <StackSteps steps={STEPS} />}
           <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
             <PillLink href="#tiers" variant="solid">
-              <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: GOLD }} strokeWidth={2} />
+              <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: BRAND }} strokeWidth={2} />
               Pick a tier
             </PillLink>
             <Link
@@ -181,7 +193,7 @@ export default async function SponsorPage() {
                     tier === "gold" && "border-[#B8893A]/50"
                   )}
                 >
-                  {diamond && <GrainOverlay opacity={0.22} />}
+                  {diamond && <GrainOverlay opacity={0.22} className="modern:hidden" />}
                   <div className="flex items-baseline justify-between gap-3">
                     <h3
                       className="font-serif text-4xl tracking-[-0.01em]"
@@ -215,7 +227,7 @@ export default async function SponsorPage() {
                     </span>
                   </p>
                   {LAUNCH_OFFER && (
-                    <p className="mt-2 font-mono text-[11px] tracking-[.08em] uppercase" style={{ color: GOLD }}>
+                    <p className="mt-2 font-mono text-[11px] tracking-[.08em] uppercase" style={{ color: BRAND }}>
                       First {LAUNCH_OFFER.months} months, then ${price}
                     </p>
                   )}
@@ -226,7 +238,7 @@ export default async function SponsorPage() {
                         <HugeiconsIcon
                           icon={CheckmarkCircle02Icon}
                           className="mt-px size-4 shrink-0"
-                          style={{ color: GOLD }}
+                          style={{ color: BRAND }}
                           strokeWidth={2}
                         />
                         <span className={diamond ? "text-white/85" : undefined}>{perk}</span>
@@ -351,8 +363,8 @@ export default async function SponsorPage() {
 /** The launch code. It is applied at checkout, so it is shown here rather than asked for. */
 function LaunchOffer({ offer }: { offer: NonNullable<typeof LAUNCH_OFFER> }) {
   return (
-    <div className="-mt-4 mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-[#B8893A]/50 bg-[#B8893A]/[0.06] px-5 py-4">
-      <span className="font-mono text-[11px] tracking-[.08em] uppercase" style={{ color: GOLD }}>
+    <div className="-mt-4 mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-brand/50 bg-brand/[0.06] px-5 py-4">
+      <span className="font-mono text-[11px] tracking-[.08em] uppercase" style={{ color: BRAND }}>
         Launch offer
       </span>
       <p className="text-sm">
@@ -391,11 +403,40 @@ function PlatformOffer() {
   )
 }
 
+/** Modern hero: the sponsor slot as it appears in the docs sidebar, waiting for a logo. */
+function SlotPreview() {
+  return (
+    <div className="cc-rise mx-auto w-full max-w-[340px] lg:mr-0" style={delay(250)}>
+      <div className="rounded-xl border bg-card p-2 shadow-[0_8px_30px_-12px_rgb(0_0_0/0.15)]">
+        <div className="flex items-center gap-1.5 border-b px-2 pb-2">
+          {[0, 1, 2].map((i) => (
+            <span key={i} className="size-2.5 rounded-full bg-muted-foreground/20" />
+          ))}
+          <span className="ml-2 font-mono text-[11px] text-muted-foreground">/docs</span>
+        </div>
+        <div className="space-y-2 p-3">
+          {["w-3/4", "w-1/2", "w-2/3"].map((w) => (
+            <div key={w} className={cn("h-2 rounded-full bg-muted", w)} />
+          ))}
+          <div className="mt-5 flex aspect-[5/3] flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/60 bg-brand/[0.04]">
+            <HugeiconsIcon icon={PlusSignIcon} className="size-4 text-brand" strokeWidth={2} />
+            <p className="text-sm font-medium">Your logo here</p>
+            <p className="font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">Diamond sponsor</p>
+          </div>
+          {["w-1/2", "w-3/5"].map((w) => (
+            <div key={w} className={cn("h-2 rounded-full bg-muted", w)} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /** The brass plaque under the frame, waiting for a name. */
 function Plaque() {
   return (
     <div className="w-[min(240px,70vw)] rounded-md bg-[#111214] px-4 py-3 text-center text-white shadow-2xl ring-1 ring-white/10">
-      <p className="font-mono text-[10px] tracking-[.12em] uppercase" style={{ color: GOLD }}>
+      <p className="font-mono text-[10px] tracking-[.12em] uppercase" style={{ color: BRAND }}>
         Diamond sponsor
       </p>
       <p className="mt-1 font-serif text-xl">Your name here</p>
