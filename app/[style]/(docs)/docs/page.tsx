@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { getSummaries, installName } from "@/lib/registry"
-import { COLLECTIONS, otherStyle, styleOf, type StyleParams } from "@/lib/ui-style"
+import { COLLECTIONS, isLiveUiStyle, otherStyle, styleOf, type StyleParams } from "@/lib/ui-style"
 import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
 import { Code, DocFrame, Note, PageHeader, Section } from "@/components/docs-prose"
@@ -30,8 +30,8 @@ export default async function DocsPage({ params }: { params: StyleParams }) {
   const skills = items.filter((i) => i.kind === "skill")
   const components = items.filter((i) => i.kind === "component")
   const first = skills[0] ?? components[0]
-  // Pieces listed in the other look only, so this page can point at them.
-  const elsewhere = otherItems.filter((i) => i.look === other).length
+  // Pieces listed in the other look only, so this page can point at them once that look is live.
+  const elsewhere = isLiveUiStyle(other) ? otherItems.filter((i) => i.look === other).length : 0
 
   return (
     <DocFrame>

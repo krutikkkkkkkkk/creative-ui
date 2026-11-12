@@ -13,6 +13,15 @@ export function isUiStyle(value: unknown): value is UiStyle {
   return UI_STYLES.includes(value as UiStyle)
 }
 
+/* The modern look is unfinished, so production serves classic only: the modern tree is not built,
+   middleware.ts ignores a modern cookie or link, and the toggle shows it as work in progress.
+   Local dev keeps both so the look can still be worked on. To launch modern, make this UI_STYLES. */
+export const LIVE_UI_STYLES: readonly UiStyle[] = process.env.NODE_ENV === "production" ? ["classic"] : UI_STYLES
+
+export function isLiveUiStyle(value: unknown): value is UiStyle {
+  return LIVE_UI_STYLES.includes(value as UiStyle)
+}
+
 /* Each look is also a collection. A registry item tagged `meta.look` in registry.json is listed
    in that look only: classic holds the art-directed pieces, modern the clean technical ones. */
 export const COLLECTIONS: Record<UiStyle, { label: string; tag: string; blurb: string }> = {

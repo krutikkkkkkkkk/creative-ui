@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { COMPANY_NAME, SITE_URL } from "@/lib/registry"
 import { AUTHOR, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo"
 import { X_HANDLE } from "@/lib/sponsors"
-import { UI_STYLES, styleOf, type StyleParams } from "@/lib/ui-style"
+import { LIVE_UI_STYLES, styleOf, type StyleParams } from "@/lib/ui-style"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PageViewTracker } from "@/components/visitor-count"
 import "../globals.css"
@@ -59,11 +59,12 @@ export const viewport: Viewport = {
   ],
 }
 
-/* Both looks are built ahead of time; middleware.ts rewrites each request to one of them. */
+/* Every live look is built ahead of time; middleware.ts rewrites each request to one of them.
+   A look that is not live is not built, so its tree 404s. */
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return UI_STYLES.map((style) => ({ style }))
+  return LIVE_UI_STYLES.map((style) => ({ style }))
 }
 
 export default async function RootLayout({

@@ -30,7 +30,7 @@ import {
 } from "@/lib/registry"
 import { docs as allDocs } from "@/lib/docs"
 import { AUTHOR, pageMetadata } from "@/lib/seo"
-import { styleOf } from "@/lib/ui-style"
+import { isLiveUiStyle, styleOf } from "@/lib/ui-style"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -194,7 +194,7 @@ export default async function ItemPage({ params }: Props) {
         title={displayTitle(item)}
         description={item.description && (isSkill ? (intro ?? item.description) : item.description)}
       >
-        {otherLook && (
+        {otherLook && isLiveUiStyle(otherLook) && (
           <Note>
             Part of the {otherLook} collection.{" "}
             <a href={`?style=${otherLook}`} className="font-medium text-foreground underline underline-offset-4">
