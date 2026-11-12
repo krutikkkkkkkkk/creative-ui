@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["radix-ui", "@hugeicons/core-free-icons"],
   },
+  // Pages show registry source read from disk by a computed path (readItemFile), which file
+  // tracing cannot follow. They regenerate hourly on the server, so without this the files are
+  // missing there and the source views and the home tear card drop out an hour after each deploy.
+  outputFileTracingIncludes: {
+    "/*": ["./registry/**/*"],
+  },
   // Item pages moved from /items/* to /docs/*; keep old links working.
   async redirects() {
     return [{ source: "/items/:name", destination: "/docs/:name", permanent: true }];
