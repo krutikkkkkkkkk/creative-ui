@@ -7,122 +7,26 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 
 import { cn } from "@/lib/utils"
 import { ColourBar, CommandLine, PlateMarks } from "@/components/home/sheet"
-import { Cyanotype } from "@/registry/new-york/blocks/cyanotype/cyanotype"
-import { DitheringHover } from "@/registry/new-york/blocks/dithering-hover/dithering-hover"
-import { DuotoneImage } from "@/registry/new-york/blocks/duotone-image/duotone-image"
-import { Etching } from "@/registry/new-york/blocks/etching/etching"
-import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
-import { HalftoneImage } from "@/registry/new-york/blocks/halftone-image/halftone-image"
 
-/* The hero plate: one painting printed as a darkroom test strip. Each band is the same picture
-   rendered live by a different registry component, so the collection is the first thing on the
-   page. Pointing at a band widens it; the caption underneath names it and gives its command. */
+/* The hero plate: one picture shown as a test strip. Each band is the same picture rendered live
+   by a different registry component, so the collection is the first thing on the page. Pointing
+   at a band widens it; the caption underneath names it and gives its command. The bands
+   themselves live in plate-classic.tsx. */
 
-const SRC = "/demo/venus-frieze.webp"
-const PAPER = "#f4f1ea"
-const INK = "#241d17"
-const FILL = "absolute inset-0 size-full"
-/* The canvas components take the image's aspect ratio by default; the plate sets its own. */
-const AUTO = { aspectRatio: "auto" } as const
-
-/* `live` bands keep their own pointer handling; the rest are stills and ignore the pointer. */
-const BANDS: { name: string; render: React.ReactNode; live?: boolean }[] = [
-  {
-    name: "grain-overlay",
-    render: (
-      <div className={FILL}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={SRC} alt="" draggable={false} className="size-full object-cover" />
-        <GrainOverlay opacity={0.4} />
-      </div>
-    ),
-  },
-  {
-    name: "halftone-image",
-    render: (
-      <HalftoneImage src={SRC} dotSize={5} angle={32} contrast={1.2} color={INK} background={PAPER} className={FILL} style={AUTO} />
-    ),
-  },
-  {
-    name: "duotone-image",
-    render: <DuotoneImage src={SRC} shadow="#17494d" highlight="#f6e6c4" contrast={1.2} className={FILL} style={AUTO} />,
-  },
-  { name: "etching", render: <EngravedBand /> },
-  {
-    name: "cyanotype",
-    render: (
-      <Cyanotype src={SRC} preset="classic" contrast={1.15} roughness={0} margin={0} border={0} className={FILL} style={AUTO} />
-    ),
-  },
-  {
-    name: "dithering-hover",
-    // The picture stays in colour and dithers under the pointer, as the component does on its own.
-    live: true,
-    render: (
-      <DitheringHover
-        src={SRC}
-        zoneSize={470}
-        dotSize={2}
-        matrix={2}
-        streaks={14}
-        roughness={0.25}
-        contrast={1.6}
-        dark="#000000"
-        light="#f5f2eb"
-        className={FILL}
-        style={AUTO}
-      />
-    ),
-  },
-]
-
-/**
- * The etching cuts itself in when it comes on screen. Its own trigger waits for a third of the
- * plate to be visible, which a clipped band never reaches, so the band drives the progress.
- */
-function EngravedBand() {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const [progress, setProgress] = React.useState(0)
-
-  React.useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setProgress(1)
-    const DURATION = 2800
-    let raf = 0
-    let start = 0
-    const tick = (now: number) => {
-      start ||= now
-      const t = Math.min(1, (now - start) / DURATION)
-      setProgress(1 - (1 - t) ** 1.4)
-      if (t < 1) raf = requestAnimationFrame(tick)
-    }
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return
-      io.disconnect()
-      raf = requestAnimationFrame(tick)
-    })
-    io.observe(el)
-    return () => {
-      io.disconnect()
-      cancelAnimationFrame(raf)
-    }
-  }, [])
-
-  return (
-    <div ref={ref} className={FILL}>
-      <Etching src={SRC} lineSpacing={4} angle={35} ink={INK} paper={PAPER} progress={progress} className={FILL} style={AUTO} />
-    </div>
-  )
+export type Band = {
+  /** Registry item name: the band links to its docs and takes its title and command from it. */
+  name: string
+  render: React.ReactNode
+  /** Live bands keep their own pointer handling; the rest are stills and ignore the pointer. */
+  live?: boolean
 }
 
-const N = BANDS.length
 /** Share of the plate the band under the pointer takes. */
 const WIDE = 40
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
 
 /** Left edge of every band (plus the right edge of the last), in percent of the plate. */
-function edges(active: number | null) {
+function edges(active: number | null, N: number) {
   if (active === null) return Array.from({ length: N + 1 }, (_, i) => (i / N) * 100)
   const narrow = (100 - WIDE) / (N - 1)
   const out = [0]
@@ -132,7 +36,19 @@ function edges(active: number | null) {
 
 export type BandInfo = { title: string; blurb: string; command: string }
 
-export function TestStrip({ info, className }: { info: Record<string, BandInfo>; className?: string }) {
+export function TestStrip({
+  bands: BANDS,
+  info,
+  caption,
+  className,
+}: {
+  bands: Band[]
+  info: Record<string, BandInfo>
+  /** What the picture is, set after "Plate 1". */
+  caption: string
+  className?: string
+}) {
+  const N = BANDS.length
   const [active, setActive] = React.useState<number | null>(null)
   // The caption keeps the last band pointed at, so it never goes blank.
   const [shown, setShown] = React.useState(1)
@@ -142,7 +58,7 @@ export function TestStrip({ info, className }: { info: Record<string, BandInfo>;
     setActive(i)
     setShown(i)
   }
-  const x = edges(active)
+  const x = edges(active, N)
   const current = BANDS[shown]
   const meta = info[current.name]
 
@@ -150,16 +66,17 @@ export function TestStrip({ info, className }: { info: Record<string, BandInfo>;
     <div className={className}>
       <div className="mb-3 flex items-center justify-between gap-4 font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">
         <p>
-          <span className="text-foreground">Plate 1</span> · Botticelli, The Birth of Venus, c. 1485
+          <span className="text-foreground">Plate 1</span> · {caption}
           <span className="max-sm:hidden"> · one picture, {N} components</span>
         </p>
         <ColourBar className="shrink-0" />
       </div>
 
-      <div className="relative">
+      {/* In modern the plate sits in a raised tile, with its letters inside the tile's lip. */}
+      <div className="relative modern:soft-surface modern:rounded-[32px] modern:p-2.5 modern:pb-3.5">
         <PlateMarks />
         <div
-          className="relative aspect-[5/4] overflow-hidden bg-[#f4f1ea] sm:aspect-[1200/470]"
+          className="relative aspect-[5/4] overflow-hidden bg-[#f4f1ea] sm:aspect-[1200/470] modern:rounded-[23px]"
           onPointerLeave={(e) => e.pointerType !== "touch" && setActive(null)}
         >
           {BANDS.map((band, i) => (
@@ -191,7 +108,10 @@ export function TestStrip({ info, className }: { info: Record<string, BandInfo>;
         </div>
 
         {/* Band letters, hung under the plate and moving with the edges above them. */}
-        <div aria-hidden className="relative mt-2.5 h-4 overflow-hidden font-mono text-[10px] tracking-[.08em] uppercase">
+        <div
+          aria-hidden
+          className="relative mt-2.5 h-4 overflow-hidden font-mono text-[10px] tracking-[.08em] uppercase modern:mx-3 modern:mt-3"
+        >
           {BANDS.map((band, i) => (
             <div
               key={band.name}
@@ -212,7 +132,7 @@ export function TestStrip({ info, className }: { info: Record<string, BandInfo>;
         </div>
       </div>
 
-      <div className="mt-6 grid gap-x-10 gap-y-5 border-t pt-5 md:grid-cols-12">
+      <div className="mt-6 grid gap-x-10 gap-y-5 border-t pt-5 md:grid-cols-12 modern:border-t-0 modern:px-3 modern:pt-2">
         <div className="md:col-span-7">
           <p className="font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">
             Band {String.fromCharCode(65 + shown)}

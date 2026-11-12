@@ -1,8 +1,10 @@
 import { cn } from "@/lib/utils"
 import { CopyButton } from "@/components/copy-command"
 
-/* The classic home page is laid out as a printer's proof sheet. These are its few shared
-   parts: the ruled section head, the one-line command and the marks around a plate. */
+/* The home page is laid out as a proof sheet in both looks. These are its few shared parts:
+   the section head, the lead sentence, the one-line command and the marks around a plate.
+   Classic rules them in ink; modern drops the rules and raises soft tiles instead, through
+   `modern:` variants, so the structure is written once. */
 
 /** A heavy rule with the section's number and name set small, like a catalogue's running head. */
 export function SectionHead({
@@ -19,7 +21,7 @@ export function SectionHead({
   return (
     <div
       className={cn(
-        "flex items-baseline justify-between gap-6 border-t border-foreground pt-3 font-mono text-[11px] tracking-[.08em] uppercase",
+        "flex items-baseline justify-between gap-6 border-t border-foreground pt-3 font-mono text-[11px] tracking-[.08em] uppercase modern:border-t-0 modern:pt-0",
         className
       )}
     >
@@ -35,7 +37,12 @@ export function SectionHead({
 /** A full sentence set large. Sections open with one of these instead of a slogan. */
 export function Lead({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <p className={cn("font-serif text-3xl leading-[1.1] tracking-[-0.02em] text-pretty sm:text-[2.5rem]", className)}>
+    <p
+      className={cn(
+        "text-3xl leading-[1.1] tracking-[-0.02em] text-pretty sm:text-[2.5rem] classic:font-serif modern:font-semibold modern:tracking-[-0.04em]",
+        className
+      )}
+    >
       {children}
     </p>
   )
@@ -44,7 +51,12 @@ export function Lead({ className, children }: { className?: string; children: Re
 /** A command on a single ruled line, with a copy button. */
 export function CommandLine({ command, className }: { command: string; className?: string }) {
   return (
-    <div className={cn("flex min-w-0 items-center gap-2 border-b border-foreground/25 pb-1.5", className)}>
+    <div
+      className={cn(
+        "flex min-w-0 items-center gap-2 border-b border-foreground/25 pb-1.5 modern:soft-well modern:rounded-xl modern:border-b-0 modern:py-1 modern:pr-1 modern:pl-3.5",
+        className
+      )}
+    >
       <code className="no-scrollbar min-w-0 flex-1 overflow-x-auto font-mono text-[13px] whitespace-nowrap">
         <span className="text-muted-foreground select-none">$ </span>
         {command}
@@ -58,7 +70,7 @@ export function CommandLine({ command, className }: { command: string; className
 export function PlateMarks({ className }: { className?: string }) {
   const corner = "absolute size-4 text-foreground/45"
   return (
-    <div aria-hidden className={cn("pointer-events-none absolute -inset-3 sm:-inset-5", className)}>
+    <div aria-hidden className={cn("pointer-events-none absolute -inset-3 sm:-inset-5 modern:hidden", className)}>
       {[
         "top-0 left-0",
         "top-0 right-0 -scale-x-100",
@@ -86,7 +98,7 @@ export function PlateMarks({ className }: { className?: string }) {
 /** The inks on the sheet, as a printer's colour bar. */
 export function ColourBar({ className }: { className?: string }) {
   return (
-    <span aria-hidden className={cn("flex", className)}>
+    <span aria-hidden className={cn("flex modern:hidden", className)}>
       {["#241d17", "#6e2a24", "#b8893a", "#387478", "#0a2a6e", "#f4f1ea"].map((c) => (
         <span key={c} className="size-2.5 ring-1 ring-black/10 ring-inset" style={{ backgroundColor: c }} />
       ))}

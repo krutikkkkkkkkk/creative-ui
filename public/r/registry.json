@@ -9,7 +9,8 @@
       "title": "Classical Collage Web Design (Claude skill)",
       "description": "Use when designing or building a website, landing page, Framer template, pitch visual or brand system in the \"classical painting × modern tech\" art direction (Renaissance / neoclassical oil paintings and marble ruins combined with laptops, phones, coins and quiet product UI, as on the Aureon fintech page and contralabs.com). Covers art direction, metaphor selection, image sourcing and AI prompts, halftone and texture techniques, exact design tokens, components, page blueprints, motion, copy voice, and Figma / Framer / Next.js build steps.",
       "meta": {
-        "addedAt": "2026-10-22"
+        "addedAt": "2026-10-22",
+        "look": "classic"
       },
       "docs": "This skill includes reference code that imports clsx, motion, next. Those files have type-checking and lint turned off, so they won't break your project. To use one in your app, install its packages and delete the header at the top of the file.",
       "files": [
@@ -237,7 +238,8 @@
       "title": "DNA Carousel",
       "description": "A cinematic 3D image carousel where cards travel along two intertwined helix strands. Drag, swipe, scroll or use the arrow keys, with momentum, snapping, infinite looping, optional autoplay, blur and RGB-split depth effects, and reduced-motion support. No dependencies.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "files": [
         {
@@ -252,7 +254,8 @@
       "title": "Rotunda Carousel",
       "description": "Square images and videos arranged on a spinning ring, largest at a focus angle and tapering to small tiles opposite it. Auto-spins in either direction, eases to a stop on hover, enlarges the hovered tile, and spins by dragging around the centre or scrolling, with momentum. Optional links per tile, reduced-motion support, no dependencies.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "files": [
         {
@@ -267,7 +270,8 @@
       "title": "Tear Reveal",
       "description": "A sheet of paper over any content that you tear open by dragging from a notch. The tear follows your path with a jagged edge and a pale fibrous rim, the halves fall away with gravity and spin past a threshold, and an early release springs it shut. Enter or Space tears it in one pass.",
       "meta": {
-        "addedAt": "2026-10-27"
+        "addedAt": "2026-10-27",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -285,7 +289,8 @@
       "title": "Wax Seal",
       "description": "A press-and-hold button with a wax seal, in two variants. Seal pools molten wax from the centre while held and presses a stamp into it, leaving an embossed impression. Open starts stamped: holding strains the wax until a crack runs across it and it snaps in two. Letting go early undoes the hold.",
       "meta": {
-        "addedAt": "2026-10-27"
+        "addedAt": "2026-10-27",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -303,7 +308,8 @@
       "title": "Image Trail",
       "description": "Moving the pointer leaves a trail of images behind it. Each card rises under the cursor, tilts with the direction of travel, hangs for a moment and drifts away. Recycles a fixed pool of cards, keeps quiet zones clear for headlines and buttons, loads images lazily, mouse and pen only, with reduced-motion support.",
       "meta": {
-        "addedAt": "2026-10-24"
+        "addedAt": "2026-10-24",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -321,7 +327,8 @@
       "title": "Dithering Hover",
       "description": "Any image turns into a black-and-white Bayer dither under the cursor. The dithered zone follows the pointer with a ragged rim and radial streaks that break up and fade, rendered live on a canvas. Controls for zone size, dot size, matrix, inks, roughness and an inverted mode. Exports drawDither for static renders.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -339,7 +346,8 @@
       "title": "Marbled Paper",
       "description": "A living sheet of marbled paper in four traditional patterns: stone, combed, nonpareil and bouquet. Each pixel is traced through exact drop and comb maps, so edges stay sharp. It drifts slowly and you can drag through the ink like a stylus. Use it as a section or card background.",
       "meta": {
-        "addedAt": "2026-10-27"
+        "addedAt": "2026-10-27",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -357,7 +365,8 @@
       "title": "Gold Leaf",
       "description": "Gilds text with real-looking gold leaf: square leaves with visible seams, slight tone differences, fine cracks and missed flecks, and burnished metal with a highlight that follows the pointer. A slow pass of light runs on touch screens, and an optional lay animation settles the leaves on in a staggered sweep. The text stays real, selectable text.",
       "meta": {
-        "addedAt": "2026-10-27"
+        "addedAt": "2026-10-27",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -375,7 +384,8 @@
       "title": "Etching",
       "description": "Renders an image as a copperplate engraving on canvas: hatch lines that bow around the forms and swell with the shadows, cross-hatching in the darks, a third pass in the deepest shadows, and ink on paper with plate tone. The lines cut themselves in, stroke by stroke, when it scrolls into view, or follow a controlled progress value.",
       "meta": {
-        "addedAt": "2026-10-27"
+        "addedAt": "2026-10-27",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -393,7 +403,8 @@
       "title": "Cyanotype",
       "description": "Turns any image into a hand-coated cyanotype: Prussian-blue tones, a brushed emulsion edge with an exposed border, uneven coating and paper tooth. Photogram mode prints objects as white silhouettes, and an optional develop wash plays when the print scrolls into view. Pure SVG filters, no CORS needed.",
       "meta": {
-        "addedAt": "2026-10-27"
+        "addedAt": "2026-10-27",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -411,7 +422,8 @@
       "title": "Masked Collage Frame",
       "description": "Image cut-outs as an arch, oval, torn paper or museum frame, with a tilt and an overlay slot for layering a modern UI card on top of a classical picture.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -429,7 +441,8 @@
       "title": "Duotone & Print Filter",
       "description": "Two-ink colour treatment for photos in the spirit of risograph and screen prints: seven ink presets or any two colours, a mix slider and optional misregistration that can slide into register when the image scrolls into view or as you scroll. Pure SVG filters.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -447,7 +460,8 @@
       "title": "Grain & Paper Overlay",
       "description": "A lightweight, pointer-transparent film grain, paper or fibre texture you can drop on any section or fix over the whole page. SVG noise, optional tint and flicker, server-component safe.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"
@@ -465,7 +479,8 @@
       "title": "Halftone Image",
       "description": "Renders any image as a print-style dot, line or square halftone on a canvas, with controls for dot size, screen angle, ink colour, contrast and inversion. Exports drawHalftone for PNG export.",
       "meta": {
-        "addedAt": "2026-10-23"
+        "addedAt": "2026-10-23",
+        "look": "classic"
       },
       "registryDependencies": [
         "utils"

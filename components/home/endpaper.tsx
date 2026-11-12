@@ -17,7 +17,8 @@ export function Endpaper({ command }: { command: string }) {
       pattern="stone"
       speed={0.6}
       seed={11}
-      className="aspect-[4/3] w-full ring-1 ring-black/10"
+      data-preview=""
+      className="aspect-[4/3] w-full overflow-hidden ring-1 ring-black/10 modern:rounded-[24px]"
       contentClassName="flex items-center justify-center p-6"
     >
       <div className="flex flex-col items-center border border-[#241d17]/25 bg-[#f4f1ea] px-9 pt-6 pb-5 text-center text-[#241d17] shadow-md">

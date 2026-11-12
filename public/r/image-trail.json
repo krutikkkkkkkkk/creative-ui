@@ -14,7 +14,8 @@
     }
   ],
   "meta": {
-    "addedAt": "2026-10-24"
+    "addedAt": "2026-10-24",
+    "look": "classic"
   },
   "type": "registry:component"
 }

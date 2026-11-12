@@ -22,10 +22,12 @@ export function Eyebrow({ children, className }: { children: React.ReactNode; cl
   )
 }
 
-/* Variants map onto shadcn Button variants; "light" and "ghost-dark" sit on dark panels. */
+/* Variants map onto shadcn Button variants; "light" and "ghost-dark" sit on dark panels.
+   In modern the pill becomes a key: a chunky rounded rectangle with a lit top edge, filled with
+   the accent when solid (`soft-press`) and raised white when outline (`soft-key`). */
 const PILL_VARIANT = {
-  solid: { variant: "default", className: undefined },
-  outline: { variant: "outline", className: "bg-background/60" },
+  solid: { variant: "default", className: "modern:soft-press" },
+  outline: { variant: "outline", className: "bg-background/60 modern:soft-key modern:border-0" },
   light: { variant: "default", className: "bg-white text-[#111214] hover:bg-white/85" },
   "ghost-dark": {
     variant: "ghost",
@@ -35,7 +37,8 @@ const PILL_VARIANT = {
 
 const PILL =
   "h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5 " +
-  "modern:h-10 modern:font-sans modern:text-sm modern:font-medium modern:tracking-normal modern:normal-case modern:active:scale-[0.97]"
+  "modern:rounded-[14px] modern:px-6 modern:has-[>svg]:px-6 modern:font-sans modern:text-[15px] modern:font-semibold modern:tracking-[-0.01em] modern:normal-case " +
+  "modern:transition-[scale,filter,background-color] modern:duration-150 modern:ease-out modern:active:scale-[0.97]"
 
 export function PillLink({
   href,

@@ -4,11 +4,10 @@ import { cloneElement, useActionState, useId } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons"
 
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { BRAND } from "@/components/home-primitives"
+import { BRAND, PillButton } from "@/components/home-primitives"
 
 import { submitPlatformSponsor, type Field, type PlatformState } from "./actions"
 
@@ -68,14 +67,10 @@ export function PlatformForm() {
       </Group>
 
       <div className="flex flex-wrap items-center gap-4 border-t pt-8">
-        <Button
-          type="submit"
-          disabled={pending}
-          className="h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5"
-        >
+        <PillButton type="submit" variant="solid" disabled={pending}>
           {pending ? "Sending…" : "Send details"}
           <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
-        </Button>
+        </PillButton>
         {state.status === "error" && state.message ? (
           <p role="alert" className="text-sm text-destructive">
             {state.message}

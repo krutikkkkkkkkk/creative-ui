@@ -6,7 +6,7 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 
 import { TIERS, offerPrice, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { PillButton } from "@/components/home-primitives"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -130,14 +130,10 @@ export function SponsorForm({
       </Group>
 
       <div className="flex flex-wrap items-center gap-4 border-t pt-8">
-        <Button
-          type="submit"
-          disabled={pending}
-          className="h-11 gap-2 rounded-full px-5 font-mono text-[11px] font-normal tracking-[.08em] uppercase has-[>svg]:px-5"
-        >
+        <PillButton type="submit" variant="solid" disabled={pending}>
           {pending ? "Opening checkout…" : "Continue to payment"}
           <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
-        </Button>
+        </PillButton>
         {state.status === "error" && state.message ? (
           <p role="alert" className="text-sm text-destructive">
             {state.message}

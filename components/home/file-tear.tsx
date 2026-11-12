@@ -25,7 +25,7 @@ export function FileTear({
   const [seed, setSeed] = React.useState(5)
 
   return (
-    <div className="w-full max-w-[400px]">
+    <div className="w-full max-w-[400px] modern:soft-surface modern:rounded-[28px] modern:p-4 modern:pb-3">
       <TearReveal
         direction="down"
         paper="#f4f1ea"
@@ -33,6 +33,8 @@ export function FileTear({
         torn={torn}
         onTear={() => setTorn(true)}
         label={`Tear open ${name}`}
+        // The wrapper is a live demo: it keeps its serif and mono in the modern look.
+        data-preview=""
         cover={
           <div className="absolute inset-3 flex flex-col justify-between border border-current/25 p-5">
             <p className="flex justify-between font-mono text-[10px] tracking-[.08em] uppercase opacity-70">

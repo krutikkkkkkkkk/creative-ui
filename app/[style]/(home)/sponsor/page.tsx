@@ -115,7 +115,7 @@ export default async function SponsorPage({ params }: { params: StyleParams }) {
             </p>
             <div className="cc-rise mt-9 flex flex-wrap gap-3" style={delay(400)}>
               <PillLink href="#tiers" variant="solid">
-                <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: BRAND }} strokeWidth={2} />
+                <HugeiconsIcon icon={FavouriteIcon} className="size-4 text-brand modern:text-current" strokeWidth={2} />
                 Become a sponsor
               </PillLink>
               <PillLink href="#how-it-works">How it works</PillLink>
@@ -158,7 +158,7 @@ export default async function SponsorPage({ params }: { params: StyleParams }) {
           {modern ? <StepGrid steps={STEPS} /> : <StackSteps steps={STEPS} />}
           <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
             <PillLink href="#tiers" variant="solid">
-              <HugeiconsIcon icon={FavouriteIcon} className="size-4" style={{ color: BRAND }} strokeWidth={2} />
+              <HugeiconsIcon icon={FavouriteIcon} className="size-4 text-brand modern:text-current" strokeWidth={2} />
               Pick a tier
             </PillLink>
             <Link

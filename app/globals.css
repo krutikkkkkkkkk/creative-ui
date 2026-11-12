@@ -126,12 +126,14 @@
 }
 
 /* Modern look: soft and tactile. A light grey canvas, raised white surfaces with a lit top edge,
-   large radii, one blue accent and a warm-to-cool gradient kept for the few things worth pressing.
+   large radii and one blue accent, which also fills the primary key (`soft-press`).
    Geist Sans for every display face. Comes after :root/.dark so it wins at equal specificity. */
 [data-style="modern"] {
   --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --paper: transparent;
   --brand: oklch(0.57 0.21 264);
+  /* The fill of a pressed-for key. Not lightened in dark like --brand: it carries white text. */
+  --press: oklch(0.57 0.21 264);
   --radius: 0.875rem;
   --background: oklch(0.955 0 0);
   --foreground: oklch(0.2 0 0);
@@ -179,6 +181,11 @@
     inset 0 1px 0 rgb(255 255 255), inset 0 0 0 1px rgb(255 255 255 / 0.6), 0 1px 2px rgb(0 0 0 / 0.05),
     0 10px 24px -12px rgb(0 0 0 / 0.14), 0 28px 48px -32px rgb(0 0 0 / 0.16);
   --soft-well: inset 0 1px 2px rgb(0 0 0 / 0.07), inset 0 0 0 1px rgb(0 0 0 / 0.02), 0 1px 0 rgb(255 255 255 / 0.9);
+  --key-top: oklch(1 0 0);
+  --key-bottom: oklch(0.975 0 0);
+  --key-edge: inset 0 1px 0 rgb(255 255 255);
+  --key-drop: 0 0 0 1px rgb(0 0 0 / 0.07), 0 1px 2px rgb(0 0 0 / 0.08), 0 6px 12px -6px rgb(0 0 0 / 0.18);
+  --key-hover: brightness(0.97);
 }
 
 .dark {
@@ -188,6 +195,11 @@
     inset 0 1px 0 rgb(255 255 255 / 0.1), inset 0 0 0 1px rgb(255 255 255 / 0.04), 0 1px 2px rgb(0 0 0 / 0.4),
     0 16px 32px -16px rgb(0 0 0 / 0.7);
   --soft-well: inset 0 1px 3px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.05);
+  --key-top: oklch(0.315 0 0);
+  --key-bottom: oklch(0.265 0 0);
+  --key-edge: inset 0 1px 0 rgb(255 255 255 / 0.12);
+  --key-drop: 0 0 0 1px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 14px -8px rgb(0 0 0 / 0.7);
+  --key-hover: brightness(1.14);
 }
 
 @utility soft-surface {
@@ -200,6 +212,42 @@
   box-shadow: var(--soft-well);
 }
 
+/* Keys, the things you press: `soft-press` is filled with the accent (one per group), `soft-key`
+   is its neutral sibling. A gradient paints the whole face, so the Button variant underneath never
+   shows and hover is a brightness shift on top. The shadows go through Tailwind's shadow variables
+   so the focus ring still composes with them. */
+@utility soft-press {
+  color: oklch(1 0 0);
+  --press-fill: var(--press, var(--brand));
+  background-image: linear-gradient(180deg, color-mix(in oklch, var(--press-fill) 91%, white), var(--press-fill));
+  --tw-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 0.36), inset 0 0 0 1px rgb(255 255 255 / 0.07);
+  --tw-shadow: 0 1px 2px rgb(0 0 0 / 0.22), 0 8px 16px -8px color-mix(in oklch, var(--press-fill) 50%, black);
+  box-shadow:
+    var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+    var(--tw-shadow);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      filter: brightness(1.08);
+    }
+  }
+}
+
+@utility soft-key {
+  background-image: linear-gradient(180deg, var(--key-top), var(--key-bottom));
+  --tw-inset-shadow: var(--key-edge);
+  --tw-shadow: var(--key-drop);
+  box-shadow:
+    var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+    var(--tw-shadow);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      filter: var(--key-hover);
+    }
+  }
+}
+
 /* Display type in modern is semibold and tight. Unlayered, so it outranks the tracking
    utilities the serif headings carry. Live component previews ([data-preview]) keep their own type. */
 [data-style="modern"] [data-preview] {
@@ -210,6 +258,14 @@
   font-weight: 600;
   letter-spacing: -0.045em;
   line-height: 1;
+}
+
+/* The home sheet's small mono labels (running heads, captions, band letters) become the modern
+   look's quiet sans labels. Commands and code stay mono; buttons and live previews keep their own. */
+[data-style="modern"] .sheet .font-mono.uppercase:not([data-slot="button"], [data-preview] *) {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
 @layer base {

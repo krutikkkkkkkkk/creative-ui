@@ -186,7 +186,8 @@
     }
   ],
   "meta": {
-    "addedAt": "2026-10-22"
+    "addedAt": "2026-10-22",
+    "look": "classic"
   },
   "docs": "This skill includes reference code that imports clsx, motion, next. Those files have type-checking and lint turned off, so they won't break your project. To use one in your app, install its packages and delete the header at the top of the file.",
   "type": "registry:item"

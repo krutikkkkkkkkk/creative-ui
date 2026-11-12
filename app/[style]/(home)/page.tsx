@@ -18,7 +18,7 @@ import {
 } from "@/lib/registry"
 import { AUTHOR, SITE_NAME, SITE_TAGLINE, pageMetadata, siteJsonLd } from "@/lib/seo"
 import { TESTIMONIALS } from "@/lib/testimonials"
-import { styleOf, type StyleParams } from "@/lib/ui-style"
+import { styleOf, type StyleParams, type UiStyle } from "@/lib/ui-style"
 import { InstallCommand } from "@/components/copy-command"
 import { JsonLd } from "@/components/json-ld"
 import { Hero } from "@/components/hero/hero"
@@ -26,32 +26,25 @@ import { CollectionCarousel } from "@/components/home/collection-carousel"
 import { Endpaper } from "@/components/home/endpaper"
 import { FileTear } from "@/components/home/file-tear"
 import { ItemIndex, type IndexEntry } from "@/components/home/item-index"
-import { ModernHome } from "@/components/modern/modern-home"
 import { CommandLine, Lead, PlateMarks, SectionHead } from "@/components/home/sheet"
 import { SponsorsBand } from "@/components/home/sponsors-band"
 import { SHARE_URL, Testimonials } from "@/components/home/testimonials"
 import { PillLink } from "@/components/home-primitives"
 import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-overlay"
 
-/* Home page. Classic is laid out as a printer's proof sheet: every picture on it is rendered
-   live by a registry component and labelled with that component's name, sections open with a
-   ruled running head and a full sentence, and nothing is shown that isn't real (no counters,
-   no empty testimonial wall). Modern is the soft, tactile counterpart in components/modern. */
+/* Home page: one proof sheet for both looks. Every picture on it is rendered live by a registry
+   component and labelled with that component's name, sections open with a running head and a
+   full sentence, and nothing is shown that isn't real (no counters, no empty testimonial wall).
+   The structure is written once. Classic sets it in serif with ruled lines and printer's marks;
+   modern sets the same sections in sans on raised soft tiles, through `modern:` variants. */
 
 export const metadata: Metadata = pageMetadata({ title: { absolute: `${SITE_NAME}: ${SITE_TAGLINE}` }, path: "/" })
 
 export default async function Home({ params }: { params: StyleParams }) {
   const style = await styleOf(params)
-  const items = await getSummaries(style)
-  if (style === "modern") {
-    return (
-      <>
-        <JsonLd data={siteJsonLd()} />
-        <ModernHome items={items} />
-      </>
-    )
-  }
-  return <ClassicHome items={items} />
+  // The home page presents the whole registry, both collections, whichever look it is read in.
+  const items = await getSummaries()
+  return <HomeSheet items={items} style={style} />
 }
 
 /** The component whose source sits under the paper in the install section. */
@@ -65,14 +58,17 @@ const HOUSE_RULES = [
   "Code you own, not code you rent.",
 ]
 
-const TEXT = "mx-auto w-full max-w-5xl px-4 sm:px-8"
-const PLATE = "mx-auto w-full max-w-[1280px] px-4 sm:px-8"
+/* Classic keeps the type in a narrow column and lets plates run wider. Modern lines both up
+   with its header pill (max-w-6xl plus the gutter). */
+const TEXT = "mx-auto w-full px-4 classic:max-w-5xl classic:sm:px-8 modern:max-w-[74rem]"
+const PLATE = "mx-auto w-full px-4 classic:max-w-[1280px] classic:sm:px-8 modern:max-w-[74rem]"
 const ARROW_LINK =
   "group inline-flex items-center gap-1 font-mono text-[11px] tracking-[.08em] uppercase underline-offset-4 hover:underline"
 const INLINE_LINK =
   "underline decoration-foreground/25 underline-offset-[0.18em] transition-colors hover:decoration-foreground"
 
-async function ClassicHome({ items }: { items: ItemSummary[] }) {
+async function HomeSheet({ items, style }: { items: ItemSummary[]; style: UiStyle }) {
+  const modern = style === "modern"
   const command = (name: string) => `npx shadcn@latest add ${installName(name)}`
   const skills = await Promise.all(items.filter((i) => i.kind === "skill").map((s) => getSkill(s)))
   const intros = new Map(skills.map((s) => [s.name, s.intro]))
@@ -80,6 +76,7 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
     name: i.name,
     title: i.title,
     kind: i.kind,
+    look: i.look,
     fileCount: i.fileCount,
     poster: i.poster,
     isNew: i.isNew,
@@ -90,15 +87,15 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
   const source = await getSource(UNWRAPPED)
 
   return (
-    <div className="relative w-full overflow-x-clip">
+    <div className="sheet relative w-full overflow-x-clip">
       <JsonLd data={siteJsonLd()} />
-      <Hero items={items} />
+      <Hero items={items} style={style} />
 
       {/* 01. The whole registry, one line each. */}
       <section id="index" className={`${TEXT} scroll-mt-20 py-16 sm:py-24`}>
         <SectionHead n="01" title="Index" meta={`${items.length} entries`} />
         <div className="pt-10">
-          <ItemIndex entries={entries} />
+          <ItemIndex entries={entries} style={style} />
         </div>
       </section>
 
@@ -114,7 +111,7 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
               There is no package. The CLI writes the source into your project, and from then on it is your code
               to rename, restyle or cut in half.
             </Lead>
-            <dl className="mt-10 border-t">
+            <dl className="mt-10 border-t modern:grid modern:gap-4 modern:border-t-0">
               <Way term="By name">
                 <p>
                   <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs text-foreground">{NAMESPACE}</code> is
@@ -152,7 +149,7 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
           <SectionHead n="03" title="In motion" meta="Plate 3 · dna-carousel" />
         </div>
         <div className={`${PLATE} pt-12`}>
-          <div className="relative">
+          <div className="relative modern:soft-surface modern:overflow-hidden modern:rounded-[32px] modern:py-8">
             <PlateMarks />
             <CollectionCarousel />
           </div>
@@ -171,11 +168,11 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
             </span>
           </Lead>
 
-          <div className="mt-12 grid border-t md:grid-cols-2">
+          <div className="mt-12 grid md:grid-cols-2 classic:border-t modern:gap-5">
             {skills.map((s, i) => (
               <article
                 key={s.name}
-                className="flex min-w-0 flex-col border-b py-8 md:odd:border-r md:odd:pr-10 md:even:pl-10"
+                className="flex min-w-0 flex-col classic:border-b classic:py-8 classic:md:odd:border-r classic:md:odd:pr-10 classic:md:even:pl-10 modern:soft-surface modern:rounded-[28px] modern:p-7"
               >
                 <p className="font-mono text-[10px] tracking-[.08em] text-muted-foreground uppercase">
                   Skill {String(i + 1).padStart(2, "0")} · {s.fileCount} files
@@ -206,13 +203,13 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
 
           <div className="grid gap-x-12 gap-y-6 pt-10 lg:grid-cols-12">
             <p className="font-mono text-[10px] leading-relaxed tracking-[.08em] text-muted-foreground uppercase lg:col-span-3">
-              Four rules from the first one, which this page follows
+              Four rules from the first one{!modern && ", which this page follows"}
             </p>
             <ol className="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:col-span-9">
               {HOUSE_RULES.map((rule, i) => (
                 <li key={rule} className="flex gap-4">
                   <span className="pt-1.5 font-mono text-[11px] text-muted-foreground">0{i + 1}</span>
-                  <p className="font-serif text-2xl leading-[1.12] tracking-[-0.015em] text-balance">
+                  <p className="text-2xl leading-[1.12] tracking-[-0.015em] text-balance classic:font-serif modern:font-medium modern:tracking-[-0.035em]">
                     {rule.split(" ").map((word, j) => (
                       <span key={j} className="cc-word">
                         {word}{" "}
@@ -232,9 +229,10 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
       </div>
 
       {/* Colophon, on the back endpaper. */}
-      <section className="relative isolate border-t bg-paper">
-        <GrainOverlay opacity={0.14} className="-z-10" />
-        <div className={`${TEXT} grid items-end gap-x-12 gap-y-12 py-16 sm:py-24 lg:grid-cols-12`}>
+      <section className="relative isolate border-t bg-paper modern:border-t-0 modern:px-4 modern:pb-20">
+        <GrainOverlay opacity={0.14} className="-z-10 modern:hidden" />
+        {/* The back page: a ruled band of paper in classic, one large raised tile in modern. */}
+        <div className="mx-auto grid w-full items-end gap-x-12 gap-y-12 lg:grid-cols-12 classic:max-w-5xl classic:px-4 classic:py-16 classic:sm:px-8 classic:sm:py-24 modern:soft-surface modern:max-w-6xl modern:rounded-[40px] modern:p-7 modern:sm:p-12">
           <div className="min-w-0 lg:col-span-7">
             <h2 className="font-mono text-[11px] tracking-[.08em] text-muted-foreground uppercase">Colophon</h2>
             <Lead className="mt-5">
@@ -249,7 +247,8 @@ async function ClassicHome({ items }: { items: ItemSummary[] }) {
               .
             </Lead>
             <p className="mt-6 max-w-[34em] leading-relaxed text-pretty text-muted-foreground">
-              Set in Geist Serif, Geist and Geist Mono. Built with Next.js, Tailwind CSS and the shadcn registry.
+              Set in {modern ? "Geist and Geist Mono" : "Geist Serif, Geist and Geist Mono"}. Built with Next.js,
+              Tailwind CSS and the shadcn registry.
               The plates on this page are rendered in your browser by the components in the index, and the
               paintings under them are public-domain works and original generated pieces.
             </p>
@@ -313,7 +312,7 @@ async function getSource(name: string) {
 
 function Way({ term, children }: { term: string; children: React.ReactNode }) {
   return (
-    <div className="grid gap-x-8 gap-y-2 border-b py-6 sm:grid-cols-[7rem_1fr]">
+    <div className="grid gap-x-8 gap-y-2 sm:grid-cols-[7rem_1fr] classic:border-b classic:py-6 modern:soft-surface modern:rounded-[24px] modern:p-6">
       <dt className="pt-0.5 font-mono text-[11px] tracking-[.08em] uppercase">{term}</dt>
       <dd className="min-w-0 text-sm leading-relaxed text-muted-foreground">{children}</dd>
     </div>
