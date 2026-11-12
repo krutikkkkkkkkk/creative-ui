@@ -8,20 +8,20 @@ export type GridStep = {
   visual?: React.ReactNode
 }
 
-/** Numbered steps side by side, split by hairlines. The modern counterpart of StackSteps. */
+/** Numbered steps side by side, each on a raised tile. The modern counterpart of StackSteps. */
 export function StepGrid({ steps, className }: { steps: GridStep[]; className?: string }) {
   return (
-    <ol className={cn("grid gap-px overflow-hidden rounded-xl border bg-border md:grid-cols-3", className)}>
+    <ol className={cn("grid gap-4 md:grid-cols-3 sm:gap-5", className)}>
       {steps.map((s) => (
-        <li key={s.n} className="flex min-w-0 flex-col gap-4 bg-background p-6 sm:p-8">
-          <span className="grid size-7 place-items-center rounded-full border font-mono text-xs text-muted-foreground tabular-nums">
+        <li key={s.n} className="soft-surface flex min-w-0 flex-col gap-5 rounded-[28px] p-6 sm:p-7">
+          <span className="soft-well grid size-9 place-items-center rounded-full text-sm font-semibold text-foreground tabular-nums">
             {Number(s.n)}
           </span>
           <div>
-            <h3 className="font-semibold tracking-[-0.02em]">{s.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground">{s.body}</p>
+            <h3 className="text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-pretty text-muted-foreground">{s.body}</p>
           </div>
-          {s.visual && <div className="mt-auto min-w-0 pt-2">{s.visual}</div>}
+          {s.visual && <div className="mt-auto min-w-0 pt-1">{s.visual}</div>}
         </li>
       ))}
     </ol>

@@ -39,7 +39,8 @@ export function CountUp({ value, duration = 1200 }: { value: number | string; du
 
   return (
     <span ref={ref} className="tabular-nums">
-      {typeof value === "number" ? (n ?? value).toLocaleString() : value}
+      {/* A fixed locale: the server's and the visitor's defaults can format differently. */}
+      {typeof value === "number" ? (n ?? value).toLocaleString("en") : value}
     </span>
   )
 }

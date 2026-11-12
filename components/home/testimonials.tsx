@@ -10,7 +10,7 @@ import { GrainOverlay } from "@/registry/new-york/blocks/grain-overlay/grain-ove
 /* A statue writing on a tablet beside the quote it wrote: words set down to last.
    Until there are real quotes, the card invites one instead. */
 
-const SHARE_URL = `https://x.com/intent/post?${new URLSearchParams({
+export const SHARE_URL =`https://x.com/intent/post?${new URLSearchParams({
   text: "Shipped with creative-ui:",
   url: SITE_URL,
   via: X_HANDLE,

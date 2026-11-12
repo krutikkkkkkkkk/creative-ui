@@ -3,9 +3,10 @@ import { getSummaries } from "@/lib/registry"
 import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
-import { SponsorsCard } from "@/components/sponsors-card"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
+/* The shell only: sidebar and header. Each page lays itself out with DocFrame (components/docs-prose),
+   which owns the content column and the right rail. */
 export default async function DocsLayout({
   children,
   params,
@@ -18,12 +19,7 @@ export default async function DocsLayout({
       <AppSidebar items={items} />
       <SidebarInset>
         <SiteHeader items={items} stars={stars} style={style} />
-        <div className="flex flex-1">
-          <div className="min-w-0 flex-1">{children}</div>
-          <aside className="hidden w-64 shrink-0 pt-10 pr-6 xl:block">
-            <SponsorsCard className="sticky top-20" />
-          </aside>
-        </div>
+        {children}
       </SidebarInset>
     </SidebarProvider>
   )

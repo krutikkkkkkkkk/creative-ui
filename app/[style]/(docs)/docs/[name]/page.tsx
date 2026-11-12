@@ -19,6 +19,7 @@ import {
   GITHUB_URL,
   getItem,
   getItems,
+  getSummaries,
   installName,
   installUrl,
   kindOf,
@@ -38,7 +39,7 @@ import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
 import { CopyForLlmButton } from "@/components/copy-for-llm-button"
 import { JsonLd } from "@/components/json-ld"
-import { Code, Note, Section } from "@/components/docs-prose"
+import { Code, DocFrame, Note, PageHeader, Pager, Section } from "@/components/docs-prose"
 import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { previews } from "@/components/previews"
 import { InlineCode, PropsTable } from "@/components/props-table"
@@ -86,8 +87,68 @@ export default async function ItemPage({ params }: Props) {
   const skillMd = isSkill ? contents.find((c) => c.file.path.endsWith("/SKILL.md"))?.code : null
   const intro = skillMd ? skillIntro(skillMd) : null
 
+  /* Neighbours in this look's listing, in sidebar order. An item from the other look has none. */
+  const listed = await getSummaries(style)
+  const at = listed.findIndex((i) => i.name === item.name)
+  const link = (i: (typeof listed)[number] | undefined) => i && { href: `/docs/${i.name}`, label: i.title }
+  const prev = at > 0 ? link(listed[at - 1]) : undefined
+  const next = at >= 0 ? link(listed[at + 1]) : undefined
+
+  const preview = !isSkill && (
+    <Section title="Preview">
+      <Tabs defaultValue={Preview ? "preview" : "code"} className="gap-4">
+        <TabsList>
+          {Preview && (
+            <TabsTrigger value="preview">
+              <HugeiconsIcon icon={ViewIcon} strokeWidth={2} />
+              Preview
+            </TabsTrigger>
+          )}
+          <TabsTrigger value="code">
+            <HugeiconsIcon icon={CodeIcon} strokeWidth={2} />
+            Code
+          </TabsTrigger>
+        </TabsList>
+        {Preview && (
+          <TabsContent value="preview">
+            <div
+              data-preview
+              className="grid min-h-96 place-items-center rounded-xl border bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] p-4 sm:p-8"
+            >
+              <Preview />
+            </div>
+          </TabsContent>
+        )}
+        <TabsContent value="code" className="flex flex-col gap-4">
+          {contents.map(({ file, code }) =>
+            code ? <CodeBlock key={file.path} code={code} title={fileLabel(file)} /> : null
+          )}
+        </TabsContent>
+      </Tabs>
+    </Section>
+  )
+
+  const installation = (
+    <Section title="Installation">
+      <InstallCommand target={installName(item.name)} />
+      <Note className="mt-4">
+        On an older shadcn CLI, use the URL:{" "}
+        <Code>
+          npx shadcn@latest add {installUrl(item.name)}
+        </Code>
+        {isSkill && (
+          <>
+            . Files go into{" "}
+            <Code>.claude/skills/{item.name}/</Code>
+          </>
+        )}
+      </Note>
+      {item.docs && <Note className="mt-3">{item.docs}</Note>}
+    </Section>
+  )
+
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 pt-10 pb-24 sm:px-8">
+    <DocFrame>
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -105,36 +166,34 @@ export default async function ItemPage({ params }: Props) {
       />
       {/* Banner */}
       {banner && (
-        <div className="mb-10 overflow-hidden rounded-2xl border bg-muted/30 shadow-sm">
+        <div className="mb-10 overflow-hidden rounded-2xl border bg-muted/30 shadow-sm sm:mb-12">
           <Image
             src={banner}
             alt={`${displayTitle(item)} banner`}
             width={3200}
             height={1800}
             priority
-            sizes="(min-width: 1024px) 896px, 100vw"
+            sizes="(min-width: 1536px) 976px, (min-width: 768px) 70vw, 100vw"
             className="h-auto w-full"
           />
         </div>
       )}
 
-      {/* Title */}
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="secondary" className="gap-1 font-normal">
-            <HugeiconsIcon icon={isSkill ? AiMagicIcon : PuzzleIcon} className="size-3" strokeWidth={2} />
-            {isSkill ? "Claude skill" : "Component"}
-          </Badge>
-          <Badge variant="outline" className="font-mono font-normal text-muted-foreground">
-            {item.type}
-          </Badge>
-        </div>
-        <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">{displayTitle(item)}</h1>
-        {item.description && (
-          <p className="max-w-2xl text-base leading-relaxed text-pretty text-muted-foreground">
-            {isSkill ? (intro ?? item.description) : item.description}
-          </p>
-        )}
+      <PageHeader
+        eyebrow={
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="secondary" className="gap-1 font-normal">
+              <HugeiconsIcon icon={isSkill ? AiMagicIcon : PuzzleIcon} className="size-3" strokeWidth={2} />
+              {isSkill ? "Claude skill" : "Component"}
+            </Badge>
+            <Badge variant="outline" className="font-mono font-normal text-muted-foreground">
+              {item.type}
+            </Badge>
+          </div>
+        }
+        title={displayTitle(item)}
+        description={item.description && (isSkill ? (intro ?? item.description) : item.description)}
+      >
         {otherLook && (
           <Note>
             Part of the {otherLook} collection.{" "}
@@ -144,7 +203,7 @@ export default async function ItemPage({ params }: Props) {
             .
           </Note>
         )}
-        <div className="flex flex-wrap gap-2 pt-1">
+        <div className="flex flex-wrap gap-2">
           {!isSkill && <OpenInV0Button name={item.name} className="h-8" />}
           <CopyForLlmButton name={item.name} />
           <Button variant="outline" size="sm" asChild>
@@ -154,57 +213,11 @@ export default async function ItemPage({ params }: Props) {
             </a>
           </Button>
         </div>
-      </div>
+      </PageHeader>
 
-      {/* Install */}
-      <Section title="Installation">
-        <InstallCommand target={installName(item.name)} />
-        <p className="mt-3 text-sm text-muted-foreground">
-          On an older shadcn CLI, use the URL:{" "}
-          <Code>
-            npx shadcn@latest add {installUrl(item.name)}
-          </Code>
-          {isSkill && (
-            <>
-              . Files go into{" "}
-              <Code>.claude/skills/{item.name}/</Code>
-            </>
-          )}
-        </p>
-        {item.docs && <Note className="mt-3 text-sm text-muted-foreground">{item.docs}</Note>}
-      </Section>
-
-      {/* Preview / code for components */}
-      {!isSkill && (
-        <Section title="Preview">
-          <Tabs defaultValue={Preview ? "preview" : "code"} className="gap-3">
-            <TabsList>
-              {Preview && (
-                <TabsTrigger value="preview">
-                  <HugeiconsIcon icon={ViewIcon} strokeWidth={2} />
-                  Preview
-                </TabsTrigger>
-              )}
-              <TabsTrigger value="code">
-                <HugeiconsIcon icon={CodeIcon} strokeWidth={2} />
-                Code
-              </TabsTrigger>
-            </TabsList>
-            {Preview && (
-              <TabsContent value="preview">
-                <div data-preview className="grid min-h-80 place-items-center rounded-xl border bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] p-8">
-                  <Preview />
-                </div>
-              </TabsContent>
-            )}
-            <TabsContent value="code" className="flex flex-col gap-4">
-              {contents.map(({ file, code }) =>
-                code ? <CodeBlock key={file.path} code={code} title={fileLabel(file)} /> : null
-              )}
-            </TabsContent>
-          </Tabs>
-        </Section>
-      )}
+      {/* A component is shown first, then installed. A skill has nothing to show, so it opens on the install. */}
+      {preview}
+      {installation}
 
       {/* Reference docs for components */}
       {docs && (
@@ -214,7 +227,7 @@ export default async function ItemPage({ params }: Props) {
           </Section>
 
           <Section title="Props" aside={docs.api.length > 1 ? `${docs.api.length} components` : undefined}>
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-12">
               {docs.api.map((api) => (
                 <PropsTable key={api.name} api={api} showName={docs.api.length > 1} />
               ))}
@@ -223,24 +236,29 @@ export default async function ItemPage({ params }: Props) {
 
           {Boolean(docs.exports?.length) && (
             <Section title="Also exported">
-              <dl className="flex flex-col gap-4">
-                {docs.exports!.map((e) => (
-                  <div key={e.signature} className="flex flex-col gap-1">
-                    <dt className="font-mono text-[13px]">{e.signature}</dt>
-                    <dd className="text-sm leading-relaxed text-muted-foreground">
-                      <InlineCode text={e.description} />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              <div className="@container">
+                <dl className="divide-y overflow-hidden rounded-xl border">
+                  {docs.exports!.map((e) => (
+                    <div
+                      key={e.signature}
+                      className="grid gap-1.5 px-4 py-3.5 @2xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] @2xl:gap-6"
+                    >
+                      <dt className="font-mono text-[13px] leading-relaxed break-words">{e.signature}</dt>
+                      <dd className="text-sm leading-relaxed text-pretty text-muted-foreground">
+                        <InlineCode text={e.description} />
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
             </Section>
           )}
 
           {Boolean(docs.notes?.length) && (
             <Section title="Notes">
-              <ul className="flex list-disc flex-col gap-2 pl-5 text-sm leading-relaxed text-muted-foreground marker:text-border">
+              <ul className="flex max-w-3xl list-disc flex-col gap-2.5 pl-5 text-sm leading-relaxed text-pretty text-muted-foreground marker:text-border">
                 {docs.notes!.map((n) => (
-                  <li key={n}>
+                  <li key={n} className="pl-1">
                     <InlineCode text={n} />
                   </li>
                 ))}
@@ -283,7 +301,9 @@ export default async function ItemPage({ params }: Props) {
           </div>
         </Section>
       )}
-    </div>
+
+      {(prev || next) && <Pager prev={prev} next={next} />}
+    </DocFrame>
   )
 }
 
@@ -303,26 +323,29 @@ function FileTree({ files, root }: { files: RegistryFile[]; root: string }) {
   const dirs = [...groups.keys()].sort((a, b) => (a === "" ? -1 : b === "" ? 1 : a.localeCompare(b)))
 
   return (
-    <div className="grid items-start gap-3 sm:grid-cols-2">
-      {dirs.map((dir) => (
-        <Card key={dir || "root"} className="gap-3 p-4 shadow-none">
-          <div className="flex items-center gap-2 text-sm font-medium">
-            <HugeiconsIcon icon={Folder01Icon} className="size-4 text-amber-500" strokeWidth={2} />
-            <span className="font-mono">{dir ? `${dir}/` : `${root}/`}</span>
-            <span className="ml-auto font-mono text-xs font-normal text-muted-foreground">
-              {groups.get(dir)!.length}
-            </span>
-          </div>
-          <ul className="space-y-1.5">
-            {groups.get(dir)!.map((f) => (
-              <li key={f} className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-                <HugeiconsIcon icon={FileScriptIcon} className="size-3.5 shrink-0" strokeWidth={1.75} />
-                <span className="truncate">{f}</span>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      ))}
+    <div className="@container">
+      {/* Columns, not a grid: folders differ a lot in length, and columns pack them without holes. */}
+      <div className="-mb-4 gap-4 @xl:columns-2 @4xl:columns-3">
+        {dirs.map((dir) => (
+          <Card key={dir || "root"} className="mb-4 break-inside-avoid gap-3 p-4 shadow-none">
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <HugeiconsIcon icon={Folder01Icon} className="size-4 text-amber-500" strokeWidth={2} />
+              <span className="font-mono">{dir ? `${dir}/` : `${root}/`}</span>
+              <span className="ml-auto font-mono text-xs font-normal text-muted-foreground">
+                {groups.get(dir)!.length}
+              </span>
+            </div>
+            <ul className="space-y-1.5">
+              {groups.get(dir)!.map((f) => (
+                <li key={f} className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+                  <HugeiconsIcon icon={FileScriptIcon} className="size-3.5 shrink-0" strokeWidth={1.75} />
+                  <span className="truncate">{f}</span>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }

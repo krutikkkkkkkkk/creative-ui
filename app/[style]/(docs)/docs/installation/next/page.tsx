@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/seo"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
-import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
+import { Code, DocPage, Note, Pager, Section, Step, Steps } from "@/components/docs-prose"
 
 export const metadata: Metadata = pageMetadata({
   title: "Install Next.js",
@@ -26,7 +26,7 @@ export default function InstallNextPage() {
       description="creative-ui components are React components built for the Next.js App Router. Start from a fresh app, or skip ahead if you already have one."
     >
       <Section title="Create a new project">
-        <div className="flex flex-col gap-8">
+        <Steps>
           <Step n="1" title="Run create-next-app" body="Replace my-app with your project name.">
             <InstallCommand mode="create" command="next-app@latest my-app" />
           </Step>
@@ -40,8 +40,8 @@ export default function InstallNextPage() {
           <Step n="3" title="Start the dev server">
             <InstallCommand mode="run" command="dev" />
           </Step>
-        </div>
-        <Note className="mt-6 text-sm text-muted-foreground">
+        </Steps>
+        <Note className="mt-6">
           Choosing Tailwind in the prompts already does the next step for you. If you did, go straight to{" "}
           <Code>Add utilities</Code>.
         </Note>

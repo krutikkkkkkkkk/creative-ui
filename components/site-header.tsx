@@ -31,14 +31,15 @@ export function SiteHeader({ items, stars, style }: { items: ItemSummary[]; star
       <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
       <Breadcrumb className="min-w-0 flex-1">
         <BreadcrumbList className="flex-nowrap">
-          <BreadcrumbItem>
+          {/* On a phone the site crumb is the first to go, so the page title keeps its room. */}
+          <BreadcrumbItem className={item ? "max-sm:hidden" : undefined}>
             <BreadcrumbLink asChild>
               <Link href="/" className="whitespace-nowrap">
                 creative-ui
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className={item ? "max-sm:hidden" : undefined} />
           <BreadcrumbItem>
             {item ? (
               <BreadcrumbLink asChild>

@@ -6,6 +6,7 @@ import { ArrowRight01Icon, PlusSignIcon } from "@hugeicons/core-free-icons"
 import { LAUNCH_OFFER, PLATFORM_SPONSORS, SPONSORS, SPONSOR_URL, TIERS, type Tier } from "@/lib/sponsors"
 import { cn } from "@/lib/utils"
 import { Eyebrow } from "@/components/home-primitives"
+import { SectionHead } from "@/components/home/sheet"
 
 /* A gallery wall of sponsor plaques, hung as a pyramid: each tier is a centered row that
    widens toward the base. Empty slots are hung with a dashed frame. */
@@ -16,20 +17,31 @@ const SIZE: Record<Tier, string> = {
   silver: "h-20 flex-1",
 }
 
-export function SponsorsBand() {
+/**
+ * With `n` the band opens with the proof sheet's ruled running head (classic home);
+ * without it, with its own eyebrow and title.
+ */
+export function SponsorsBand({ n, className }: { n?: string; className?: string }) {
   const slots = TIERS.reduce((n, t) => n + t.slots, 0)
   const open = slots - Math.min(slots, SPONSORS.length)
+  const status =
+    (open > 0 ? `${open} of ${slots} slots open` : "All slots taken") +
+    (LAUNCH_OFFER ? ` · ${LAUNCH_OFFER.percent}% off at launch` : "")
 
   return (
-    <section className="border-t py-20">
+    <section className={cn(!n && "border-t py-20", className)}>
+      {n && <SectionHead n={n} title="Sponsors" meta={status} className="mb-10" />}
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <Eyebrow>
-            Sponsors · {open > 0 ? `${open} of ${slots} slots open` : "All slots taken"}
-            {LAUNCH_OFFER && ` · ${LAUNCH_OFFER.percent}% off at launch`}
-          </Eyebrow>
-          <h2 className="mt-4 font-serif text-4xl leading-[0.95] tracking-[-0.02em] sm:text-5xl">On the wall.</h2>
-        </div>
+        {n ? (
+          <p className="max-w-[24em] font-serif text-3xl leading-[1.1] tracking-[-0.02em] text-pretty sm:text-[2.5rem]">
+            The plaques on this wall keep the registry free and open.
+          </p>
+        ) : (
+          <div>
+            <Eyebrow>Sponsors · {status}</Eyebrow>
+            <h2 className="mt-4 font-serif text-4xl leading-[0.95] tracking-[-0.02em] sm:text-5xl">On the wall.</h2>
+          </div>
+        )}
         <Link
           href="/sponsor"
           className="group inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"

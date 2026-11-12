@@ -125,45 +125,79 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Modern look: Vercel/Geist-style. Pure surfaces, hairline borders, one blue accent and
+/* Modern look: soft and tactile. A light grey canvas, raised white surfaces with a lit top edge,
+   large radii, one blue accent and a warm-to-cool gradient kept for the few things worth pressing.
    Geist Sans for every display face. Comes after :root/.dark so it wins at equal specificity. */
 [data-style="modern"] {
   --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --paper: transparent;
-  --brand: oklch(0.57 0.21 258);
-  --radius: 0.5rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.205 0 0);
-  --card: oklch(1 0 0);
-  --muted: oklch(0.985 0 0);
+  --brand: oklch(0.57 0.21 264);
+  --radius: 0.875rem;
+  --background: oklch(0.955 0 0);
+  --foreground: oklch(0.2 0 0);
+  --card: oklch(0.992 0 0);
+  --popover: oklch(0.995 0 0);
+  --muted: oklch(0.925 0 0);
   --muted-foreground: oklch(0.5 0 0);
-  --border: oklch(0.93 0 0);
-  --input: oklch(0.93 0 0);
-  --primary: oklch(0.145 0 0);
-  --secondary: oklch(0.97 0 0);
-  --accent: oklch(0.97 0 0);
-  --ring: oklch(0.57 0.21 258 / 60%);
-  --sidebar: oklch(0.99 0 0);
-  --sidebar-border: oklch(0.93 0 0);
+  --border: oklch(0.895 0 0);
+  --input: oklch(0.88 0 0);
+  --primary: oklch(0.17 0 0);
+  --secondary: oklch(0.925 0 0);
+  --accent: oklch(0.925 0 0);
+  --ring: oklch(0.57 0.21 264 / 60%);
+  --sidebar: oklch(0.955 0 0);
+  --sidebar-accent: oklch(0.992 0 0);
+  --sidebar-border: oklch(0.895 0 0);
 }
 
 [data-style="modern"].dark {
-  --brand: oklch(0.66 0.17 255);
-  --background: oklch(0.12 0 0);
+  --brand: oklch(0.68 0.17 262);
+  --background: oklch(0.155 0 0);
   --foreground: oklch(0.95 0 0);
-  --card: oklch(0.15 0 0);
-  --popover: oklch(0.15 0 0);
-  --muted: oklch(0.18 0 0);
+  --card: oklch(0.205 0 0);
+  --popover: oklch(0.205 0 0);
+  --muted: oklch(0.225 0 0);
   --muted-foreground: oklch(0.7 0 0);
-  --border: oklch(1 0 0 / 11%);
+  --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 14%);
   --primary: oklch(0.97 0 0);
   --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.2 0 0);
-  --accent: oklch(0.2 0 0);
-  --ring: oklch(0.66 0.17 255 / 60%);
-  --sidebar: oklch(0.12 0 0);
-  --sidebar-border: oklch(1 0 0 / 11%);
+  --secondary: oklch(0.245 0 0);
+  --accent: oklch(0.245 0 0);
+  --ring: oklch(0.68 0.17 262 / 60%);
+  --sidebar: oklch(0.155 0 0);
+  --sidebar-accent: oklch(0.225 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+}
+
+/* Raised and pressed-in surfaces, shared by both looks: `soft-surface` lifts a panel off the
+   page with a lit top edge and a soft shadow, `soft-well` sinks one into it. */
+:root {
+  --soft-top: oklch(1 0 0);
+  --soft-bottom: oklch(0.975 0 0);
+  --soft-shadow:
+    inset 0 1px 0 rgb(255 255 255), inset 0 0 0 1px rgb(255 255 255 / 0.6), 0 1px 2px rgb(0 0 0 / 0.05),
+    0 10px 24px -12px rgb(0 0 0 / 0.14), 0 28px 48px -32px rgb(0 0 0 / 0.16);
+  --soft-well: inset 0 1px 2px rgb(0 0 0 / 0.07), inset 0 0 0 1px rgb(0 0 0 / 0.02), 0 1px 0 rgb(255 255 255 / 0.9);
+}
+
+.dark {
+  --soft-top: oklch(0.255 0 0);
+  --soft-bottom: oklch(0.205 0 0);
+  --soft-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1), inset 0 0 0 1px rgb(255 255 255 / 0.04), 0 1px 2px rgb(0 0 0 / 0.4),
+    0 16px 32px -16px rgb(0 0 0 / 0.7);
+  --soft-well: inset 0 1px 3px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.05);
+}
+
+@utility soft-surface {
+  background-image: linear-gradient(180deg, var(--soft-top), var(--soft-bottom));
+  box-shadow: var(--soft-shadow);
+}
+
+@utility soft-well {
+  background-color: var(--muted);
+  box-shadow: var(--soft-well);
 }
 
 /* Display type in modern is semibold and tight. Unlayered, so it outranks the tracking
@@ -291,120 +325,10 @@
   }
 }
 
-/* Immersive hero: engraved painting, cursor trail, depth parallax, clip reveals, ticker, scroll exit */
-@keyframes hero-varnish {
-  from {
-    transform: translate(-5%, -4%) rotate(0deg) scale(1);
-  }
-  to {
-    transform: translate(5%, 4%) rotate(8deg) scale(1.12);
-  }
-}
-
-@keyframes hero-develop {
-  from {
-    opacity: 0;
-    filter: blur(6px);
-  }
-}
-
+/* Blinking terminal caret */
 @layer utilities {
-  /* Warm light drifting over the paper, like sun across a studio wall. */
-  .hero-varnish {
-    position: absolute;
-    inset: -20%;
-    pointer-events: none;
-    background:
-      radial-gradient(42% 38% at 28% 32%, rgba(184, 137, 58, 0.26), transparent 70%),
-      radial-gradient(36% 44% at 74% 66%, rgba(150, 84, 40, 0.16), transparent 70%),
-      radial-gradient(30% 30% at 58% 18%, rgba(184, 137, 58, 0.12), transparent 70%);
-    filter: blur(48px);
-    mix-blend-mode: multiply;
-    animation: hero-varnish 28s ease-in-out infinite alternate;
-    will-change: transform;
-  }
-
-  .dark .hero-varnish {
-    mix-blend-mode: screen;
-    opacity: 0.45;
-  }
-
-  /* The engraving develops like a print coming up in the tray. */
-  .hero-engraving {
-    opacity: 0.72;
-    animation: hero-develop 1600ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
-  }
-
-  .dark .hero-engraving {
-    opacity: 0.5;
-  }
-
-  .hero-depth {
-    translate: calc(var(--px, 0) * var(--depth, 1) * 28px) calc(var(--py, 0) * var(--depth, 1) * 28px);
-    will-change: translate;
-  }
-
-  .cc-reveal {
-    overflow: hidden;
-    padding-bottom: 0.1em;
-    margin-bottom: -0.1em;
-  }
-
-  .cc-reveal > * {
-    display: block;
-    animation: cc-reveal 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    animation-delay: var(--cc-delay, 0ms);
-  }
-
   .hero-caret {
     animation: hero-caret 1s steps(2, jump-none) infinite;
-  }
-
-  .hero-cue {
-    animation: hero-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-  }
-
-  .hero-ticker {
-    width: max-content;
-    animation: hero-ticker 60s linear infinite;
-  }
-
-  .hero-ticker:hover {
-    animation-play-state: paused;
-  }
-
-  @supports (animation-timeline: view()) {
-    .hero-exit {
-      animation: hero-exit linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cc-reveal > *,
-    .hero-cue,
-    .hero-ticker,
-    .hero-exit {
-      animation: none;
-    }
-    .hero-depth {
-      translate: none;
-    }
-    .hero-varnish {
-      animation: none;
-    }
-  }
-}
-
-@keyframes cc-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(110%);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
@@ -414,62 +338,18 @@
   }
 }
 
-@keyframes hero-cue {
-  0% {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  45% {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-  55% {
-    transform: scaleY(1);
-    transform-origin: bottom;
-  }
-  100% {
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
-}
-
-@keyframes hero-ticker {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes hero-exit {
-  to {
-    opacity: 0.2;
-    translate: 0 -56px;
-    scale: 0.965;
-  }
-}
-
-/* Scroll-driven reveals for the home page (progressive: full opacity without support) */
+/* Scroll-driven word reveal for the home page (progressive: full opacity without support) */
 @layer utilities {
-  .cc-mega {
-    translate: 0 -50%;
-  }
-
   @supports (animation-timeline: view()) {
     .cc-word {
       animation: cc-word linear both;
       animation-timeline: view();
       animation-range: entry 80% cover 42%;
     }
-
-    .cc-mega {
-      animation: cc-mega linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cc-word,
-    .cc-mega {
+    .cc-word {
       animation: none;
     }
   }
@@ -483,15 +363,6 @@
   to {
     opacity: 1;
     translate: 0 0;
-  }
-}
-
-@keyframes cc-mega {
-  from {
-    translate: 8vw -50%;
-  }
-  to {
-    translate: -10vw -50%;
   }
 }
 

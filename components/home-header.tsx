@@ -13,8 +13,8 @@ export async function HomeHeader({ style }: { style: UiStyle }) {
   const stars = await getStarCount()
 
   return (
-    <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 sm:px-8">
+    <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur modern:border-b-0 modern:bg-transparent modern:pt-3 modern:backdrop-blur-none">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 sm:px-8 modern:soft-surface modern:w-[calc(100%-2rem)] modern:max-w-6xl modern:rounded-full modern:px-3 modern:sm:px-4">
         <Link href="/" className="mr-1 flex shrink-0 items-center gap-2.5 sm:mr-4">
           <Logo className="size-9" />
           <span className="font-semibold tracking-tight whitespace-nowrap max-sm:sr-only">creative-ui</span>

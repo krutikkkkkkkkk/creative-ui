@@ -4,7 +4,7 @@ import { getSummaries, installName, installUrl, NAMESPACE } from "@/lib/registry
 import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
-import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
+import { Code, DocPage, Note, Pager, Section, Step, Steps } from "@/components/docs-prose"
 
 export const metadata: Metadata = pageMetadata({
   title: "CLI",
@@ -23,7 +23,7 @@ export default async function CliPage({ params }: { params: StyleParams }) {
       description="Nothing is installed as a package. The shadcn CLI copies each item's source into your project, so you own every file and can change it freely."
     >
       <Section title="Setup">
-        <div className="flex flex-col gap-8">
+        <Steps>
           <Step
             n="1"
             title="Initialise shadcn"
@@ -55,7 +55,7 @@ export default async function CliPage({ params }: { params: StyleParams }) {
           >
             <InstallCommand target={installUrl(name)} />
           </Step>
-        </div>
+        </Steps>
       </Section>
 
       <Section title="Where files go">

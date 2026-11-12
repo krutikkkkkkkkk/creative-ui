@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/seo"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
-import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
+import { Code, DocPage, Note, Pager, Section, Step, Steps } from "@/components/docs-prose"
 
 export const metadata: Metadata = pageMetadata({
   title: "Add utilities",
@@ -29,7 +29,7 @@ export default function AddUtilitiesPage() {
       description="Components merge their own classes with the ones you pass in. That goes through a small cn() helper built on clsx and tailwind-merge."
     >
       <Section title="Setup">
-        <div className="flex flex-col gap-8">
+        <Steps>
           <Step n="1" title="Install the packages">
             <InstallCommand mode="install" command="clsx tailwind-merge" />
           </Step>
@@ -39,7 +39,7 @@ export default function AddUtilitiesPage() {
           <Step n="3" title="Use it" body="Later classes win, so a className prop can override a component default.">
             <CodeBlock code={usage} title="example.tsx" />
           </Step>
-        </div>
+        </Steps>
       </Section>
 
       <Section title="Already using shadcn?">

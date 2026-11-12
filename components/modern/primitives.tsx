@@ -1,43 +1,34 @@
 import { cn } from "@/lib/utils"
 
-/* Building blocks for the modern look: a boxed page with hairline rails, sections split by
-   rules with a plus mark at each corner, and quiet sans headings. */
+/* Building blocks for the modern look: a centred column on the grey canvas, sections set apart
+   by space instead of rules, raised white tiles, and quiet sans headings. */
 
 export function enter(ms: number) {
   return { "--mo-delay": `${ms}ms` } as React.CSSProperties
 }
 
-/** The page frame: a centred column with a hairline down each side. */
+/** The page column. */
 export function Rails({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <div className={cn("mx-auto w-[calc(100%-2rem)] max-w-6xl border-x", className)}>{children}</div>
+  return <div className={cn("mx-auto w-[calc(100%-2rem)] max-w-6xl", className)}>{children}</div>
 }
 
-export function PlusMark({ className }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 13 13"
-      className={cn("pointer-events-none absolute z-10 size-[13px] text-foreground/35", className)}
-    >
-      <path d="M6.5 0v13M0 6.5h13" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  )
-}
-
-/** A section opened by a rule, with a plus where the rule meets each rail. */
+/** A section of the page. */
 export function Band({ id, className, children }: { id?: string; className?: string; children: React.ReactNode }) {
   return (
-    <section id={id} className={cn("relative scroll-mt-16 border-t", className)}>
-      <PlusMark className="-top-[7px] -left-[7px]" />
-      <PlusMark className="-top-[7px] -right-[7px]" />
+    <section id={id} className={cn("relative scroll-mt-24 py-12 sm:py-16", className)}>
       {children}
     </section>
   )
 }
 
+/** A raised tile: the look's basic surface. Corners are large on purpose. */
+export function Tile({ className, ...props }: React.ComponentProps<"div">) {
+  return <div className={cn("soft-surface rounded-[28px]", className)} {...props} />
+}
+
 export function Label({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={cn("font-mono text-xs tracking-wide text-muted-foreground uppercase", className)}>{children}</p>
+    <p className={cn("text-xs font-semibold tracking-[0.06em] text-muted-foreground/75 uppercase", className)}>{children}</p>
   )
 }
 
@@ -58,12 +49,27 @@ export function BandHeader({
     <div className={cn("flex flex-wrap items-end justify-between gap-6", className)}>
       <div className="max-w-2xl">
         <Label>{label}</Label>
-        <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-balance sm:text-4xl">{title}</h2>
+        <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-balance sm:text-[2.75rem] sm:leading-[1.05]">
+          {title}
+        </h2>
         {description && (
-          <p className="mt-3 max-w-[56ch] leading-relaxed text-pretty text-muted-foreground">{description}</p>
+          <p className="mt-4 max-w-[56ch] text-lg leading-relaxed text-pretty text-muted-foreground">{description}</p>
         )}
       </div>
       {action}
     </div>
+  )
+}
+
+/** A sentence set like a notification: quiet by default, with the words that matter in `<b>`. */
+export function Quiet({ className, ...props }: React.ComponentProps<"p">) {
+  return (
+    <p
+      className={cn(
+        "leading-snug tracking-[-0.01em] text-pretty text-muted-foreground [&_b]:font-medium [&_b]:text-foreground",
+        className
+      )}
+      {...props}
+    />
   )
 }

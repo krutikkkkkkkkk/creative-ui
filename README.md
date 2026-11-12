@@ -20,6 +20,9 @@ npm run registry:build   # regenerates public/r/*.json
 1. Put the file(s) in `registry/new-york/blocks/<name>/`.
 2. Add an entry to `registry.json` (name, type, title, description, `dependencies` for npm packages,
    `registryDependencies` for shadcn components like `button`, and `files`).
+   Set `meta.look` to the collection it belongs to: `"classic"` for art and creative pieces
+   (portfolios, editorial sites), `"modern"` for clean, technical components (apps and tools).
+   Leave it out to list the item in both.
 3. Run `npm run registry:build`. The index page lists every item automatically.
 
 Item types: `registry:block`, `registry:component`, `registry:ui`, `registry:hook`, `registry:lib`,

@@ -5,7 +5,7 @@ import { getSummaries, NAMESPACE } from "@/lib/registry"
 import { styleOf, type StyleParams } from "@/lib/ui-style"
 import { pageMetadata } from "@/lib/seo"
 import { InstallCommand } from "@/components/copy-command"
-import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
+import { Code, DocPage, Note, Pager, Section, Step, Steps } from "@/components/docs-prose"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export const metadata: Metadata = pageMetadata({
@@ -40,7 +40,7 @@ export default async function McpPage({ params }: { params: StyleParams }) {
       description="The shadcn MCP server lets AI assistants work with registry items. Browse what's available, search for something specific and install it into your project in plain language."
     >
       <Section title="Setup">
-        <div className="flex flex-col gap-8">
+        <Steps>
           <Step
             n="1"
             title="Add the MCP server"
@@ -77,11 +77,11 @@ export default async function McpPage({ params }: { params: StyleParams }) {
               ))}
             </Tabs>
           </Step>
-        </div>
+        </Steps>
       </Section>
 
       <Section title="Try it">
-        <Note className="mb-4 text-sm text-muted-foreground">
+        <Note className="mb-4">
           Once the server is connected, ask your assistant things like the prompts below. Name{" "}
           <Code>{NAMESPACE}</Code> in the request: on its own, the assistant only searches the registries listed in{" "}
           <Code>components.json</Code>.
@@ -93,7 +93,7 @@ export default async function McpPage({ params }: { params: StyleParams }) {
             </li>
           ))}
         </ul>
-        <Note className="mt-6 text-sm text-muted-foreground">
+        <Note className="mt-6">
           Installs go through the same CLI, so files land where they always do. Components go to{" "}
           <Code>components/</Code> and skills go to <Code>.claude/skills/</Code>.
         </Note>

@@ -13,6 +13,25 @@ export function isUiStyle(value: unknown): value is UiStyle {
   return UI_STYLES.includes(value as UiStyle)
 }
 
+/* Each look is also a collection. A registry item tagged `meta.look` in registry.json is listed
+   in that look only: classic holds the art-directed pieces, modern the clean technical ones. */
+export const COLLECTIONS: Record<UiStyle, { label: string; tag: string; blurb: string }> = {
+  classic: {
+    label: "Classic",
+    tag: "art and creative",
+    blurb: "art-directed pieces for portfolios and creative sites, such as image effects, carousels and reveals",
+  },
+  modern: {
+    label: "Modern",
+    tag: "clean and technical",
+    blurb: "clean, technical components for apps and tools",
+  },
+}
+
+export function otherStyle(style: UiStyle): UiStyle {
+  return style === "classic" ? "modern" : "classic"
+}
+
 export type StyleParams = Promise<{ style: string }>
 
 /** The style segment of a page's params, narrowed. dynamicParams is off, so anything else 404s earlier. */

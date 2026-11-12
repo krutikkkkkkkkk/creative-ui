@@ -1,18 +1,25 @@
 "use client"
 
-import { UI_STYLE_COOKIE, isUiStyle, type UiStyle } from "@/lib/ui-style"
+import { COLLECTIONS, UI_STYLE_COOKIE, isUiStyle, type UiStyle } from "@/lib/ui-style"
 import { cn } from "@/lib/utils"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-/* Switches the whole site between its two looks. Each option is set in its own display face,
-   so "Aa" in serif and "Aa" in tight sans say what they do. The looks are separate prerendered
-   trees (app/[style]), so a switch saves the cookie and reloads into the other one. */
+/* Switches the whole site between its two looks, and with them its two collections. Each option
+   is set in its own display face, so "Aa" in serif and "Aa" in tight sans say what they do. The
+   looks are separate prerendered trees (app/[style]), so a switch saves the cookie and reloads
+   into the other one. */
 
-const OPTIONS: { value: UiStyle; label: string; face: string }[] = [
-  { value: "classic", label: "Classic look", face: "font-[family-name:var(--font-geist-serif-regular)] font-normal" },
-  { value: "modern", label: "Modern look", face: "font-sans font-semibold tracking-[-0.06em]" },
-]
+const FACES: Record<UiStyle, string> = {
+  classic: "font-[family-name:var(--font-geist-serif-regular)] font-normal",
+  modern: "font-sans font-semibold tracking-[-0.06em]",
+}
+
+const OPTIONS = (Object.keys(FACES) as UiStyle[]).map((value) => ({
+  value,
+  label: `${COLLECTIONS[value].label}: ${COLLECTIONS[value].tag}`,
+  face: FACES[value],
+}))
 
 export function StyleToggle({ style, className }: { style: UiStyle; className?: string }) {
   function choose(value: string) {

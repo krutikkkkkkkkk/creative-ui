@@ -1,5 +1,6 @@
 import { getSummaries, GITHUB_URL, installName, SITE_URL, type ItemSummary } from "@/lib/registry"
 import { DOCS_PAGES, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo"
+import { COLLECTIONS, UI_STYLES } from "@/lib/ui-style"
 
 export const dynamic = "force-static"
 
@@ -12,6 +13,12 @@ export async function GET() {
   const link = (i: ItemSummary) => `- [${i.title}](${SITE_URL}/docs/${i.name}/llms.txt): ${i.description}`
   const components = items.filter((i) => i.kind === "component")
   const skills = items.filter((i) => i.kind === "skill")
+  // Components come in two collections; the ones in neither are listed on their own.
+  const shared = components.filter((i) => !i.look)
+  const collections = UI_STYLES.map((style) => ({
+    style,
+    items: components.filter((i) => i.look === style),
+  })).filter((c) => c.items.length)
 
   const out = [
     `# ${SITE_NAME}`,
@@ -27,7 +34,11 @@ export async function GET() {
     "## Docs",
     DOCS_PAGES.map((p) => `- [${p.title}](${SITE_URL}${p.path}): ${p.description}`).join("\n"),
   ]
-  if (components.length) out.push("## Components", components.map(link).join("\n"))
+  if (shared.length) out.push("## Components", shared.map(link).join("\n"))
+  for (const { style, items: group } of collections) {
+    const { label, blurb } = COLLECTIONS[style]
+    out.push(`## ${label} components`, `${label} collection: ${blurb}.\n\n${group.map(link).join("\n")}`)
+  }
   if (skills.length) out.push("## Claude skills", skills.map(link).join("\n"))
   out.push(
     "## Optional",

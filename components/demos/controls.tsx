@@ -25,7 +25,7 @@ export function DemoPanel({ className, ...props }: React.ComponentProps<"div">) 
 }
 
 export function DemoControls({ className, ...props }: React.ComponentProps<"div">) {
-  return <Card className={cn("w-full shrink-0 gap-4 p-4 shadow-none sm:w-56", className)} {...props} />
+  return <Card data-demo-controls className={cn("w-full shrink-0 gap-4 p-4 shadow-none sm:w-56", className)} {...props} />
 }
 
 export function DemoStage({ className, ...props }: React.ComponentProps<"div">) {

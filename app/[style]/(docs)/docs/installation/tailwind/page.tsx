@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/seo"
 import { CodeBlock } from "@/components/code-block"
 import { InstallCommand } from "@/components/copy-command"
-import { Code, DocPage, Note, Pager, Section, Step } from "@/components/docs-prose"
+import { Code, DocPage, Note, Pager, Section, Step, Steps } from "@/components/docs-prose"
 
 export const metadata: Metadata = pageMetadata({
   title: "Install Tailwind CSS",
@@ -36,7 +36,7 @@ export default function InstallTailwindPage() {
       description="Every component is styled with Tailwind CSS v4 utility classes. There is no separate stylesheet to import."
     >
       <Section title="Setup">
-        <div className="flex flex-col gap-8">
+        <Steps>
           <Step n="1" title="Install the packages">
             <InstallCommand mode="install" command="tailwindcss @tailwindcss/postcss postcss" />
           </Step>
@@ -53,7 +53,7 @@ export default function InstallTailwindPage() {
           <Step n="4" title="Load the stylesheet" body="Import it once in the root layout so every route gets it.">
             <CodeBlock code={layout} title="app/layout.tsx" />
           </Step>
-        </div>
+        </Steps>
       </Section>
 
       <Section title="Theme tokens">

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 export type DitherMatrix = 2 | 4 | 8
 
 export interface DitherOptions {
-  /** Size of one dither pixel in CSS pixels, 1 to 16. Default 4. */
+  /** Size of one dither pixel in CSS pixels, 1 to 16, snapped to whole device pixels. Default 4. */
   dotSize?: number
   /** Bayer matrix order. 8 gives the smoothest tones, 2 the harshest. Default 8. */
   matrix?: DitherMatrix
@@ -76,7 +76,10 @@ function drawCover(ctx: CanvasRenderingContext2D, image: Source, w: number, h: n
  */
 export function ditherBitmap(image: Source, width: number, height: number, options: DitherOptions = {}) {
   const { dotSize = 4, matrix = 8, contrast = 1, brightness = 0, fit = "cover" } = options
-  const cell = Math.max(1, dotSize)
+  // A dither pixel covers a whole number of device pixels. At 125% or 150% display scaling a
+  // fractional size would be resampled into cells of uneven width, which breaks the pattern up.
+  const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1
+  const cell = Math.max(1, Math.round(Math.max(1, dotSize) * dpr)) / dpr
   const bw = Math.max(1, Math.ceil(width / cell))
   const bh = Math.max(1, Math.ceil(height / cell))
   const off = document.createElement("canvas")
