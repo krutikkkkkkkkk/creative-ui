@@ -265,6 +265,22 @@
       ]
     },
     {
+      "name": "billow-gallery",
+      "type": "registry:component",
+      "title": "Billow Gallery",
+      "description": "An endless wall of prints that bend like paper. A slow swell rolls under the cards, they bow and twist as you drag, flick or scroll, and flutter flat again when the wall stops. Hovered cards lift on a deeper shadow. One WebGL canvas with a link list for screen readers, keyboard panning, reduced-motion support and a plain grid fallback. No dependencies.",
+      "meta": {
+        "addedAt": "2026-11-24",
+        "look": "classic"
+      },
+      "files": [
+        {
+          "path": "registry/new-york/blocks/billow-gallery/billow-gallery.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "tear-reveal",
       "type": "registry:component",
       "title": "Tear Reveal",
@@ -279,6 +295,24 @@
       "files": [
         {
           "path": "registry/new-york/blocks/tear-reveal/tear-reveal.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sticker",
+      "type": "registry:component",
+      "title": "Sticker",
+      "description": "A die-cut sticker you can peel off and stick somewhere else. Drag from any edge and the flap folds back over itself with its pale backing, crease shading and a shadow underneath. Let go early and it falls flat; peel past a threshold and it comes off in your hand, tilting as you carry it, and slaps down where you drop it. The border is traced from the artwork's real shape, the nearest corner curls up on hover, and the keyboard can lift and move it.",
+      "meta": {
+        "look": "classic"
+      },
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/sticker/sticker.tsx",
           "type": "registry:component"
         }
       ]
