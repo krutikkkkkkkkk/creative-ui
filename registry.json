@@ -303,6 +303,25 @@
       ]
     },
     {
+      "name": "scratch-card",
+      "type": "registry:component",
+      "title": "Scratch Card",
+      "description": "A scratch-off card over any content. Drag to scrape away brushed foil with a ragged edge and leftover specks, while flakes tumble off and fall. Past a threshold the rest fades away. Silver, gold, copper or any hex, an optional pressed-in label, progress callbacks, and Enter to reveal from the keyboard.",
+      "meta": {
+        "addedAt": "2026-11-24",
+        "look": "classic"
+      },
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/blocks/scratch-card/scratch-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "image-trail",
       "type": "registry:component",
       "title": "Image Trail",

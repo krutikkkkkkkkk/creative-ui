@@ -12,6 +12,7 @@ import { HalftoneImageDemo } from "@/components/demos/halftone-image-demo"
 import { ImageTrailDemo } from "@/components/demos/image-trail-demo"
 import { MarbledPaperDemo } from "@/components/demos/marbled-paper-demo"
 import { RotundaCarouselDemo } from "@/components/demos/rotunda-carousel-demo"
+import { ScratchCardDemo } from "@/components/demos/scratch-card-demo"
 import { TearRevealDemo } from "@/components/demos/tear-reveal-demo"
 import { WaxSealDemo } from "@/components/demos/wax-seal-demo"
 
@@ -35,4 +36,5 @@ export const previews: Record<string, React.ComponentType> = {
   "gold-leaf": GoldLeafDemo,
   "wax-seal": WaxSealDemo,
   "tear-reveal": TearRevealDemo,
+  "scratch-card": ScratchCardDemo,
 }

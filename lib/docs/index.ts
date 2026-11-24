@@ -10,6 +10,7 @@ import { halftoneImage } from "./halftone-image"
 import { imageTrail } from "./image-trail"
 import { marbledPaper } from "./marbled-paper"
 import { rotundaCarousel } from "./rotunda-carousel"
+import { scratchCard } from "./scratch-card"
 import { tearReveal } from "./tear-reveal"
 import { waxSeal } from "./wax-seal"
 import type { ItemDocs } from "./types"
@@ -35,4 +36,5 @@ export const docs: Record<string, ItemDocs> = {
   "gold-leaf": goldLeaf,
   "wax-seal": waxSeal,
   "tear-reveal": tearReveal,
+  "scratch-card": scratchCard,
 }
