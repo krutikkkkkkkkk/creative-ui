@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { BillowGalleryDemo } from "@/components/demos/billow-gallery-demo"
 import { CollageFrameDemo } from "@/components/demos/collage-frame-demo"
 import { CyanotypeDemo } from "@/components/demos/cyanotype-demo"
 import { DitheringHoverDemo } from "@/components/demos/dithering-hover-demo"
@@ -13,6 +14,7 @@ import { ImageTrailDemo } from "@/components/demos/image-trail-demo"
 import { MarbledPaperDemo } from "@/components/demos/marbled-paper-demo"
 import { RotundaCarouselDemo } from "@/components/demos/rotunda-carousel-demo"
 import { ScratchCardDemo } from "@/components/demos/scratch-card-demo"
+import { StickerDemo } from "@/components/demos/sticker-demo"
 import { TearRevealDemo } from "@/components/demos/tear-reveal-demo"
 import { WaxSealDemo } from "@/components/demos/wax-seal-demo"
 
@@ -37,4 +39,6 @@ export const previews: Record<string, React.ComponentType> = {
   "wax-seal": WaxSealDemo,
   "tear-reveal": TearRevealDemo,
   "scratch-card": ScratchCardDemo,
+  sticker: StickerDemo,
+  "billow-gallery": BillowGalleryDemo,
 }

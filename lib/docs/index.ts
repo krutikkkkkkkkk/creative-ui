@@ -1,3 +1,4 @@
+import { billowGallery } from "./billow-gallery"
 import { collageFrame } from "./collage-frame"
 import { cyanotype } from "./cyanotype"
 import { ditheringHover } from "./dithering-hover"
@@ -11,6 +12,7 @@ import { imageTrail } from "./image-trail"
 import { marbledPaper } from "./marbled-paper"
 import { rotundaCarousel } from "./rotunda-carousel"
 import { scratchCard } from "./scratch-card"
+import { sticker } from "./sticker"
 import { tearReveal } from "./tear-reveal"
 import { waxSeal } from "./wax-seal"
 import type { ItemDocs } from "./types"
@@ -37,4 +39,6 @@ export const docs: Record<string, ItemDocs> = {
   "wax-seal": waxSeal,
   "tear-reveal": tearReveal,
   "scratch-card": scratchCard,
+  sticker,
+  "billow-gallery": billowGallery,
 }
